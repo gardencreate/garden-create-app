@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <title>Garden Create App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: #f5f5f2;
+      color: #222;
+    }
+
+    header {
+      background: #ffffff;
+      padding: 18px 20px;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .primary {
+      width: 100%;
+      background: #222;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .secondary {
+      background: #ededed;
+      color: #222;
+    }
+
+    .danger {
+      background: #fff0f0;
+      color: #a40000;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .money {
+      background: #f7f7f4;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 15px;
+    }
+
+    .money-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 7px 0;
+    }
+
+    .money-total {
+      font-size: 19px;
+      font-weight: bold;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .job {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .job:last-child {
+      border-bottom: 0;
+    }
+
+    .job-name {
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .job-date {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .job-price {
+      margin-top: 7px;
+      font-weight: bold;
+    }
+
+    .job-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .job-buttons button {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    #appArea,
+    #estimateArea {
+      display: none;
+    }
+
+    .login-logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .logout {
+      float: right;
+      font-size: 13px;
+      padding: 6px 10px;
+      background: #eee;
+    }
+
+    .estimate-paper {
+      background: white;
+      padding: 28px;
+      border-radius: 4px;
+    }
+
+    .estimate-title {
+      text-align: center;
+      font-size: 30px;
+      letter-spacing: 8px;
+      margin-bottom: 30px;
+    }
+
+    .customer-line {
+      font-size: 20px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 6px;
+      margin-bottom: 25px;
+    }
+
+    .estimate-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .estimate-table th,
+    .estimate-table td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .estimate-table th {
+      background: #f3f3f3;
+    }
+
+    .estimate-bottom {
+      margin-top: 25px;
+    }
+
+    .estimate-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .estimate-buttons button {
+      flex: 1;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      header,
+      #loginArea,
+      #appArea,
+      .estimate-buttons {
+        display: none !important;
+      }
+
+      #estimateArea {
+        display: block !important;
+      }
+
+      .container {
+        max-width: none;
+        padding: 0;
+      }
+
+      .card {
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>
+    Garden Create
+    <button id="logoutBtn" class="logout" style="display:none;">ログアウト</button>
+  </h1>
+</header>
+
+<div class="container">
+
+  <!-- ログイン -->
+  <section id="loginArea">
+    <div class="card">
+      <div class="login-logo">GARDEN CREATE</div>
+
+      <h2>ログイン</h2>
+
+      <label>メールアドレス</label>
+      <input id="loginEmail" type="email">
+
+      <label>パスワード</label>
+      <input id="loginPassword" type="password">
+
+      <button id="loginBtn" class="primary">
+        ログイン
+      </button>
+
+      <div id="loginMessage" class="message"></div>
+    </div>
+  </section>
+
+  <!-- アプリ本体 -->
+  <section id="appArea">
+
+    <div class="card">
+      <h2>新しい予定・見積</h2>
+
+      <label>作業予定日</label>
+      <input id="workDate" type="date">
+
+      <label>お客様名</label>
+      <input id="customerName" type="text" placeholder="例：山田 太郎">
+
+      <label>住所</label>
+      <input id="address" type="text" placeholder="例：長野県〇〇市">
+
+      <label>電話番号</label>
+      <input id="phone" type="tel">
+
+      <label>作業内容</label>
+      <input id="workName" type="text" placeholder="例：松剪定">
+
+      <div class="grid">
+        <div>
+          <label>数量</label>
+          <input id="quantity" type="number" value="1" min="1">
+        </div>
+
+        <div>
+          <label>単価</label>
+          <input id="unitPrice" type="number" placeholder="30000">
+        </div>
+      </div>
+
+      <label>備考</label>
+      <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
+
+      <div class="money">
+        <div class="money-row">
+          <span>小計</span>
+          <span id="subtotal">¥0</span>
+        </div>
+
+        <div class="money-row">
+          <span>消費税 10%</span>
+          <span id="tax">¥0</span>
+        </div>
+
+        <div class="money-row money-total">
+          <span>合計</span>
+          <span id="grandTotal">¥0</span>
+        </div>
+      </div>
+
+      <button id="saveBtn" class="primary">
+        予定を登録して見積を作る
+      </button>
+
+      <div id="saveMessage" class="message"></div>
+    </div>
+
+
+    <div class="card">
+      <h2>予定・見積一覧</h2>
+      <div id="jobsList">
+        読み込み中...
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- 見積書 -->
+  <section id="estimateArea">
+
+    <div class="card estimate-paper">
+
+      <div class="estimate-title">
+        御 見 積 書
+      </div>
+
+      <div id="estimateCustomer" class="customer-line"></div>
+
+      <p>
+        下記の通り御見積申し上げます。
+      </p>
+
+      <p>
+        作業予定日：
+        <strong id="estimateDate"></strong>
+      </p>
+
+      <table class="estimate-table">
+        <thead>
+          <tr>
+            <th>内容</th>
+            <th>数量</th>
+            <th>単価</th>
+            <th>金額</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td id="estimateWork"></td>
+            <td id="estimateQty"></td>
+            <td id="estimateUnit"></td>
+            <td id="estimateSubtotal"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="estimate-bottom">
+
+        <div class="money-row">
+          <span>小計</span>
+          <strong id="estimateSub2"></strong>
+        </div>
+
+        <div class="money-row">
+          <span>消費税</span>
+          <strong id="estimateTax"></strong>
+        </div>
+
+        <div class="money-row money-total">
+          <span>御見積金額</span>
+          <strong id="estimateTotal"></strong>
+        </div>
+
+        <p id="estimateNote"></p>
+
+        <hr>
+
+        <p>
+          <strong>GARDEN CREATE</strong>
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="estimate-buttons">
+      <button id="backBtn" class="secondary">
+        戻る
+      </button>
+
+      <button id="printBtn" class="primary">
+        印刷・PDF保存
+      </button>
+    </div>
+
+  </section>
+
+</div>
+
+
+<script type="module">
+
+  import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    serverTimestamp
+  }
+  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+
+  /* ===========================
+     Firebase設定
+     次の作業でここを書き換えます
+     =========================== */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCvuNQjznfWH9skBfcaSTph53LyBIrKh64",
+  authDomain: "garden-create-app.firebaseapp.com",
+  projectId: "garden-create-app",
+  storageBucket: "garden-create-app.firebasestorage.app",
+  messagingSenderId: "233924954675",
+  appId: "1:233924954675:web:4f09ef6f8bbfa0d57e3146"
+};
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
+  const db = getFirestore(app);
+
+
+  const loginArea =
+    document.getElementById("loginArea");
+
+  const appArea =
+    document.getElementById("appArea");
+
+  const estimateArea =
+    document.getElementById("estimateArea");
+
+  const logoutBtn =
+    document.getElementById("logoutBtn");
+
+
+  function yen(number) {
+
+    return "¥" +
+      Number(number || 0)
+      .toLocaleString("ja-JP");
+
+  }
+
+
+  function calculate() {
+
+    const quantity =
+      Number(document.getElementById("quantity").value || 0);
+
+    const unitPrice =
+      Number(document.getElementById("unitPrice").value || 0);
+
+    const subtotal =
+      quantity * unitPrice;
+
+    const tax =
+      Math.floor(subtotal * 0.10);
+
+    const total =
+      subtotal + tax;
+
+    document.getElementById("subtotal").textContent =
+      yen(subtotal);
+
+    document.getElementById("tax").textContent =
+      yen(tax);
+
+    document.getElementById("grandTotal").textContent =
+      yen(total);
+
+    return {
+      subtotal,
+      tax,
+      total
+    };
+
+  }
+
+
+  document.getElementById("quantity")
+    .addEventListener("input", calculate);
+
+  document.getElementById("unitPrice")
+    .addEventListener("input", calculate);
+
+
+  document.getElementById("loginBtn")
+    .addEventListener("click", async () => {
+
+      const email =
+        document.getElementById("loginEmail").value;
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+      const message =
+        document.getElementById("loginMessage");
+
+      message.textContent =
+        "ログインしています...";
+
+      try {
+
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        message.textContent = "";
+
+      } catch (error) {
+
+        message.textContent =
+          "メールアドレスまたはパスワードを確認してください。";
+
+      }
+
+    });
+
+
+  logoutBtn.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+  });
+
+
+  onAuthStateChanged(auth, user => {
+
+    if (user) {
+
+      loginArea.style.display =
+        "none";
+
+      appArea.style.display =
+        "block";
+
+      logoutBtn.style.display =
+        "block";
+
+      listenJobs();
+
+    } else {
+
+      loginArea.style.display =
+        "block";
+
+      appArea.style.display =
+        "none";
+
+      estimateArea.style.display =
+        "none";
+
+      logoutBtn.style.display =
+        "none";
+
+    }
+
+  });
+
+
+  document.getElementById("saveBtn")
+    .addEventListener("click", async () => {
+
+      const customerName =
+        document.getElementById("customerName").value.trim();
+
+      const workDate =
+        document.getElementById("workDate").value;
+
+      const workName =
+        document.getElementById("workName").value.trim();
+
+      const quantity =
+        Number(document.getElementById("quantity").value || 0);
+
+      const unitPrice =
+        Number(document.getElementById("unitPrice").value || 0);
+
+      if (!customerName || !workDate || !workName) {
+
+        document.getElementById("saveMessage").textContent =
+          "お客様名・作業日・作業内容を入力してください。";
+
+        return;
+
+      }
+
+      const money =
+        calculate();
+
+      const data = {
+
+        customerName,
+
+        address:
+          document.getElementById("address").value.trim(),
+
+        phone:
+          document.getElementById("phone").value.trim(),
+
+        workDate,
+
+        workName,
+
+        quantity,
+
+        unitPrice,
+
+        subtotal:
+          money.subtotal,
+
+        tax:
+          money.tax,
+
+        total:
+          money.total,
+
+        note:
+          document.getElementById("note").value.trim(),
+
+        createdAt:
+          serverTimestamp()
+
+      };
+
+
+      try {
+
+        await addDoc(
+          collection(db, "jobs"),
+          data
+        );
+
+        document.getElementById("saveMessage").textContent =
+          "予定と見積を保存しました。";
+
+      } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("saveMessage").textContent =
+          "保存できませんでした。";
+
+      }
+
+    });
+
+
+  let listeningStarted = false;
+
+
+  function listenJobs() {
+
+    if (listeningStarted) return;
+
+    listeningStarted = true;
+
+    onSnapshot(
+      collection(db, "jobs"),
+      snapshot => {
+
+        const jobs = [];
+
+        snapshot.forEach(doc => {
+
+          jobs.push({
+            id: doc.id,
+            ...doc.data()
+          });
+
+        });
+
+
+        jobs.sort((a, b) => {
+
+          return String(a.workDate)
+            .localeCompare(String(b.workDate));
+
+        });
+
+
+        renderJobs(jobs);
+
+      }
+    );
+
+  }
+
+
+  function renderJobs(jobs) {
+
+    const list =
+      document.getElementById("jobsList");
+
+    list.innerHTML = "";
+
+    if (jobs.length === 0) {
+
+      list.textContent =
+        "まだ予定がありません。";
+
+      return;
+
+    }
+
+
+    jobs.forEach(job => {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "job";
+
+      div.innerHTML = `
+        <div class="job-name">
+          ${escapeHtml(job.customerName)}
+        </div>
+
+        <div class="job-date">
+          ${escapeHtml(job.workDate)}
+          ／
+          ${escapeHtml(job.workName)}
+        </div>
+
+        <div class="job-price">
+          ${yen(job.total)}
+        </div>
+
+        <div class="job-buttons">
+          <button
+            class="secondary estimateButton">
+            見積書を見る
+          </button>
+        </div>
+      `;
+
+
+      div.querySelector(".estimateButton")
+        .addEventListener("click", () => {
+
+          showEstimate(job);
+
+        });
+
+
+      list.appendChild(div);
+
+    });
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  function showEstimate(job) {
+
+    document.getElementById("estimateCustomer").textContent =
+      job.customerName + " 様";
+
+    document.getElementById("estimateDate").textContent =
+      job.workDate;
+
+    document.getElementById("estimateWork").textContent =
+      job.workName;
+
+    document.getElementById("estimateQty").textContent =
+      job.quantity;
+
+    document.getElementById("estimateUnit").textContent =
+      yen(job.unitPrice);
+
+    document.getElementById("estimateSubtotal").textContent =
+      yen(job.subtotal);
+
+    document.getElementById("estimateSub2").textContent =
+      yen(job.subtotal);
+
+    document.getElementById("estimateTax").textContent =
+      yen(job.tax);
+
+    document.getElementById("estimateTotal").textContent =
+      yen(job.total);
+
+    document.getElementById("estimateNote").textContent =
+      job.note || "";
+
+    appArea.style.display =
+      "none";
+
+    estimateArea.style.display =
+      "block";
+
+    window.scrollTo(0,0);
+
+  }
+
+
+  document.getElementById("backBtn")
+    .addEventListener("click", () => {
+
+      estimateArea.style.display =
+        "none";
+
+      appArea.style.display =
+        "block";
+
+      window.scrollTo(0,0);
+
+    });
+
+
+  document.getElementById("printBtn")
+    .addEventListener("click", () => {
+
+      window.print();
+
+    });
+
+
+  calculate();
+
+</script>
+
+</body>
+</html>
