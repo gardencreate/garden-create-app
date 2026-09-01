@@ -7,7 +7,203 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <title>Garden Create App</title>
+/* ===== 見積書テンプレ土台 ===== */
 
+.estimate-paper {
+  background: #fff;
+  color: #222;
+  padding: 28px 24px;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 13px;
+}
+
+.estimate-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 35px;
+}
+
+.estimate-main-title {
+  font-size: 25px;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+.estimate-company-top {
+  text-align: center;
+  font-size: 10px;
+}
+
+.estimate-logo-placeholder {
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+.estimate-info-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.estimate-customer-box {
+  min-width: 0;
+}
+
+.customer-line {
+  font-size: 17px;
+  border-bottom: 1px solid #222;
+  padding: 0 5px 5px;
+  margin-bottom: 12px;
+  min-height: 28px;
+}
+
+.estimate-condition {
+  border-bottom: 1px solid #222;
+  padding: 3px 2px;
+  font-size: 11px;
+}
+
+.estimate-message {
+  margin-top: 18px;
+  font-size: 12px;
+}
+
+.estimate-company-box {
+  font-size: 10px;
+  line-height: 1.7;
+  padding-top: 10px;
+}
+
+.estimate-company-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.estimate-price-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 22px 0 12px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 7px;
+}
+
+.estimate-price {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.estimate-price small {
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.estimate-work-date {
+  margin: 12px 0 18px;
+  font-size: 12px;
+}
+
+.estimate-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10px;
+}
+
+.estimate-table th,
+.estimate-table td {
+  border: 1px solid #333;
+  padding: 6px 4px;
+  vertical-align: middle;
+}
+
+.estimate-table th {
+  background: #ddd;
+  text-align: center;
+  font-weight: bold;
+}
+
+.estimate-table th:nth-child(1) {
+  width: 24%;
+}
+
+.estimate-table th:nth-child(2) {
+  width: 19%;
+}
+
+.estimate-table th:nth-child(3) {
+  width: 9%;
+}
+
+.estimate-table th:nth-child(4) {
+  width: 8%;
+}
+
+.estimate-table th:nth-child(5) {
+  width: 17%;
+}
+
+.estimate-table th:nth-child(6) {
+  width: 23%;
+}
+
+.estimate-summary {
+  width: 46%;
+  margin-left: auto;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.estimate-summary .money-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 4px 8px;
+  border-top: 1px solid #333;
+  font-size: 11px;
+}
+
+.estimate-summary .money-total {
+  font-weight: bold;
+}
+
+.estimate-note-box {
+  margin-top: 8px;
+  min-height: 70px;
+  font-size: 10px;
+}
+
+.estimate-note-box p {
+  margin-top: 5px;
+  white-space: pre-wrap;
+}
+
+
+/* 印刷時 */
+@media print {
+
+  body {
+    background: #fff;
+  }
+
+  header,
+  .estimate-buttons {
+    display: none !important;
+  }
+
+  .estimate-paper {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+}
   <style>
     * {
       box-sizing: border-box;
@@ -420,64 +616,150 @@
   <!-- 見積書 -->
   <section id="estimateArea">
 
-    <div class="card estimate-paper">
+<div class="card estimate-paper">
 
-      <div class="estimate-title">
-        御 見 積 書
+  <!-- 上部 -->
+  <div class="estimate-top">
+
+    <div>
+      <div class="estimate-main-title">
+        御見積書
+      </div>
+    </div>
+
+    <div class="estimate-company-top">
+      <div>
+        発行日：
+        <span id="estimateIssueDate">----</span>
       </div>
 
-      <div id="estimateCustomer" class="customer-line"></div>
+      <div class="estimate-logo-placeholder">
+        GARDEN<br>
+        CREATE
+      </div>
+    </div>
 
-      <p>
-        下記の通り御見積申し上げます。
-      </p>
+  </div>
 
-      <p>
-        作業予定日：
-        <strong id="estimateDate"></strong>
-      </p>
 
-      <table class="estimate-table">
-        <thead>
-          <tr>
-            <th>内容</th>
-            <th>数量</th>
-            <th>単価</th>
-            <th>金額</th>
-          </tr>
-        </thead>
+  <!-- 宛名・会社情報 -->
+  <div class="estimate-info-grid">
 
-        <tbody id="estimateItems">
-</tbody>
-      </table>
+    <div class="estimate-customer-box">
 
-      <div class="estimate-bottom">
-
-        <div class="money-row">
-          <span>小計</span>
-          <strong id="estimateSub2"></strong>
-        </div>
-
-        <div class="money-row">
-          <span>消費税</span>
-          <strong id="estimateTax"></strong>
-        </div>
-
-        <div class="money-row money-total">
-          <span>御見積金額</span>
-          <strong id="estimateTotal"></strong>
-        </div>
-
-        <p id="estimateNote"></p>
-
-        <hr>
-
-        <p>
-          <strong>GARDEN CREATE</strong>
-        </p>
-
+      <div
+        id="estimateCustomer"
+        class="customer-line">
       </div>
 
+      <div class="estimate-condition">
+  件　名：
+  <span id="estimateSubject"></span>
+</div>
+
+      <div class="estimate-condition">
+        支払条件：作業完了後30日以内
+      </div>
+
+      <div class="estimate-condition">
+  見積期限：
+  <span id="estimateLimit"></span>
+</div>
+
+      <p class="estimate-message">
+        下記の通り、お見積申し上げます。
+      </p>
+
+    </div>
+
+
+    <div class="estimate-company-box">
+
+      <div class="estimate-company-name">
+        ガーデンクリエイト
+      </div>
+
+      <div>住所：後で入力</div>
+      <div>TEL：後で入力</div>
+      <div>FAX：後で入力</div>
+      <div>E-mail：後で入力</div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 見積金額 -->
+  <div class="estimate-price-box">
+
+    <strong>御見積金額</strong>
+
+    <div class="estimate-price">
+      <span id="estimateTotal"></span>
+      <small>（税込）</small>
+    </div>
+
+  </div>
+
+
+  <!-- 作業予定日 -->
+  <div class="estimate-work-date">
+    作業予定日：
+    <strong id="estimateDate"></strong>
+  </div>
+
+
+  <!-- 明細 -->
+  <table class="estimate-table">
+
+    <thead>
+      <tr>
+        <th>名称・品名</th>
+        <th>仕様</th>
+        <th>数量</th>
+        <th>単位</th>
+        <th>単価</th>
+        <th>金額</th>
+      </tr>
+    </thead>
+
+    <tbody id="estimateItems">
+    </tbody>
+
+  </table>
+
+
+  <!-- 金額集計 -->
+  <div class="estimate-summary">
+
+    <div class="money-row">
+      <span>小計</span>
+      <strong id="estimateSub2"></strong>
+    </div>
+
+    <div class="money-row">
+      <span>消費税</span>
+      <strong id="estimateTax"></strong>
+    </div>
+
+    <div class="money-row money-total">
+      <span>税込合計</span>
+      <strong id="estimateTotalBottom"></strong>
+    </div>
+
+  </div>
+
+
+  <!-- 備考 -->
+  <div class="estimate-note-box">
+
+    <strong>＜備考＞</strong>
+
+    <p id="estimateNote"></p>
+
+  </div>
+
+</div>
     </div>
 
     <div class="estimate-buttons">
@@ -1347,11 +1629,36 @@ div.querySelector(".deleteButton")
 
   function showEstimate(job) {
 
-    document.getElementById("estimateCustomer").textContent =
-      job.customerName + " 様";
+  const today = new Date();
 
-    document.getElementById("estimateDate").textContent =
-      job.workDate;
+  const issueDate =
+    `${today.getFullYear()}年` +
+    `${today.getMonth() + 1}月` +
+    `${today.getDate()}日`;
+
+  document.getElementById("estimateIssueDate").textContent =
+    issueDate;
+const limitDate = new Date(today);
+
+limitDate.setDate(
+  limitDate.getDate() + 30
+);
+
+const limitText =
+  `${limitDate.getFullYear()}年` +
+  `${limitDate.getMonth() + 1}月` +
+  `${limitDate.getDate()}日`;
+
+document.getElementById("estimateLimit").textContent =
+  limitText;
+  document.getElementById("estimateCustomer").textContent =
+  job.customerName + " 様";
+
+document.getElementById("estimateSubject").textContent =
+  job.workName || "";
+
+document.getElementById("estimateDate").textContent =
+  job.workDate;
 
     const estimateItems =
   document.getElementById("estimateItems");
@@ -1373,17 +1680,17 @@ items.forEach(item => {
   const row =
     document.createElement("tr");
 
-  row.innerHTML = `
+  
+
+  estimateItems.appendChild(row);
+
+});
+row.innerHTML = `
     <td>${escapeHtml(item.workName)}</td>
     <td>${item.quantity}</td>
     <td>${yen(item.unitPrice)}</td>
     <td>${yen(item.amount)}</td>
   `;
-
-  estimateItems.appendChild(row);
-
-});
-
     document.getElementById("estimateSub2").textContent =
       yen(job.subtotal);
 
@@ -1392,7 +1699,8 @@ items.forEach(item => {
 
     document.getElementById("estimateTotal").textContent =
       yen(job.total);
-
+document.getElementById("estimateTotalBottom").textContent =
+  yen(job.total);
     document.getElementById("estimateNote").textContent =
       job.note || "";
 
