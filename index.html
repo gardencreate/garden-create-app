@@ -530,7 +530,57 @@ const firebaseConfig = {
 
   }
 
+function resetForm() {
 
+  document.getElementById("workDate").value = "";
+  document.getElementById("customerName").value = "";
+  document.getElementById("address").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("note").value = "";
+
+  const workItems =
+    document.getElementById("workItems");
+
+  workItems.innerHTML = `
+    <div class="work-item">
+
+      <input
+        class="workName"
+        type="text"
+        placeholder="例：松剪定">
+
+      <div class="grid">
+
+        <div>
+          <label>数量</label>
+          <input
+            class="quantity"
+            type="number"
+            value="1"
+            min="1">
+        </div>
+
+        <div>
+          <label>単価</label>
+          <input
+            class="unitPrice"
+            type="number"
+            placeholder="30000">
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  editingJobId = null;
+
+  document.getElementById("saveBtn").textContent =
+    "予定を登録して見積を作る";
+
+  calculate();
+
+}
   function calculate() {
 
   let subtotal = 0;
@@ -810,7 +860,10 @@ document.getElementById("saveBtn")
 
         document.getElementById("saveMessage").textContent =
           "変更を保存しました。";
-
+resetForm();
+        setTimeout(() => {
+  document.getElementById("saveMessage").textContent = "";
+}, 2000);
         editingJobId = null;
 
         document.getElementById("saveBtn").textContent =
@@ -828,7 +881,10 @@ document.getElementById("saveBtn")
 
         document.getElementById("saveMessage").textContent =
           "予定と見積を保存しました。";
-
+resetForm();
+        setTimeout(() => {
+  document.getElementById("saveMessage").textContent = "";
+}, 2000);
       }
 
     } catch (error) {
