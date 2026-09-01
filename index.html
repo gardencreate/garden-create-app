@@ -1353,17 +1353,36 @@ div.querySelector(".deleteButton")
     document.getElementById("estimateDate").textContent =
       job.workDate;
 
-    document.getElementById("estimateWork").textContent =
-  job.workName;
+    const estimateItems =
+  document.getElementById("estimateItems");
 
-document.getElementById("estimateQty").textContent =
-  job.quantity;
+estimateItems.innerHTML = "";
 
-document.getElementById("estimateUnit").textContent =
-  yen(job.unitPrice);
+const items =
+  job.workItems || [
+    {
+      workName: job.workName,
+      quantity: job.quantity || 1,
+      unitPrice: job.unitPrice || job.subtotal,
+      amount: job.subtotal
+    }
+  ];
 
-document.getElementById("estimateSubtotal").textContent =
-  yen(job.subtotal);
+items.forEach(item => {
+
+  const row =
+    document.createElement("tr");
+
+  row.innerHTML = `
+    <td>${escapeHtml(item.workName)}</td>
+    <td>${item.quantity}</td>
+    <td>${yen(item.unitPrice)}</td>
+    <td>${yen(item.amount)}</td>
+  `;
+
+  estimateItems.appendChild(row);
+
+});
 
     document.getElementById("estimateSub2").textContent =
       yen(job.subtotal);
