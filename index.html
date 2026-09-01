@@ -322,19 +322,30 @@
       <input id="phone" type="tel">
 
       <label>作業内容</label>
-      <input id="workName" type="text" placeholder="例：松剪定">
 
-      <div class="grid">
-        <div>
-          <label>数量</label>
-          <input id="quantity" type="number" value="1" min="1">
-        </div>
+<div id="workItems">
 
-        <div>
-          <label>単価</label>
-          <input id="unitPrice" type="number" placeholder="30000">
-        </div>
+  <div class="work-item">
+    <input class="workName" type="text" placeholder="例：松剪定">
+
+    <div class="grid">
+      <div>
+        <label>数量</label>
+        <input class="quantity" type="number" value="1" min="1">
       </div>
+
+      <div>
+        <label>単価</label>
+        <input class="unitPrice" type="number" placeholder="30000">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<button id="addWorkBtn" type="button" class="secondary" style="width:100%; margin-top:12px;">
+  ＋ 作業項目を追加
+</button>
 
       <label>備考</label>
       <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
@@ -404,14 +415,8 @@
           </tr>
         </thead>
 
-        <tbody>
-          <tr>
-            <td id="estimateWork"></td>
-            <td id="estimateQty"></td>
-            <td id="estimateUnit"></td>
-            <td id="estimateSubtotal"></td>
-          </tr>
-        </tbody>
+        <tbody id="estimateItems">
+</tbody>
       </table>
 
       <div class="estimate-bottom">
@@ -525,44 +530,121 @@ const firebaseConfig = {
 
   function calculate() {
 
+  let subtotal = 0;
+
+  document.querySelectorAll(".work-item").forEach(item => {
+
     const quantity =
-      Number(document.getElementById("quantity").value || 0);
+      Number(item.querySelector(".quantity").value || 0);
 
     const unitPrice =
-      Number(document.getElementById("unitPrice").value || 0);
+      Number(item.querySelector(".unitPrice").value || 0);
 
-    const subtotal =
-      quantity * unitPrice;
+    subtotal += quantity * unitPrice;
 
-    const tax =
-      Math.floor(subtotal * 0.10);
+  });
 
-    const total =
-      subtotal + tax;
+  const tax =
+    Math.floor(subtotal * 0.10);
 
-    document.getElementById("subtotal").textContent =
-      yen(subtotal);
+  const total =
+    subtotal + tax;
 
-    document.getElementById("tax").textContent =
-      yen(tax);
+  document.getElementById("subtotal").textContent =
+    yen(subtotal);
 
-    document.getElementById("grandTotal").textContent =
-      yen(total);
+  document.getElementById("tax").textContent =
+    yen(tax);
 
-    return {
-      subtotal,
-      tax,
-      total
-    };
+  document.getElementById("grandTotal").textContent =
+    yen(total);
 
-  }
+  return {
+    subtotal,
+    tax,
+    total
+  };
+
+}
 
 
-  document.getElementById("quantity")
-    .addEventListener("input", calculate);
+document.getElementById("workItems")
+  .addEventListener("input", calculate);
 
-  document.getElementById("unitPrice")
-    .addEventListener("input", calculate);
+
+document.getElementById("addWorkBtn")
+  .addEventListener("click", () => {
+
+    const workItems =
+      document.getElementById("workItems");
+
+    const newItem =
+      document.createElement("div");
+
+    newItem.className =
+      "work-item";
+
+    newItem.style.marginTop =
+      "20px";
+
+    newItem.innerHTML = `
+      <input
+        class="workName"
+        type="text"
+        placeholder="例：伐採・処分費など">
+
+      <div class="grid">
+
+        <div>
+          <label>数量</label>
+          <input
+            class="quantity"
+            type="number"
+            value="1"
+            min="1">
+        </div>
+
+        <div>
+          <label>単価</label>
+          <input
+            class="unitPrice"
+            type="number"
+            placeholder="30000">
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="danger removeWorkBtn"
+        style="width:100%; margin-top:8px;">
+        この項目を削除
+      </button>
+    `;
+
+    workItems.appendChild(newItem);
+
+    calculate();
+
+  });
+
+
+document.getElementById("workItems")
+  .addEventListener("click", event => {
+
+    if (
+      event.target.classList.contains("removeWorkBtn")
+    ) {
+
+      event.target
+        .closest(".work-item")
+        .remove();
+
+      calculate();
+
+    }
+
+  });
 
 
   document.getElementById("loginBtn")
@@ -649,15 +731,36 @@ const firebaseConfig = {
 
       const workDate =
         document.getElementById("workDate").value;
+const workItems = [];
 
-      const workName =
-        document.getElementById("workName").value.trim();
+document.querySelectorAll(".work-item").forEach(item => {
 
-      const quantity =
-        Number(document.getElementById("quantity").value || 0);
+  const workName =
+    item.querySelector(".workName").value.trim();
 
-      const unitPrice =
-        Number(document.getElementById("unitPrice").value || 0);
+  const quantity =
+    Number(item.querySelector(".quantity").value || 0);
+
+  const unitPrice =
+    Number(item.querySelector(".unitPrice").value || 0);
+
+  if (workName) {
+
+    workItems.push({
+      workName,
+
+workItems,
+      amount: quantity * unitPrice
+    });
+
+  }
+
+});
+
+const workName =
+  workItems
+    .map(item => item.workName)
+    .join("・");
 
       if (!customerName || !workDate || !workName) {
 
@@ -855,16 +958,16 @@ const firebaseConfig = {
       job.workDate;
 
     document.getElementById("estimateWork").textContent =
-      job.workName;
+  job.workName;
 
-    document.getElementById("estimateQty").textContent =
-      job.quantity;
+document.getElementById("estimateQty").textContent =
+  job.quantity;
 
-    document.getElementById("estimateUnit").textContent =
-      yen(job.unitPrice);
+document.getElementById("estimateUnit").textContent =
+  yen(job.unitPrice);
 
-    document.getElementById("estimateSubtotal").textContent =
-      yen(job.subtotal);
+document.getElementById("estimateSubtotal").textContent =
+  yen(job.subtotal);
 
     document.getElementById("estimateSub2").textContent =
       yen(job.subtotal);
