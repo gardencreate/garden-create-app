@@ -477,13 +477,16 @@
   from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
   import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    serverTimestamp
-  }
-  from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 
   /* ===========================
@@ -805,23 +808,40 @@ const workName =
           document.getElementById("note").value.trim(),
 
         createdAt:
-          serverTimestamp()
+          
+try {
 
-      };
+  if (editingJobId) {
 
+    await updateDoc(
+      doc(db, "jobs", editingJobId),
+      {
+        ...data,
+        updatedAt: serverTimestamp()
+      }
+    );
 
-      try {
+    document.getElementById("saveMessage").textContent =
+      "変更を保存しました。";
 
-        await addDoc(
-          collection(db, "jobs"),
-          data
-        );
+    editingJobId = null;
 
-        document.getElementById("saveMessage").textContent =
-          "予定と見積を保存しました。";
+    document.getElementById("saveBtn").textContent =
+      "予定を登録して見積を作る";
 
-      } catch (error) {
+  } else {
 
+    await addDoc(
+      collection(db, "jobs"),
+      data
+    );
+
+    document.getElementById("saveMessage").textContent =
+      "予定と見積を保存しました。";
+
+  }
+
+} catch (error) {
         console.error(error);
 
         document.getElementById("saveMessage").textContent =
@@ -831,7 +851,7 @@ const workName =
 
     });
 
-
+let editingJobId = null;
   let listeningStarted = false;
 
 
@@ -914,11 +934,23 @@ const workName =
         </div>
 
         <div class="job-buttons">
-          <button
-            class="secondary estimateButton">
-            見積書を見る
-          </button>
-        </div>
+
+  <button
+    class="secondary estimateButton">
+    見積書を見る
+  </button>
+
+  <button
+    class="secondary editButton">
+    編集
+  </button>
+
+  <button
+    class="danger deleteButton">
+    削除
+  </button>
+
+</div>
       `;
 
 
@@ -928,8 +960,136 @@ const workName =
           showEstimate(job);
 
         });
+div.querySelector(".editButton")
+  .addEventListener("click", () => {
 
+    editingJobId = job.id;
 
+    document.getElementById("workDate").value =
+      job.workDate || "";
+
+    document.getElementById("customerName").value =
+      job.customerName || "";
+
+    document.getElementById("address").value =
+      job.address || "";
+
+    document.getElementById("phone").value =
+      job.phone || "";
+
+    document.getElementById("note").value =
+      job.note || "";
+
+    const workItems =
+      document.getElementById("workItems");
+
+    workItems.innerHTML = "";
+
+    const items =
+      job.workItems || [
+        {
+          workName: job.workName,
+          quantity: job.quantity || 1,
+          unitPrice: job.unitPrice || job.subtotal
+        }
+      ];
+
+    items.forEach((item, index) => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "work-item";
+
+      if (index > 0) {
+        div.style.marginTop = "20px";
+      }
+
+      div.innerHTML = `
+        <input
+          class="workName"
+          type="text"
+          placeholder="例：松剪定"
+          value="${escapeHtml(item.workName)}">
+
+        <div class="grid">
+
+          <div>
+            <label>数量</label>
+            <input
+              class="quantity"
+              type="number"
+              value="${item.quantity}"
+              min="1">
+          </div>
+
+          <div>
+            <label>単価</label>
+            <input
+              class="unitPrice"
+              type="number"
+              value="${item.unitPrice}">
+          </div>
+
+        </div>
+
+        ${
+          index > 0
+            ? `
+              <button
+                type="button"
+                class="danger removeWorkBtn"
+                style="width:100%; margin-top:8px;">
+                この項目を削除
+              </button>
+            `
+            : ""
+        }
+      `;
+
+      workItems.appendChild(div);
+
+    });
+
+    calculate();
+
+    document.getElementById("saveBtn").textContent =
+      "変更を保存";
+
+    document.getElementById("saveMessage").textContent =
+      "編集中です";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  });
+div.querySelector(".deleteButton")
+  .addEventListener("click", async () => {
+
+    const ok =
+      confirm(
+        `${job.customerName}様の予定・見積を削除しますか？`
+      );
+
+    if (!ok) return;
+
+    try {
+
+      await deleteDoc(
+        doc(db, "jobs", job.id)
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("削除できませんでした。");
+
+    }
+
+  });
       list.appendChild(div);
 
     });
