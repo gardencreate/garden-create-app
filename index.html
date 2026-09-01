@@ -725,132 +725,122 @@ document.getElementById("workItems")
 
   });
 
+;
+document.getElementById("saveBtn")
+  .addEventListener("click", async () => {
 
-  document.getElementById("saveBtn")
-    .addEventListener("click", async () => {
+    const customerName =
+      document.getElementById("customerName").value.trim();
 
-      const customerName =
-        document.getElementById("customerName").value.trim();
+    const workDate =
+      document.getElementById("workDate").value;
 
-      const workDate =
-        document.getElementById("workDate").value;
-const workItems = [];
+    const workItems = [];
 
-document.querySelectorAll(".work-item").forEach(item => {
+    document.querySelectorAll(".work-item").forEach(item => {
 
-  const workName =
-    item.querySelector(".workName").value.trim();
+      const workName =
+        item.querySelector(".workName").value.trim();
 
-  const quantity =
-    Number(item.querySelector(".quantity").value || 0);
+      const quantity =
+        Number(item.querySelector(".quantity").value || 0);
 
-  const unitPrice =
-    Number(item.querySelector(".unitPrice").value || 0);
+      const unitPrice =
+        Number(item.querySelector(".unitPrice").value || 0);
 
-  if (workName) {
+      if (workName) {
 
-    workItems.push({
+        workItems.push({
+          workName,
+          quantity,
+          unitPrice,
+          amount: quantity * unitPrice
+        });
+
+      }
+
+    });
+
+    const workName =
+      workItems.map(item => item.workName).join("・");
+
+    if (!customerName || !workDate || workItems.length === 0) {
+
+      document.getElementById("saveMessage").textContent =
+        "お客様名・作業日・作業内容を入力してください。";
+
+      return;
+
+    }
+
+    const money = calculate();
+
+    const data = {
+      customerName,
+
+      address:
+        document.getElementById("address").value.trim(),
+
+      phone:
+        document.getElementById("phone").value.trim(),
+
+      workDate,
       workName,
+      workItems,
 
-workItems,
-      amount: quantity * unitPrice
-    });
+      subtotal: money.subtotal,
+      tax: money.tax,
+      total: money.total,
 
-  }
+      note:
+        document.getElementById("note").value.trim()
+    };
 
-});
+    try {
 
-const workName =
-  workItems
-    .map(item => item.workName)
-    .join("・");
+      if (editingJobId) {
 
-      if (!customerName || !workDate || !workName) {
-
-        document.getElementById("saveMessage").textContent =
-          "お客様名・作業日・作業内容を入力してください。";
-
-        return;
-
-      }
-
-      const money =
-        calculate();
-
-      const data = {
-
-        customerName,
-
-        address:
-          document.getElementById("address").value.trim(),
-
-        phone:
-          document.getElementById("phone").value.trim(),
-
-        workDate,
-
-        workName,
-
-        quantity,
-
-        unitPrice,
-
-        subtotal:
-          money.subtotal,
-
-        tax:
-          money.tax,
-
-        total:
-          money.total,
-
-        note:
-          document.getElementById("note").value.trim(),
-
-        createdAt:
-          
-try {
-
-  if (editingJobId) {
-
-    await updateDoc(
-      doc(db, "jobs", editingJobId),
-      {
-        ...data,
-        updatedAt: serverTimestamp()
-      }
-    );
-
-    document.getElementById("saveMessage").textContent =
-      "変更を保存しました。";
-
-    editingJobId = null;
-
-    document.getElementById("saveBtn").textContent =
-      "予定を登録して見積を作る";
-
-  } else {
-
-    await addDoc(
-      collection(db, "jobs"),
-      data
-    );
-
-    document.getElementById("saveMessage").textContent =
-      "予定と見積を保存しました。";
-
-  }
-
-} catch (error) {
-        console.error(error);
+        await updateDoc(
+          doc(db, "jobs", editingJobId),
+          {
+            ...data,
+            updatedAt: serverTimestamp()
+          }
+        );
 
         document.getElementById("saveMessage").textContent =
-          "保存できませんでした。";
+          "変更を保存しました。";
+
+        editingJobId = null;
+
+        document.getElementById("saveBtn").textContent =
+          "予定を登録して見積を作る";
+
+      } else {
+
+        await addDoc(
+          collection(db, "jobs"),
+          {
+            ...data,
+            createdAt: serverTimestamp()
+          }
+        );
+
+        document.getElementById("saveMessage").textContent =
+          "予定と見積を保存しました。";
 
       }
 
-    });
+    } catch (error) {
 
+      console.error(error);
+
+      document.getElementById("saveMessage").textContent =
+        "保存できませんでした。";
+
+    }
+
+  });
 let editingJobId = null;
   let listeningStarted = false;
 
