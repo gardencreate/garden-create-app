@@ -374,7 +374,39 @@
       <div id="saveMessage" class="message"></div>
     </div>
 
+<div class="card">
 
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+  ">
+
+    <button
+      id="prevMonthBtn"
+      type="button"
+      class="secondary">
+      ＜
+    </button>
+
+    <h2
+      id="calendarTitle"
+      style="margin:0;">
+    </h2>
+
+    <button
+      id="nextMonthBtn"
+      type="button"
+      class="secondary">
+      ＞
+    </button>
+
+  </div>
+
+  <div id="calendar"></div>
+
+</div>
     <div class="card">
       <h2>予定・見積一覧</h2>
       <div id="jobsList">
@@ -899,7 +931,163 @@ resetForm();
   });
 let editingJobId = null;
   let listeningStarted = false;
+let calendarDate = new Date();
 
+let calendarJobs = [];
+
+
+function renderCalendar() {
+
+  const year =
+    calendarDate.getFullYear();
+
+  const month =
+    calendarDate.getMonth();
+
+  document.getElementById("calendarTitle").textContent =
+    `${year}年${month + 1}月`;
+
+  const calendar =
+    document.getElementById("calendar");
+
+  calendar.innerHTML = "";
+
+
+  const week =
+    document.createElement("div");
+
+  week.style.display = "grid";
+  week.style.gridTemplateColumns = "repeat(7, 1fr)";
+  week.style.textAlign = "center";
+  week.style.fontSize = "12px";
+  week.style.marginBottom = "5px";
+
+  ["日", "月", "火", "水", "木", "金", "土"]
+    .forEach(day => {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent = day;
+
+      week.appendChild(div);
+
+    });
+
+  calendar.appendChild(week);
+
+
+  const grid =
+    document.createElement("div");
+
+  grid.style.display = "grid";
+  grid.style.gridTemplateColumns = "repeat(7, 1fr)";
+  grid.style.borderTop = "1px solid #ddd";
+  grid.style.borderLeft = "1px solid #ddd";
+
+
+  const firstDay =
+    new Date(year, month, 1).getDay();
+
+  const lastDate =
+    new Date(year, month + 1, 0).getDate();
+
+
+  for (let i = 0; i < firstDay; i++) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.style.minHeight = "75px";
+    empty.style.borderRight = "1px solid #ddd";
+    empty.style.borderBottom = "1px solid #ddd";
+
+    grid.appendChild(empty);
+
+  }
+
+
+  for (let day = 1; day <= lastDate; day++) {
+
+    const cell =
+      document.createElement("div");
+
+    cell.style.minHeight = "75px";
+    cell.style.padding = "4px";
+    cell.style.borderRight = "1px solid #ddd";
+    cell.style.borderBottom = "1px solid #ddd";
+    cell.style.fontSize = "12px";
+
+    const number =
+      document.createElement("div");
+
+    number.textContent = day;
+    number.style.fontWeight = "bold";
+
+    cell.appendChild(number);
+
+
+    const dateString =
+      `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+    const jobsForDay =
+      calendarJobs.filter(job =>
+        job.workDate === dateString
+      );
+
+
+    jobsForDay.forEach(job => {
+
+      const jobDiv =
+        document.createElement("div");
+
+      jobDiv.textContent =
+        job.customerName + "様";
+
+      jobDiv.style.marginTop = "4px";
+      jobDiv.style.padding = "3px";
+      jobDiv.style.background = "#f1f1ed";
+      jobDiv.style.borderRadius = "4px";
+      jobDiv.style.fontSize = "10px";
+      jobDiv.style.overflow = "hidden";
+
+      cell.appendChild(jobDiv);
+
+    });
+
+
+    grid.appendChild(cell);
+
+  }
+
+
+  calendar.appendChild(grid);
+
+}
+
+
+document.getElementById("prevMonthBtn")
+  .addEventListener("click", () => {
+
+    calendarDate.setMonth(
+      calendarDate.getMonth() - 1
+    );
+
+    renderCalendar();
+
+  });
+
+
+document.getElementById("nextMonthBtn")
+  .addEventListener("click", () => {
+
+    calendarDate.setMonth(
+      calendarDate.getMonth() + 1
+    );
+
+    renderCalendar();
+
+  });
 
   function listenJobs() {
 
@@ -930,7 +1118,9 @@ let editingJobId = null;
 
         });
 
+calendarJobs = jobs;
 
+renderCalendar();
         renderJobs(jobs);
 
       }
