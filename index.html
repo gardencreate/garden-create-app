@@ -337,8 +337,115 @@
 .estimate-company-box {
   font-size: 10px;
   line-height: 1.7;
-  padding
-  </style>
+  padding-top: 10px;
+}
+
+.estimate-company-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.estimate-price-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 22px 0 12px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 7px;
+}
+
+.estimate-price {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.estimate-price small {
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.estimate-work-date {
+  margin: 12px 0 18px;
+  font-size: 12px;
+}
+
+.estimate-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10px;
+}
+
+.estimate-table th,
+.estimate-table td {
+  border: 1px solid #333;
+  padding: 6px 4px;
+  vertical-align: middle;
+}
+
+.estimate-table th {
+  background: #ddd;
+  text-align: center;
+  font-weight: bold;
+}
+
+.estimate-table th:nth-child(1) { width: 24%; }
+.estimate-table th:nth-child(2) { width: 19%; }
+.estimate-table th:nth-child(3) { width: 9%; }
+.estimate-table th:nth-child(4) { width: 8%; }
+.estimate-table th:nth-child(5) { width: 17%; }
+.estimate-table th:nth-child(6) { width: 23%; }
+
+.estimate-summary {
+  width: 46%;
+  margin-left: auto;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.estimate-summary .money-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 4px 8px;
+  border-top: 1px solid #333;
+  font-size: 11px;
+}
+
+.estimate-summary .money-total {
+  font-weight: bold;
+}
+
+.estimate-note-box {
+  margin-top: 8px;
+  min-height: 70px;
+  font-size: 10px;
+}
+
+.estimate-note-box p {
+  margin-top: 5px;
+  white-space: pre-wrap;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  header,
+  .estimate-buttons {
+    display: none !important;
+  }
+
+  .estimate-paper {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+</style>
 </head>
 
 <body>
@@ -1548,7 +1655,6 @@ const items =
       amount: job.subtotal
     }
   ];
-
 items.forEach(item => {
 
   const row =
@@ -1565,6 +1671,7 @@ row.innerHTML = `
     <td>${yen(item.unitPrice)}</td>
     <td>${yen(item.amount)}</td>
   `;
+
     document.getElementById("estimateSub2").textContent =
       yen(job.subtotal);
 
