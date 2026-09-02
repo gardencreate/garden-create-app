@@ -7,7 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <title>Garden Create App</title>
-
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
   <style>
     * {
       box-sizing: border-box;
@@ -520,7 +522,7 @@
     <option value="式">式</option>
     <option value="L">L</option>
     <option value="人">人</option>
-    <option value="台（ごみ）">台（ごみ）</option>
+    <option value="台">台</option>
   </select>
 </div>
       <div>
@@ -970,7 +972,7 @@ document.getElementById("addWorkBtn")
     <option value="式">式</option>
     <option value="L">L</option>
     <option value="人">人</option>
-    <option value="台（ごみ）">台（ごみ）</option>
+    <option value="台">台</option>
   </select>
 </div>
         <div>
@@ -1553,7 +1555,7 @@ document.getElementById("subject").value =
     <option value="式" ${item.unit === "式" || !item.unit ? "selected" : ""}>式</option>
     <option value="L" ${item.unit === "L" ? "selected" : ""}>L</option>
     <option value="人" ${item.unit === "人" ? "selected" : ""}>人</option>
-    <option value="台（ごみ）" ${item.unit === "台（ごみ）" ? "selected" : ""}>台（ごみ）</option>
+    <option value="台" ${item.unit === "台" ? "selected" : ""}>台（ごみ）</option>
   </select>
 </div>
 
