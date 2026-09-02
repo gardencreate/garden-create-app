@@ -698,10 +698,10 @@
 
 
   <!-- 作業予定日 -->
-  <div class="estimate-work-date">
-    作業予定日：
-    <strong id="estimateDate"></strong>
-  </div>
+  <div class="estimate-work-date" id="estimateDateRow">
+  作業予定日：
+  <strong id="estimateDate"></strong>
+</div>
 
 
   <!-- 明細 -->
@@ -1135,10 +1135,10 @@ const unit =
     const workName =
       workItems.map(item => item.workName).join("・");
 
-    if (!customerName || !workDate || workItems.length === 0) {
+    if (!customerName || workItems.length === 0) {
 
       document.getElementById("saveMessage").textContent =
-        "お客様名・作業日・作業内容を入力してください。";
+        "お客様名・作業内容を入力してください。";
 
       return;
 
@@ -1449,10 +1449,10 @@ renderCalendar();
         </div>
 
         <div class="job-date">
-          ${escapeHtml(job.workDate)}
-          ／
-          ${escapeHtml(job.workName)}
-        </div>
+  ${escapeHtml(job.workDate || "未定")}
+  /
+  ${escapeHtml(job.workName)}
+</div>
 
         <div class="job-price">
           ${yen(job.total)}
@@ -1674,8 +1674,16 @@ document.getElementById("estimateLimit").textContent =
 
 document.getElementById("estimateSubject").textContent =
   job.subject || "";
-document.getElementById("estimateDate").textContent =
-  job.workDate;
+const estimateDateRow =
+  document.getElementById("estimateDateRow");
+
+if (job.workDate) {
+  document.getElementById("estimateDate").textContent =
+    job.workDate;
+  estimateDateRow.style.display = "";
+} else {
+  estimateDateRow.style.display = "none";
+}
 
     const estimateItems =
   document.getElementById("estimateItems");
