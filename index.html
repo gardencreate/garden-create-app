@@ -491,7 +491,11 @@
 
       <label>お客様名</label>
       <input id="customerName" type="text" placeholder="例：山田 太郎">
-
+<label>件名</label>
+<input
+  id="subject"
+  type="text"
+  placeholder="例：剪定工事">
       <label>住所</label>
       <input id="address" type="text" placeholder="例：長野県〇〇市">
 
@@ -510,7 +514,15 @@
         <label>数量</label>
         <input class="quantity" type="number" value="1" min="1">
       </div>
-
+<div>
+  <label>単位</label>
+  <select class="unit">
+    <option value="式">式</option>
+    <option value="L">L</option>
+    <option value="人">人</option>
+    <option value="台（ごみ）">台（ごみ）</option>
+  </select>
+</div>
       <div>
         <label>単価</label>
         <input class="unitPrice" type="number" placeholder="30000">
@@ -829,6 +841,7 @@ function resetForm() {
 
   document.getElementById("workDate").value = "";
   document.getElementById("customerName").value = "";
+  document.getElementById("subject").value = "";
   document.getElementById("address").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("note").value = "";
@@ -951,7 +964,15 @@ document.getElementById("addWorkBtn")
             value="1"
             min="1">
         </div>
-
+<div>
+  <label>単位</label>
+  <select class="unit">
+    <option value="式">式</option>
+    <option value="L">L</option>
+    <option value="人">人</option>
+    <option value="台（ごみ）">台（ごみ）</option>
+  </select>
+</div>
         <div>
           <label>単価</label>
           <input
@@ -1076,7 +1097,8 @@ document.getElementById("saveBtn")
 
     const customerName =
       document.getElementById("customerName").value.trim();
-
+const subject =
+  document.getElementById("subject").value.trim();
     const workDate =
       document.getElementById("workDate").value;
 
@@ -1089,18 +1111,20 @@ document.getElementById("saveBtn")
 
       const quantity =
         Number(item.querySelector(".quantity").value || 0);
-
+const unit =
+  item.querySelector(".unit").value;
       const unitPrice =
         Number(item.querySelector(".unitPrice").value || 0);
 
       if (workName) {
 
-        workItems.push({
-          workName,
-          quantity,
-          unitPrice,
-          amount: quantity * unitPrice
-        });
+      workItems.push({
+  workName,
+  quantity,
+  unit,
+  unitPrice,
+  amount: quantity * unitPrice
+});
 
       }
 
@@ -1122,7 +1146,7 @@ document.getElementById("saveBtn")
 
     const data = {
       customerName,
-
+subject,
       address:
         document.getElementById("address").value.trim(),
 
@@ -1469,7 +1493,8 @@ div.querySelector(".editButton")
 
     document.getElementById("customerName").value =
       job.customerName || "";
-
+document.getElementById("subject").value =
+  job.subject || "";
     document.getElementById("address").value =
       job.address || "";
 
@@ -1513,22 +1538,32 @@ div.querySelector(".editButton")
 
         <div class="grid">
 
-          <div>
-            <label>数量</label>
-            <input
-              class="quantity"
-              type="number"
-              value="${item.quantity}"
-              min="1">
-          </div>
+      <div>
+  <label>数量</label>
+  <input
+    class="quantity"
+    type="number"
+    value="${item.quantity}"
+    min="1">
+</div>
 
-          <div>
-            <label>単価</label>
-            <input
-              class="unitPrice"
-              type="number"
-              value="${item.unitPrice}">
-          </div>
+<div>
+  <label>単位</label>
+  <select class="unit">
+    <option value="式" ${item.unit === "式" || !item.unit ? "selected" : ""}>式</option>
+    <option value="L" ${item.unit === "L" ? "selected" : ""}>L</option>
+    <option value="人" ${item.unit === "人" ? "selected" : ""}>人</option>
+    <option value="台（ごみ）" ${item.unit === "台（ごみ）" ? "selected" : ""}>台（ごみ）</option>
+  </select>
+</div>
+
+<div>
+  <label>単価</label>
+  <input
+    class="unitPrice"
+    type="number"
+    value="${item.unitPrice}">
+</div>
 
         </div>
 
@@ -1636,8 +1671,7 @@ document.getElementById("estimateLimit").textContent =
   job.customerName + " 様";
 
 document.getElementById("estimateSubject").textContent =
-  job.workName || "";
-
+  job.subject || "";
 document.getElementById("estimateDate").textContent =
   job.workDate;
 
@@ -1664,7 +1698,7 @@ items.forEach(item => {
     <td>${escapeHtml(item.workName || "")}</td>
     <td></td>
     <td>${item.quantity || 1}</td>
-    <td>式</td>
+    <td>${escapeHtml(item.unit || "式")}</td>
     <td>${yen(item.unitPrice || 0)}</td>
     <td>${yen(item.amount || 0)}</td>
   `;
