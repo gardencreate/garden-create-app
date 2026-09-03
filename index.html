@@ -464,8 +464,13 @@
   size: A4 portrait;
   margin: 0;
 }
+
 @media print {
+
+  html,
   body {
+    margin: 0;
+    padding: 0;
     background: #fff;
   }
 
@@ -474,10 +479,23 @@
     display: none !important;
   }
 
+  #estimateArea {
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
   .estimate-paper {
-    width: 100%;
-    padding: 0;
-    margin: 0;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    box-sizing: border-box;
+    padding: 15mm 17mm 12mm !important;
+    margin: 0 !important;
+    position: static !important;
+    left: auto !important;
+    transform: none !important;
   }
 }
 
