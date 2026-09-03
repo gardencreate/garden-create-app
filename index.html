@@ -291,19 +291,22 @@
   font-size: 12px;
 }
 @media screen and (max-width: 820px) {
-  .estimate-paper {
-  transform: scale(0.47);
-  transform-origin: top center;
-  width: 794px;
-  margin: 0 auto;
-}
 
-#estimateArea {
-  width: 373px;
-  overflow-x: hidden;
-  margin-left: 0;
-  margin-right: auto;
-}
+  #estimateArea {
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  .estimate-paper {
+    position: relative;
+    left: 50%;
+    width: 794px;
+    transform: scale(0.47) translateX(-50%);
+    transform-origin: top left;
+    margin: 0;
+  }
+
 }
 .estimate-top {
   display: flex;
