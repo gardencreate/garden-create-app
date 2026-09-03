@@ -1874,57 +1874,189 @@ document.getElementById("estimateTotalBottom").textContent =
         <title>御見積書</title>
 
         <style>
-          body {
-            font-family: -apple-system, BlinkMacSystemFont,
-              "Helvetica Neue", sans-serif;
-            padding: 30px;
-            color: #222;
-          }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
 
-          .estimate-title {
-            text-align: center;
-            font-size: 30px;
-            letter-spacing: 8px;
-            margin-bottom: 30px;
-          }
+  * {
+    box-sizing: border-box;
+  }
 
-          .customer-line {
-            font-size: 20px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 6px;
-            margin-bottom: 25px;
-          }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+    color: #222;
+    font-family: -apple-system, BlinkMacSystemFont,
+      "Helvetica Neue", sans-serif;
+  }
 
-          .estimate-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-          }
+  .estimate-paper {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 15mm 17mm 12mm;
+    background: #fff;
+    overflow: hidden;
+    font-size: 12px;
+  }
 
-          .estimate-table th,
-          .estimate-table td {
-            border: 1px solid #aaa;
-            padding: 10px;
-            text-align: left;
-          }
+  .estimate-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 35px;
+  }
 
-          .estimate-table th {
-            background: #f3f3f3;
-          }
+  .estimate-main-title {
+    font-size: 25px;
+    letter-spacing: 3px;
+    font-weight: 500;
+  }
 
-          .money-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-          }
+  .estimate-company-top {
+    text-align: center;
+    font-size: 10px;
+  }
 
-          .money-total {
-            font-size: 20px;
-            font-weight: bold;
-            border-top: 1px solid #aaa;
-            padding-top: 12px;
-          }
-        </style>
+  .estimate-logo-placeholder {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.1;
+  }
+
+  .estimate-info-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 25px;
+    margin-bottom: 25px;
+  }
+
+  .estimate-customer-box {
+    min-width: 0;
+  }
+
+  .customer-line {
+    font-size: 17px;
+    border-bottom: 1px solid #222;
+    padding: 0 5px 5px;
+    margin-bottom: 12px;
+    min-height: 28px;
+  }
+
+  .estimate-condition {
+    border-bottom: 1px solid #222;
+    padding: 3px 2px;
+    font-size: 11px;
+  }
+
+  .estimate-message {
+    margin-top: 18px;
+    font-size: 12px;
+  }
+
+  .estimate-company-box {
+    font-size: 10px;
+    line-height: 1.7;
+    padding-top: 10px;
+  }
+
+  .estimate-company-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .estimate-price-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px 0 10px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 7px;
+  }
+
+  .estimate-price {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .estimate-price small {
+    font-size: 10px;
+    font-weight: normal;
+  }
+
+  .estimate-work-date {
+    margin: 12px 0 18px;
+    font-size: 12px;
+  }
+
+  .estimate-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 10px;
+  }
+
+  .estimate-table th,
+  .estimate-table td {
+    border: 1px solid #333;
+    padding: 6px 4px;
+    vertical-align: middle;
+  }
+
+  .estimate-table th {
+    background: #ddd;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .estimate-table th:nth-child(1) { width: 24%; }
+  .estimate-table th:nth-child(2) { width: 19%; }
+  .estimate-table th:nth-child(3) { width: 9%; }
+  .estimate-table th:nth-child(4) { width: 8%; }
+  .estimate-table th:nth-child(5) { width: 17%; }
+  .estimate-table th:nth-child(6) { width: 23%; }
+
+  .estimate-summary {
+    width: 46%;
+    margin-left: auto;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+  }
+
+  .estimate-summary .money-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 4px 8px;
+    border-top: 1px solid #333;
+    font-size: 11px;
+  }
+
+  .estimate-summary .money-total {
+    font-weight: bold;
+  }
+
+  .estimate-note-box {
+    margin-top: 8px;
+    min-height: 70px;
+    border: 1px solid #333;
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .estimate-note-box p {
+    margin: 4px 0 0;
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+</style>
       </head>
 
       <body>
