@@ -219,7 +219,14 @@
       padding: 10px;
       text-align: left;
     }
+.estimate-table tbody tr {
+  height: 28px;
+}
 
+.estimate-table tbody td {
+  padding: 4px 6px;
+  vertical-align: middle;
+}
     .estimate-table th {
       background: #f3f3f3;
     }
@@ -510,7 +517,10 @@
 
   <div class="work-item">
     <input class="workName" type="text" placeholder="例：松剪定">
-
+<input
+  class="spec"
+  type="text"
+  placeholder="仕様（任意）">
     <div class="grid">
       <div>
         <label>数量</label>
@@ -1113,6 +1123,8 @@ const subject =
 
       const quantity =
         Number(item.querySelector(".quantity").value || 0);
+      const spec =
+  item.querySelector(".spec").value.trim();
 const unit =
   item.querySelector(".unit").value;
       const unitPrice =
@@ -1122,6 +1134,7 @@ const unit =
 
       workItems.push({
   workName,
+  spec,
   quantity,
   unit,
   unitPrice,
@@ -1537,7 +1550,11 @@ document.getElementById("subject").value =
           type="text"
           placeholder="例：松剪定"
           value="${escapeHtml(item.workName)}">
-
+<input
+  class="spec"
+  type="text"
+  placeholder="仕様（任意）"
+  value="${escapeHtml(item.spec || "")}">
         <div class="grid">
 
       <div>
@@ -1706,7 +1723,7 @@ items.forEach(item => {
 
   row.innerHTML = `
     <td>${escapeHtml(item.workName || "")}</td>
-    <td></td>
+    <td>${escapeHtml(item.spec || "")}</td>
     <td>${item.quantity || 1}</td>
     <td>${escapeHtml(item.unit || "式")}</td>
     <td>${yen(item.unitPrice || 0)}</td>
@@ -1716,6 +1733,25 @@ items.forEach(item => {
   estimateItems.appendChild(row);
 
 });
+    const fixedRows = 18;
+
+for (let i = items.length; i < fixedRows; i++) {
+
+  const emptyRow =
+    document.createElement("tr");
+
+  emptyRow.innerHTML = `
+    <td>&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  `;
+
+  estimateItems.appendChild(emptyRow);
+
+}
     document.getElementById("estimateSub2").textContent =
       yen(job.subtotal);
 
