@@ -469,48 +469,48 @@
 
   html,
   body {
-    margin: 0;
-    padding: 0;
-    background: #fff;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
   }
 
   header,
+  #loginArea,
+  #appArea,
   .estimate-buttons {
     display: none !important;
   }
 
+  .container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   #estimateArea {
-    width: 210mm !important;
+    display: block !important;
+    width: 794px !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
   }
 
-    .estimate-paper {
-  width: 210mm !important;
-  height: 280mm !important;
-  min-height: 280mm !important;
-    box-sizing: border-box;
-    padding: 15mm 17mm 12mm !important;
+  .estimate-paper {
+    width: 794px !important;
+    min-height: 0 !important;
+    height: auto !important;
     margin: 0 !important;
+    padding: 58px 64px 52px !important;
+    box-sizing: border-box !important;
     position: static !important;
     left: auto !important;
     transform: none !important;
-  
-}
-.estimate-table tbody tr {
-  height: 20px !important;
-}
-
-.estimate-table th,
-.estimate-table td {
-  padding: 3px 4px !important;
-}
-
-.estimate-note-box {
-  min-height: 90px !important;
-}
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
   }
+
+}
 </style>
 </head>
 
