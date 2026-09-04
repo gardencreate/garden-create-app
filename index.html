@@ -617,7 +617,17 @@
 
       <label>備考</label>
       <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
+<div style="margin-top:15px;">
+  <label style="display:flex; align-items:center; gap:8px;">
+    <input id="estimateSubmitted" type="checkbox">
+    見積書 提出済み
+  </label>
 
+  <label style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+    <input id="invoiceSubmitted" type="checkbox">
+    請求書 提出済み
+  </label>
+</div>
       <div class="money">
         <div class="money-row">
           <span>小計</span>
@@ -924,7 +934,8 @@ function resetForm() {
   document.getElementById("address").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("note").value = "";
-
+document.getElementById("estimateSubmitted").checked = false;
+document.getElementById("invoiceSubmitted").checked = false;
   const workItems =
     document.getElementById("workItems");
 
@@ -1180,7 +1191,11 @@ const subject =
   document.getElementById("subject").value.trim();
     const workDate =
       document.getElementById("workDate").value;
+const estimateSubmitted =
+  document.getElementById("estimateSubmitted").checked;
 
+const invoiceSubmitted =
+  document.getElementById("invoiceSubmitted").checked;
     const workItems = [];
 
     document.querySelectorAll(".work-item").forEach(item => {
@@ -1238,7 +1253,8 @@ subject,
       workDate,
       workName,
       workItems,
-
+estimateSubmitted,
+invoiceSubmitted,
       subtotal: money.subtotal,
       tax: money.tax,
       total: money.total,
@@ -1457,7 +1473,25 @@ cell.addEventListener("click", () => {
 
     card.appendChild(customer);
     card.appendChild(subject);
+const price = document.createElement("div");
+price.textContent = yen(job.total);
+price.style.marginTop = "8px";
+price.style.fontWeight = "bold";
+card.appendChild(price);
 
+if (job.estimateSubmitted === true) {
+  const estimateStatus = document.createElement("div");
+  estimateStatus.textContent = "見積書　提出済み ✓";
+  estimateStatus.style.marginTop = "8px";
+  card.appendChild(estimateStatus);
+}
+
+if (job.invoiceSubmitted === true) {
+  const invoiceStatus = document.createElement("div");
+  invoiceStatus.textContent = "請求書　提出済み ✓";
+  invoiceStatus.style.marginTop = "4px";
+  card.appendChild(invoiceStatus);
+}
     detailArea.appendChild(card);
   });
 });
@@ -1626,7 +1660,11 @@ document.getElementById("subject").value =
 
     document.getElementById("note").value =
       job.note || "";
+document.getElementById("estimateSubmitted").checked =
+  job.estimateSubmitted === true;
 
+document.getElementById("invoiceSubmitted").checked =
+  job.invoiceSubmitted === true;
     const workItems =
       document.getElementById("workItems");
 
