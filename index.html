@@ -618,15 +618,23 @@
       <label>備考</label>
       <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
 <div style="margin-top:15px;">
-  <label style="display:flex; align-items:center; gap:8px;">
-    <input id="estimateSubmitted" type="checkbox">
-    見積書 提出済み
-  </label>
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+    <input
+      id="estimateSubmitted"
+      type="checkbox"
+      style="width:22px; height:22px; margin:0;"
+    >
+    <span>見積書 提出済み</span>
+  </div>
 
-  <label style="display:flex; align-items:center; gap:8px; margin-top:8px;">
-    <input id="invoiceSubmitted" type="checkbox">
-    請求書 提出済み
-  </label>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <input
+      id="invoiceSubmitted"
+      type="checkbox"
+      style="width:22px; height:22px; margin:0;"
+    >
+    <span>請求書 提出済み</span>
+  </div>
 </div>
       <div class="money">
         <div class="money-row">
