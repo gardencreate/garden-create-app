@@ -1423,7 +1423,44 @@ function renderCalendar() {
       cell.appendChild(jobDiv);
 
     });
+    
+cell.style.cursor = "pointer";
 
+cell.addEventListener("click", () => {
+  detailArea.innerHTML = "";
+
+  const title = document.createElement("h3");
+  title.textContent = `${month + 1}月${day}日の予定`;
+  detailArea.appendChild(title);
+
+  if (jobsForDay.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "この日の予定はありません";
+    detailArea.appendChild(emptyMessage);
+    return;
+  }
+
+  jobsForDay.forEach(job => {
+    const card = document.createElement("div");
+
+    card.style.padding = "12px";
+    card.style.marginTop = "10px";
+    card.style.border = "1px solid #ddd";
+    card.style.borderRadius = "8px";
+
+    const customer = document.createElement("strong");
+    customer.textContent = (job.customerName || "お客様名なし") + " 様";
+
+    const subject = document.createElement("div");
+    subject.textContent = job.subject || "件名なし";
+    subject.style.marginTop = "5px";
+
+    card.appendChild(customer);
+    card.appendChild(subject);
+
+    detailArea.appendChild(card);
+  });
+});
 
     grid.appendChild(cell);
 
@@ -1431,7 +1468,11 @@ function renderCalendar() {
 
 
   calendar.appendChild(grid);
+const detailArea = document.createElement("div");
+detailArea.style.marginTop = "15px";
+detailArea.style.paddingTop = "10px";
 
+calendar.appendChild(detailArea);
 }
 
 
