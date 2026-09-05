@@ -1494,7 +1494,17 @@ jobDiv.textContent =
 
       jobDiv.style.marginTop = "4px";
       jobDiv.style.padding = "3px";
-      jobDiv.style.background = "#f1f1ed";
+      if (eventTypes.includes("施工")) {
+  jobDiv.style.background = "#dff3e4";
+} else if (eventTypes.includes("見積提出")) {
+  jobDiv.style.background = "#fff1c7";
+} else if (eventTypes.includes("請求提出")) {
+  jobDiv.style.background = "#fde2e2";
+} else if (eventTypes.includes("見積")) {
+  jobDiv.style.background = "#dfeeff";
+} else {
+  jobDiv.style.background = "#eeeeee";
+}
       jobDiv.style.borderRadius = "4px";
       jobDiv.style.fontSize = "10px";
       jobDiv.style.overflow = "hidden";
