@@ -960,7 +960,10 @@ document.getElementById("invoiceSubmitDate").value = "";
         class="workName"
         type="text"
         placeholder="例：松剪定">
-
+<input
+  class="spec"
+  type="text"
+  placeholder="仕様（任意）">
       <div class="grid">
 
         <div>
@@ -971,7 +974,15 @@ document.getElementById("invoiceSubmitDate").value = "";
             value="1"
             min="1">
         </div>
-
+<div>
+  <label>単位</label>
+  <select class="unit">
+    <option value="式">式</option>
+    <option value="L">L</option>
+    <option value="人">人</option>
+    <option value="台">台</option>
+  </select>
+</div>
         <div>
           <label>単価</label>
           <input
@@ -1057,7 +1068,10 @@ document.getElementById("addWorkBtn")
         class="workName"
         type="text"
         placeholder="例：伐採・処分費など">
-
+<input
+  class="spec"
+  type="text"
+  placeholder="仕様（任意）">
       <div class="grid">
 
         <div>
