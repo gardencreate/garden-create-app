@@ -1552,35 +1552,40 @@ price.style.marginTop = "8px";
 price.style.fontWeight = "bold";
 card.appendChild(price);
 
-if (job.estimateDate) {
-  const row = document.createElement("div");
-  row.textContent = "見積日：" + job.estimateDate;
-  row.style.marginTop = "8px";
-  card.appendChild(row);
-}
+const statusItems = [
+  {
+    label: "見積",
+    date: job.estimateDate
+  },
+  {
+    label: "見積書提出",
+    date: job.estimateSubmitDate
+  },
+  {
+    label: "施工",
+    date: job.workDoneDate
+  },
+  {
+    label: "請求書提出",
+    date: job.invoiceSubmitDate
+  }
+];
 
-if (job.estimateSubmitDate) {
+statusItems.forEach(item => {
   const row = document.createElement("div");
-  row.textContent = "見積提出日：" + job.estimateSubmitDate;
-  row.style.marginTop = "4px";
-  card.appendChild(row);
-}
 
-if (job.workDoneDate) {
-  const row = document.createElement("div");
-  row.textContent =
-    "施工日：" + job.workDoneDate +
-    (job.workCompleted === true ? "　施工済み ✓" : "");
-  row.style.marginTop = "4px";
-  card.appendChild(row);
-}
+  row.style.marginTop = "6px";
 
-if (job.invoiceSubmitDate) {
-  const row = document.createElement("div");
-  row.textContent = "請求提出日：" + job.invoiceSubmitDate;
-  row.style.marginTop = "4px";
+  if (item.date) {
+    row.textContent =
+      "☑ " + item.label + "　" + item.date;
+  } else {
+    row.textContent =
+      "☐ " + item.label;
+  }
+
   card.appendChild(row);
-}
+});
     detailArea.appendChild(card);
   });
 });
