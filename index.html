@@ -1709,7 +1709,12 @@ div.dataset.jobId = job.id;
         <div class="job-price">
           ${yen(job.total)}
         </div>
-
+<div style="margin-top:12px; line-height:1.8; font-size:14px;">
+  <div>見積　　　　${job.estimateDate ? "✓ " + job.estimateDate : "－"}</div>
+  <div>見積書提出　${job.estimateSubmitDate ? "✓ " + job.estimateSubmitDate : "－"}</div>
+  <div>施工　　　　${job.workDoneDate ? "✓ " + job.workDoneDate : "－"}</div>
+  <div>請求書提出　${job.invoiceSubmitDate ? "✓ " + job.invoiceSubmitDate : "－"}</div>
+</div>
         <div class="job-buttons">
 
   <button
@@ -1767,8 +1772,6 @@ document.getElementById("estimateSubmitDate").value =
 document.getElementById("workDoneDate").value =
   job.workDoneDate || "";
 
-document.getElementById("workCompleted").checked =
-  job.workCompleted === true;
 
 document.getElementById("invoiceSubmitDate").value =
   job.invoiceSubmitDate || "";
