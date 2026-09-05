@@ -618,23 +618,26 @@
       <label>備考</label>
       <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
 <div style="margin-top:15px;">
-  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+  <label>見積日</label>
+  <input id="estimateDate" type="date">
+
+  <label>見積提出日</label>
+  <input id="estimateSubmitDate" type="date">
+
+  <label>施工日</label>
+  <input id="workDoneDate" type="date">
+
+  <div style="display:flex; align-items:center; gap:10px; margin-top:8px; margin-bottom:12px;">
     <input
-      id="estimateSubmitted"
+      id="workCompleted"
       type="checkbox"
       style="width:22px; height:22px; margin:0;"
     >
-    <span>見積書 提出済み</span>
+    <span>施工済み</span>
   </div>
 
-  <div style="display:flex; align-items:center; gap:10px;">
-    <input
-      id="invoiceSubmitted"
-      type="checkbox"
-      style="width:22px; height:22px; margin:0;"
-    >
-    <span>請求書 提出済み</span>
-  </div>
+  <label>請求提出日</label>
+  <input id="invoiceSubmitDate" type="date">
 </div>
       <div class="money">
         <div class="money-row">
@@ -942,8 +945,11 @@ function resetForm() {
   document.getElementById("address").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("note").value = "";
-document.getElementById("estimateSubmitted").checked = false;
-document.getElementById("invoiceSubmitted").checked = false;
+document.getElementById("estimateDate").value = "";
+document.getElementById("estimateSubmitDate").value = "";
+document.getElementById("workDoneDate").value = "";
+document.getElementById("workCompleted").checked = false;
+document.getElementById("invoiceSubmitDate").value = "";
   const workItems =
     document.getElementById("workItems");
 
@@ -1199,12 +1205,20 @@ const subject =
   document.getElementById("subject").value.trim();
     const workDate =
       document.getElementById("workDate").value;
-const estimateSubmitted =
-  document.getElementById("estimateSubmitted").checked;
+const estimateDate =
+  document.getElementById("estimateDate").value;
 
-const invoiceSubmitted =
-  document.getElementById("invoiceSubmitted").checked;
-    const workItems = [];
+const estimateSubmitDate =
+  document.getElementById("estimateSubmitDate").value;
+
+const workDoneDate =
+  document.getElementById("workDoneDate").value;
+
+const workCompleted =
+  document.getElementById("workCompleted").checked;
+
+const invoiceSubmitDate =
+  document.getElementById("invoiceSubmitDate").value;
 
     document.querySelectorAll(".work-item").forEach(item => {
 
@@ -1261,8 +1275,11 @@ subject,
       workDate,
       workName,
       workItems,
-estimateSubmitted,
-invoiceSubmitted,
+estimateDate,
+estimateSubmitDate,
+workDoneDate,
+workCompleted,
+invoiceSubmitDate,
       subtotal: money.subtotal,
       tax: money.tax,
       total: money.total,
@@ -1423,19 +1440,43 @@ function renderCalendar() {
     const dateString =
       `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-    const jobsForDay =
-      calendarJobs.filter(job =>
-        job.workDate === dateString
-      );
-
+    const jobsForDay = calendarJobs.filter(job =>
+  job.workDate === dateString ||
+  job.estimateDate === dateString ||
+  job.estimateSubmitDate === dateString ||
+  job.workDoneDate === dateString ||
+  job.invoiceSubmitDate === dateString
+);
 
     jobsForDay.forEach(job => {
 
       const jobDiv =
-        document.createElement("div");
+  document.createElement("div");
 
-      jobDiv.textContent =
-        job.customerName + "様";
+const eventTypes = [];
+
+if (job.workDate === dateString) {
+  eventTypes.push("予定");
+}
+
+if (job.estimateDate === dateString) {
+  eventTypes.push("見積");
+}
+
+if (job.estimateSubmitDate === dateString) {
+  eventTypes.push("見積提出");
+}
+
+if (job.workDoneDate === dateString) {
+  eventTypes.push("施工");
+}
+
+if (job.invoiceSubmitDate === dateString) {
+  eventTypes.push("請求提出");
+}
+
+jobDiv.textContent =
+  job.customerName + "様 " + eventTypes.join("・");
 
       jobDiv.style.marginTop = "4px";
       jobDiv.style.padding = "3px";
@@ -1497,18 +1538,34 @@ price.style.marginTop = "8px";
 price.style.fontWeight = "bold";
 card.appendChild(price);
 
-if (job.estimateSubmitted === true) {
-  const estimateStatus = document.createElement("div");
-  estimateStatus.textContent = "見積書　提出済み ✓";
-  estimateStatus.style.marginTop = "8px";
-  card.appendChild(estimateStatus);
+if (job.estimateDate) {
+  const row = document.createElement("div");
+  row.textContent = "見積日：" + job.estimateDate;
+  row.style.marginTop = "8px";
+  card.appendChild(row);
 }
 
-if (job.invoiceSubmitted === true) {
-  const invoiceStatus = document.createElement("div");
-  invoiceStatus.textContent = "請求書　提出済み ✓";
-  invoiceStatus.style.marginTop = "4px";
-  card.appendChild(invoiceStatus);
+if (job.estimateSubmitDate) {
+  const row = document.createElement("div");
+  row.textContent = "見積提出日：" + job.estimateSubmitDate;
+  row.style.marginTop = "4px";
+  card.appendChild(row);
+}
+
+if (job.workDoneDate) {
+  const row = document.createElement("div");
+  row.textContent =
+    "施工日：" + job.workDoneDate +
+    (job.workCompleted === true ? "　施工済み ✓" : "");
+  row.style.marginTop = "4px";
+  card.appendChild(row);
+}
+
+if (job.invoiceSubmitDate) {
+  const row = document.createElement("div");
+  row.textContent = "請求提出日：" + job.invoiceSubmitDate;
+  row.style.marginTop = "4px";
+  card.appendChild(row);
 }
     detailArea.appendChild(card);
   });
@@ -1677,12 +1734,22 @@ document.getElementById("subject").value =
       job.phone || "";
 
     document.getElementById("note").value =
-      job.note || "";
-document.getElementById("estimateSubmitted").checked =
-  job.estimateSubmitted === true;
+  job.note || "";
 
-document.getElementById("invoiceSubmitted").checked =
-  job.invoiceSubmitted === true;
+document.getElementById("estimateDate").value =
+  job.estimateDate || "";
+
+document.getElementById("estimateSubmitDate").value =
+  job.estimateSubmitDate || "";
+
+document.getElementById("workDoneDate").value =
+  job.workDoneDate || "";
+
+document.getElementById("workCompleted").checked =
+  job.workCompleted === true;
+
+document.getElementById("invoiceSubmitDate").value =
+  job.invoiceSubmitDate || "";
     const workItems =
       document.getElementById("workItems");
 
