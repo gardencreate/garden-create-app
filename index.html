@@ -1471,7 +1471,17 @@ cell.addEventListener("click", () => {
     card.style.marginTop = "10px";
     card.style.border = "1px solid #ddd";
     card.style.borderRadius = "8px";
+card.style.cursor = "pointer";
 
+card.addEventListener("click", () => {
+  const editButton = document.querySelector(
+    `.job[data-job-id="${job.id}"] .editButton`
+  );
+
+  if (editButton) {
+    editButton.click();
+  }
+});
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
 
@@ -1605,7 +1615,7 @@ renderCalendar();
 
       div.className =
         "job";
-
+div.dataset.jobId = job.id;
       div.innerHTML = `
         <div class="job-name">
           ${escapeHtml(job.customerName)}
