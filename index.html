@@ -1836,46 +1836,88 @@ jobs = jobs.filter(job =>
       div.className =
         "job";
 div.dataset.jobId = job.id;
-      div.innerHTML = `
-        <div class="job-name">
-          ${escapeHtml(job.customerName)}
-        </div>
+    const steps = [
+  { label: "見積書作成", done: !!job.estimateDate },
+  { label: "見積書提出", done: !!job.estimateSubmitDate },
+  { label: "施工", done: !!job.workDoneDate },
+  { label: "請求書提出", done: !!job.invoiceSubmitDate }
+];
 
-        <div class="job-date">
-  ${escapeHtml(job.workDate || "未定")}
-  /
-  ${escapeHtml(job.workName)}
-</div>
+const currentIndex = steps.findIndex(step => !step.done);
 
-        <div class="job-price">
-          ${yen(job.total)}
-        </div>
-<div style="margin-top:12px; line-height:1.8; font-size:14px;">
-  <div>見積　　　　${job.estimateDate ? "✓ " + job.estimateDate : "－"}</div>
-  <div>見積書提出　${job.estimateSubmitDate ? "✓ " + job.estimateSubmitDate : "－"}</div>
-  <div>施工　　　　${job.workDoneDate ? "✓ " + job.workDoneDate : "－"}</div>
-  <div>請求書提出　${job.invoiceSubmitDate ? "✓ " + job.invoiceSubmitDate : "－"}</div>
-</div>
-        <div class="job-buttons">
+const stepHtml = steps.map((step, index) => {
+  if (step.done) {
+    return `
+      <div style="color:#aaa; font-size:14px; margin:6px 0;">
+        ✓ ${step.label}
+      </div>
+    `;
+  }
 
-  <button
-    class="secondary estimateButton">
-    見積書を見る
-  </button>
+  if (index === currentIndex) {
+    return `
+      <div style="
+        color:#222;
+        font-size:20px;
+        font-weight:700;
+        margin:8px 0;
+      ">
+        ○ ${step.label}
+      </div>
+    `;
+  }
 
-  <button
-    class="secondary editButton">
-    編集
-  </button>
+  return `
+    <div style="color:#bbb; font-size:14px; margin:6px 0;">
+      ○ ${step.label}
+    </div>
+  `;
+}).join("");
 
-  <button
-    class="danger deleteButton">
-    削除
-  </button>
+div.innerHTML = `
+  <div style="
+    display:grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap:16px;
+    align-items:center;
+  ">
 
-</div>
-      `;
+    <div>
+      <div class="job-name">
+        ${escapeHtml(job.customerName)}
+      </div>
 
+      <div class="job-date">
+        ${escapeHtml(job.workDate || "未定")}
+        /
+        ${escapeHtml(job.workName)}
+      </div>
+
+      <div class="job-price">
+        ${yen(job.total)}
+      </div>
+    </div>
+
+    <div>
+      ${stepHtml}
+    </div>
+
+  </div>
+
+  <div class="job-buttons" style="display:none;">
+    <button class="secondary estimateButton">
+      見積書を見る
+    </button>
+
+    <button class="secondary editButton">
+      編集
+    </button>
+
+    <button class="danger deleteButton">
+      削除
+    </button>
+  </div>
+`;
 
       div.querySelector(".estimateButton")
         .addEventListener("click", () => {
