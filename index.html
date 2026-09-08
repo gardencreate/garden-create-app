@@ -521,7 +521,43 @@
   gap: 25px !important;
 }
 }
-</style>
+
+  .bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #ffffff;
+  border-top: 1px solid #ddd;
+  padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+}
+
+.bottom-nav button {
+  background: transparent;
+  padding: 8px 2px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #555;
+}
+
+.bottom-nav button.active {
+  background: #eef4ff;
+  color: #1677ff;
+}
+
+.bottom-nav .nav-icon {
+  display: block;
+  font-size: 21px;
+  margin-bottom: 2px;
+}
+
+#appArea {
+  padding-bottom: 90px;
+}
+    </style>
 </head>
 
 <body>
@@ -558,7 +594,7 @@
 
   <!-- アプリ本体 -->
   <section id="appArea">
-
+<div id="newPage" class="app-page">
     <div class="card">
       <h2>新しい予定・見積</h2>
 
@@ -655,7 +691,8 @@
 
       <div id="saveMessage" class="message"></div>
     </div>
-
+</div>
+    <div id="calendarPage" class="app-page">
 <div class="card">
 
   <div style="
@@ -687,17 +724,47 @@
   </div>
 
   <div id="calendar"></div>
-
 </div>
+</div>
+    <div id="todoPage" class="app-page">
     <div class="card">
-      <h2>予定・見積一覧</h2>
+      <h2>やること</h2>
       <div id="jobsList">
         読み込み中...
+      </div>
       </div>
     </div>
 
   </section>
+  <section id="jobsPage" class="app-page" style="display:none;">
+  <div class="card">
+    <h2>案件一覧</h2>
+    <div id="allJobsList">
+      読み込み中...
+    </div>
+  </div>
+</section>
+<nav class="bottom-nav">
+  <button type="button" id="navCalendar" class="active">
+    <span class="nav-icon">📅</span>
+    カレンダー
+  </button>
 
+  <button type="button" id="navNew">
+    <span class="nav-icon">＋</span>
+    新規登録
+  </button>
+
+  <button type="button" id="navTodo">
+    <span class="nav-icon">✓</span>
+    やること
+  </button>
+
+  <button type="button" id="navJobs">
+    <span class="nav-icon">☰</span>
+    案件一覧
+  </button>
+</nav>
 
   <!-- 見積書 -->
   <section id="estimateArea">
@@ -996,6 +1063,46 @@ document.getElementById("invoiceSubmitDate").value = "";
   calculate();
 
 }
+ const pages = {
+  calendar: document.getElementById("calendarPage"),
+  new: document.getElementById("newPage"),
+  todo: document.getElementById("todoPage"),
+  jobs: document.getElementById("jobsPage")
+};
+
+const navButtons = {
+  calendar: document.getElementById("navCalendar"),
+  new: document.getElementById("navNew"),
+  todo: document.getElementById("navTodo"),
+  jobs: document.getElementById("navJobs")
+};
+
+function showPage(pageName) {
+  Object.values(pages).forEach(page => {
+    if (page) page.style.display = "none";
+  });
+
+  Object.values(navButtons).forEach(button => {
+    if (button) button.classList.remove("active");
+  });
+
+  if (pageName === "jobs") {
+    if (pages.todo) pages.todo.style.display = "block";
+  } else if (pages[pageName]) {
+    pages[pageName].style.display = "block";
+  }
+
+  if (navButtons[pageName]) {
+    navButtons[pageName].classList.add("active");
+  }
+}
+
+navButtons.calendar.addEventListener("click", () => showPage("calendar"));
+navButtons.new.addEventListener("click", () => showPage("new"));
+navButtons.todo.addEventListener("click", () => showPage("todo"));
+navButtons.jobs.addEventListener("click", () => showPage("jobs"));
+
+showPage("calendar");
   function calculate() {
 
   let subtotal = 0;
@@ -1670,9 +1777,45 @@ renderCalendar();
 
     const list =
       document.getElementById("jobsList");
+const allList =
+  document.getElementById("allJobsList");
 
+if (allList) {
+  allList.innerHTML = "";
+}
     list.innerHTML = "";
+    if (allList) {
+  jobs.forEach(job => {
+    const item = document.createElement("div");
+    item.className = "job";
+    item.innerHTML = `
+      <div class="job-name">
+        ${escapeHtml(job.customerName || "お客様名未入力")}
+      </div>
 
+      <div class="job-date">
+        ${escapeHtml(job.workDate || "未定")}
+        ${job.subject ? " / " + escapeHtml(job.subject) : ""}
+      </div>
+
+      <div class="job-price">
+        ${yen(job.total)}
+      </div>
+    `;
+
+    item.addEventListener("click", () => {
+      editingJobId = job.id;
+      showEstimate(job);
+    });
+
+    allList.appendChild(item);
+  });
+}
+jobs = jobs.filter(job =>
+  !job.estimateSubmitDate ||
+  !job.workDoneDate ||
+  !job.invoiceSubmitDate
+);
     if (jobs.length === 0) {
 
       list.textContent =
