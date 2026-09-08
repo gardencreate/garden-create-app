@@ -1086,11 +1086,9 @@ function showPage(pageName) {
     if (button) button.classList.remove("active");
   });
 
-  if (pageName === "jobs") {
-    if (pages.todo) pages.todo.style.display = "block";
-  } else if (pages[pageName]) {
-    pages[pageName].style.display = "block";
-  }
+  if (pages[pageName]) {
+  pages[pageName].style.display = "block";
+}
 
   if (navButtons[pageName]) {
     navButtons[pageName].classList.add("active");
