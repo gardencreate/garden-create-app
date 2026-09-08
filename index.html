@@ -557,6 +557,53 @@
 #appArea {
   padding-bottom: 90px;
 }
+    .todo-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#todoCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 14px;
+  background: #ff3b4f;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.todo-filters {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.todo-filter {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 2px;
+  background: #f0f0f2;
+  color: #222;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.todo-filter.active {
+  background: #1677ff;
+  color: white;
+}
+
+.todo-filter span {
+  margin-left: 3px;
+}
     </style>
 </head>
 
@@ -728,7 +775,30 @@
 </div>
     <div id="todoPage" class="app-page">
     <div class="card">
-      <h2>やること</h2>
+      <div class="todo-header">
+  <h2>
+    やること
+    <span id="todoCount">0</span>
+  </h2>
+
+  <div class="todo-filters">
+    <button class="todo-filter active" data-filter="all">
+      すべて <span id="countAll">0</span>
+    </button>
+    <button class="todo-filter" data-filter="estimate">
+      見積 <span id="countEstimate">0</span>
+    </button>
+    <button class="todo-filter" data-filter="work">
+      施工 <span id="countWork">0</span>
+    </button>
+    <button class="todo-filter" data-filter="invoice">
+      請求 <span id="countInvoice">0</span>
+    </button>
+    <button class="todo-filter" data-filter="other">
+      その他 <span id="countOther">0</span>
+    </button>
+  </div>
+</div>
       <div id="jobsList">
         読み込み中...
       </div>
@@ -1755,8 +1825,43 @@ document.getElementById("nextMonthBtn")
           });
 
         });
+const todoJobs = jobs.filter(job =>
+  !job.estimateDate ||
+  !job.estimateSubmitDate ||
+  !job.workDoneDate ||
+  !job.invoiceSubmitDate
+);
 
+const todoCount = todoJobs.length;
 
+document.getElementById("todoCount").textContent = todoCount;
+document.getElementById("countAll").textContent = todoCount;
+const countEstimate = todoJobs.filter(job =>
+  !job.estimateDate ||
+  !job.estimateSubmitDate
+).length;
+
+const countWork = todoJobs.filter(job =>
+  job.estimateSubmitDate &&
+  !job.workDoneDate
+).length;
+
+const countInvoice = todoJobs.filter(job =>
+  job.workDoneDate &&
+  !job.invoiceSubmitDate
+).length;
+
+const countOther = todoJobs.filter(job =>
+  !job.estimateDate &&
+  !job.estimateSubmitDate &&
+  !job.workDoneDate &&
+  !job.invoiceSubmitDate
+).length;
+
+document.getElementById("countEstimate").textContent = countEstimate;
+document.getElementById("countWork").textContent = countWork;
+document.getElementById("countInvoice").textContent = countInvoice;
+document.getElementById("countOther").textContent = countOther;
         jobs.sort((a, b) => {
 
           return String(a.workDate)
