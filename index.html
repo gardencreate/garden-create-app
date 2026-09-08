@@ -1848,10 +1848,16 @@ const currentIndex = steps.findIndex(step => !step.done);
 const stepHtml = steps.map((step, index) => {
   if (step.done) {
     return `
-      <div style="color:#aaa; font-size:14px; margin:6px 0;">
-        ✓ ${step.label}
-      </div>
-    `;
+    return `
+  <div style="
+    color:#222;
+    font-size:14px;
+    font-weight:500;
+    margin:6px 0;
+  ">
+    ○ ${step.label}
+  </div>
+`;
   }
 
   if (index === currentIndex) {
