@@ -1860,23 +1860,28 @@ const stepHtml = steps.map((step, index) => {
   }
 
   if (index === currentIndex) {
-    return `
-      <div style="
-        color:#222;
-        font-size:20px;
-        font-weight:700;
-        margin:8px 0;
-      ">
-        ○ ${step.label}
-      </div>
-    `;
+      return `
+  <div style="
+    color:#222;
+    font-size:16px;
+    font-weight:700;
+    margin:6px 0;
+  ">
+    ○ ${step.label}
+  </div>
+`;
   }
 
   return `
-    <div style="color:#bbb; font-size:14px; margin:6px 0;">
-      ○ ${step.label}
-    </div>
-  `;
+  <div style="
+    color:#222;
+    font-size:16px;
+    font-weight:500;
+    margin:6px 0;
+  ">
+    ○ ${step.label}
+  </div>
+`;
 }).join("");
 
 div.innerHTML = `
