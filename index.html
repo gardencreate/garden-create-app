@@ -1351,10 +1351,9 @@ document.getElementById("workItems")
   onAuthStateChanged(auth, user => {
 
     if (user) {
-document.getElementById("bottomNav").style.display = "grid";
-      document.getElementById("estimateButtons").style.display = "flex";
-      loginArea.style.display =
-        "none";
+const bottomNav = document.getElementById("bottomNav");
+      if (bottomNav) bottomNav.style.display = "grid";
+        loginArea.style.display = "none";
 
       appArea.style.display =
         "block";
