@@ -1855,7 +1855,7 @@ document.getElementById("countEstimate").textContent = countEstimate;
 document.getElementById("countWork").textContent = countWork;
 document.getElementById("countInvoice").textContent = countInvoice;
 document.getElementById("countOther").textContent = countOther;
-
+jobs.sort((a, b) => {
           return String(a.workDate)
             .localeCompare(String(b.workDate));
 
