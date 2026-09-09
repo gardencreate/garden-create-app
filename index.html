@@ -710,7 +710,8 @@
   <label>施工日</label>
   <input id="workDoneDate" type="date">
 
-
+<label>請求書作成日</label>
+<input id="invoiceDate" type="date">
 
   <label>請求提出日</label>
   <input id="invoiceSubmitDate" type="date">
@@ -1399,7 +1400,8 @@ const estimateSubmitDate =
 const workDoneDate =
   document.getElementById("workDoneDate").value;
 
-
+const invoiceCreateDate =
+  document.getElementById("invoiceDate").value;
 const invoiceSubmitDate =
   document.getElementById("invoiceSubmitDate").value;
 const workItems = [];
@@ -1461,6 +1463,7 @@ subject,
 estimateDate,
 estimateSubmitDate,
 workDoneDate,
+invoiceCreateDate,
 invoiceSubmitDate,
       subtotal: money.subtotal,
       tax: money.tax,
@@ -1826,8 +1829,10 @@ document.getElementById("nextMonthBtn")
 
         });
 const todoJobs = jobs.filter(job =>
+  !job.estimateDate ||
   !job.estimateSubmitDate ||
   !job.workDoneDate ||
+  !job.invoiceCreateDate ||
   !job.invoiceSubmitDate
 );
 
@@ -1836,6 +1841,7 @@ const todoCount = todoJobs.length;
 document.getElementById("todoCount").textContent = todoCount;
 document.getElementById("countAll").textContent = todoCount;
 const countEstimate = todoJobs.filter(job =>
+  !job.estimateDate ||
   !job.estimateSubmitDate
 ).length;
 
@@ -1925,12 +1931,15 @@ if (allList) {
   });
 }
 jobs = jobs.filter(job =>
+  !job.estimateDate ||
   !job.estimateSubmitDate ||
   !job.workDoneDate ||
+  !job.invoiceCreateDate ||
   !job.invoiceSubmitDate
 );
     if (activeTodoFilter === "estimate") {
   jobs = jobs.filter(job =>
+    !job.estimateDate ||
     !job.estimateSubmitDate
   );
 }
@@ -1945,10 +1954,9 @@ if (activeTodoFilter === "work") {
 if (activeTodoFilter === "invoice") {
   jobs = jobs.filter(job =>
     job.workDoneDate &&
-    !job.invoiceSubmitDate
+    (!job.invoiceCreateDate || !job.invoiceSubmitDate)
   );
 }
-
 if (activeTodoFilter === "other") {
   jobs = [];
 }
@@ -1974,6 +1982,7 @@ div.dataset.jobId = job.id;
   { label: "見積書作成", done: !!job.estimateDate },
   { label: "見積書提出", done: !!job.estimateSubmitDate },
   { label: "施工", done: !!job.workDoneDate },
+      { label: "請求書作成", done: !!job.invoiceCreateDate },
   { label: "請求書提出", done: !!job.invoiceSubmitDate }
 ];
 
@@ -2082,7 +2091,8 @@ document.getElementById("estimateSubmitDate").value =
 
 document.getElementById("workDoneDate").value =
   job.workDoneDate || "";
-
+document.getElementById("invoiceDate").value =
+  job.invoiceCreateDate || "";
 
 document.getElementById("invoiceSubmitDate").value =
   job.invoiceSubmitDate || "";
