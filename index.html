@@ -1364,10 +1364,9 @@ const bottomNav = document.getElementById("bottomNav");
       listenJobs();
 
     } else {
-document.getElementById("bottomNav").style.display = "none";
-      document.getElementById("estimateButtons").style.display = "none";
-      loginArea.style.display =
-        "block";
+const bottomNav = document.getElementById("bottomNav");
+      if (bottomNav) bottomNav.style.display = "none";
+        "none";
 
       appArea.style.display =
         "none";
