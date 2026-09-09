@@ -1846,12 +1846,11 @@ const countEstimate = todoJobs.filter(job =>
 ).length;
 
 const countWork = todoJobs.filter(job =>
-  job.estimateSubmitDate &&
   !job.workDoneDate
 ).length;
 
 const countInvoice = todoJobs.filter(job =>
-  job.workDoneDate &&
+  !job.invoiceCreateDate ||
   !job.invoiceSubmitDate
 ).length;
 
@@ -1946,15 +1945,14 @@ jobs = jobs.filter(job =>
 
 if (activeTodoFilter === "work") {
   jobs = jobs.filter(job =>
-    job.estimateSubmitDate &&
     !job.workDoneDate
   );
 }
 
 if (activeTodoFilter === "invoice") {
   jobs = jobs.filter(job =>
-    job.workDoneDate &&
-    (!job.invoiceCreateDate || !job.invoiceSubmitDate)
+    !job.invoiceCreateDate ||
+    !job.invoiceSubmitDate
   );
 }
 if (activeTodoFilter === "other") {
