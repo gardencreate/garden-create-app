@@ -819,7 +819,7 @@
 <nav class="bottom-nav">
   </section>
   
-<nav class="bottom-nav">
+<nav class="bottom-nav" id="bottomNav" style="display:none;">
   <button type="button" id="navCalendar" class="active">
     <span class="nav-icon">📅</span>
     カレンダー
@@ -842,7 +842,7 @@
 </nav>
 
   <!-- 見積書 -->
-  <section id="estimateArea">
+  <section id="estimateArea" style="display:none;">
 
 <div class="card estimate-paper">
 
@@ -1351,7 +1351,7 @@ document.getElementById("workItems")
   onAuthStateChanged(auth, user => {
 
     if (user) {
-
+document.getElementById("bottomNav").style.display = "grid";
       loginArea.style.display =
         "none";
 
@@ -1364,7 +1364,7 @@ document.getElementById("workItems")
       listenJobs();
 
     } else {
-
+document.getElementById("bottomNav").style.display = "none";
       loginArea.style.display =
         "block";
 
