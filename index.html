@@ -1826,7 +1826,6 @@ document.getElementById("nextMonthBtn")
 
         });
 const todoJobs = jobs.filter(job =>
-  !job.estimateDate ||
   !job.estimateSubmitDate ||
   !job.workDoneDate ||
   !job.invoiceSubmitDate
@@ -1837,7 +1836,6 @@ const todoCount = todoJobs.length;
 document.getElementById("todoCount").textContent = todoCount;
 document.getElementById("countAll").textContent = todoCount;
 const countEstimate = todoJobs.filter(job =>
-  !job.estimateDate ||
   !job.estimateSubmitDate
 ).length;
 
@@ -1851,18 +1849,12 @@ const countInvoice = todoJobs.filter(job =>
   !job.invoiceSubmitDate
 ).length;
 
-const countOther = todoJobs.filter(job =>
-  !job.estimateDate &&
-  !job.estimateSubmitDate &&
-  !job.workDoneDate &&
-  !job.invoiceSubmitDate
-).length;
+const countOther = 0;
 
 document.getElementById("countEstimate").textContent = countEstimate;
 document.getElementById("countWork").textContent = countWork;
 document.getElementById("countInvoice").textContent = countInvoice;
 document.getElementById("countOther").textContent = countOther;
-        jobs.sort((a, b) => {
 
           return String(a.workDate)
             .localeCompare(String(b.workDate));
