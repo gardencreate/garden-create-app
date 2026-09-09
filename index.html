@@ -736,7 +736,9 @@
       <button id="saveBtn" class="primary">
         予定を登録して見積を作る
       </button>
-
+<button id="viewEstimateBtn" class="secondary" type="button" style="display:none; margin-top:10px;">
+  見積書を見る
+</button>
       <div id="saveMessage" class="message"></div>
     </div>
 </div>
@@ -1922,6 +1924,11 @@ if (allList) {
 
     item.addEventListener("click", () => {
       editingJobId = job.id;
+      document.getElementById("viewEstimateBtn").style.display = "block";
+      document.getElementById("viewEstimateBtn").onclick = () => {
+  document.getElementById("estimateButtons").style.display = "flex";
+  showEstimate(job);
+};
     document.querySelector(`.job[data-job-id="${job.id}"] .editButton`)?.click();
     });
 
