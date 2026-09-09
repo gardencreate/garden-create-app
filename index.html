@@ -1870,7 +1870,21 @@ renderCalendar();
     );
 
   }
+let activeTodoFilter = "all";
 
+document.querySelectorAll(".todo-filter").forEach(button => {
+  button.addEventListener("click", () => {
+    activeTodoFilter = button.dataset.filter;
+
+    document.querySelectorAll(".todo-filter").forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    renderJobs([...calendarJobs]);
+  });
+});
 
   function renderJobs(jobs) {
 
@@ -1915,6 +1929,29 @@ jobs = jobs.filter(job =>
   !job.workDoneDate ||
   !job.invoiceSubmitDate
 );
+    if (activeTodoFilter === "estimate") {
+  jobs = jobs.filter(job =>
+    !job.estimateSubmitDate
+  );
+}
+
+if (activeTodoFilter === "work") {
+  jobs = jobs.filter(job =>
+    job.estimateSubmitDate &&
+    !job.workDoneDate
+  );
+}
+
+if (activeTodoFilter === "invoice") {
+  jobs = jobs.filter(job =>
+    job.workDoneDate &&
+    !job.invoiceSubmitDate
+  );
+}
+
+if (activeTodoFilter === "other") {
+  jobs = [];
+}
     if (jobs.length === 0) {
 
       list.textContent =
