@@ -990,7 +990,7 @@
 </div>
     </div>
 
-    <div class="estimate-buttons">
+    <div class="estimate-buttons" id="estimateButtons">
       <button id="backBtn" class="secondary">
         戻る
       </button>
@@ -1352,6 +1352,7 @@ document.getElementById("workItems")
 
     if (user) {
 document.getElementById("bottomNav").style.display = "grid";
+      document.getElementById("estimateButtons").style.display = "flex";
       loginArea.style.display =
         "none";
 
@@ -1365,6 +1366,7 @@ document.getElementById("bottomNav").style.display = "grid";
 
     } else {
 document.getElementById("bottomNav").style.display = "none";
+      document.getElementById("estimateButtons").style.display = "none";
       loginArea.style.display =
         "block";
 
