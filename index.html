@@ -1922,7 +1922,7 @@ if (allList) {
 
     item.addEventListener("click", () => {
       editingJobId = job.id;
-      showEstimate(job);
+    document.querySelector(`.job[data-job-id="${job.id}"] .editButton`)?.click();
     });
 
     allList.appendChild(item);
