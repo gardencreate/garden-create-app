@@ -2396,7 +2396,7 @@ document.getElementById("bottomNav").style.display = "";
       <html lang="ja">
       <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=794">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>御見積書</title>
 
         <style>
@@ -2419,7 +2419,18 @@ document.getElementById("bottomNav").style.display = "";
       "Helvetica Neue", sans-serif;
       overflow: hidden !important;
   }
+@media screen {
+  body {
+    padding: 20px 0;
+  }
 
+  .estimate-paper {
+    width: 794px !important;
+    transform: scale(0.46);
+    transform-origin: top left;
+    margin-left: calc(50vw - 182.5px) !important;
+  }
+}
   .estimate-paper {
     width: 100%;
 height: auto;
