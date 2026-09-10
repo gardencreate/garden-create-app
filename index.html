@@ -2419,16 +2419,19 @@ document.getElementById("bottomNav").style.display = "";
       "Helvetica Neue", sans-serif;
       overflow: hidden !important;
   }
-@media screen {
+  @media screen {
   body {
-    padding: 20px 0;
+    background: #f7f7f5;
+    overflow: auto !important;
   }
 
   .estimate-paper {
     width: 794px !important;
     transform: scale(0.46);
-    transform-origin: top left;
-    margin-left: calc(50vw - 182.5px) !important;
+    transform-origin: top center;
+    position: relative;
+    left: 50%;
+    margin-left: -397px !important;
   }
 }
   .estimate-paper {
