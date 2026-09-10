@@ -2349,6 +2349,7 @@ document.getElementById("estimateTotalBottom").textContent =
   "none";
 
 estimateArea.style.setProperty("display", "block", "important");
+    document.getElementById("estimateButtons").style.display = "flex";
 document.getElementById("bottomNav").style.display = "none";
     window.scrollTo(0,0);
 
@@ -2363,7 +2364,7 @@ document.getElementById("bottomNav").style.display = "none";
 
       appArea.style.display =
         "block";
-
+document.getElementById("bottomNav").style.display = "";
       window.scrollTo(0,0);
 
     });
