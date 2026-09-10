@@ -2382,12 +2382,77 @@ document.getElementById("bottomNav").style.display = "";
 
     });
 
-
-  document.getElementById("printBtn")
+document.getElementById("printBtn")
   .addEventListener("click", () => {
-    window.print();
-  });
 
+    const printWindow = window.open("", "_blank");
+
+    if (!printWindow) {
+      alert("印刷画面を開けませんでした");
+      return;
+    }
+
+    const printContent =
+      document.querySelector(".estimate-paper").outerHTML;
+
+    const styles = Array.from(document.querySelectorAll("style"))
+      .map(style => style.innerHTML)
+      .join("\n");
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="ja">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+          content="width=794, initial-scale=0.46, maximum-scale=0.46">
+
+        <title>御見積書</title>
+
+        <style>
+          ${styles}
+
+          @media screen {
+            body {
+              margin: 0;
+              background: #f7f7f5;
+              overflow-x: hidden;
+            }
+
+            .estimate-paper {
+              width: 794px !important;
+              transform: none !important;
+              margin: 0 auto !important;
+            }
+          }
+
+          @media print {
+            .estimate-paper {
+              transform: none !important;
+              width: 794px !important;
+              margin: 0 !important;
+            }
+          }
+        </style>
+      </head>
+
+      <body>
+        ${printContent}
+
+        <script>
+          window.onload = function() {
+            setTimeout(function() {
+              window.print();
+            }, 500);
+          };
+        <\/script>
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  });
+  
 
   calculate();
 
