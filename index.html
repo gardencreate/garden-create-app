@@ -2220,14 +2220,17 @@ document.getElementById("invoiceSubmitDate").value =
 
     workItems.innerHTML = "";
 
-    const items =
-      job.workItems || [
-        {
-          workName: job.workName,
-          quantity: job.quantity || 1,
-          unitPrice: job.unitPrice || job.subtotal
-        }
-      ];
+    const items = Array.isArray(job.workItems)
+  ? job.workItems
+  : [
+      {
+        workName: job.workName || "",
+        spec: job.spec || "",
+        quantity: job.quantity || 1,
+        unit: job.unit || "式",
+        unitPrice: job.unitPrice || job.subtotal || 0
+      }
+    ];
 
     items.forEach((item, index) => {
 
