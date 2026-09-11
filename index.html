@@ -1701,6 +1701,7 @@ cell.style.cursor = "pointer";
 
 cell.addEventListener("click", () => {
   detailArea.innerHTML = "";
+  modalBackdrop.style.display = "block";
 detailArea.style.display = "block";
   const title = document.createElement("h3");
   title.textContent = `${month + 1}月${day}日の予定`;
@@ -1718,6 +1719,7 @@ closeBtn.style.cursor = "pointer";
 closeBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   detailArea.style.display = "none";
+  modalBackdrop.style.display = "none";
 });
 
 detailArea.appendChild(closeBtn);
@@ -1805,6 +1807,18 @@ statusItems.forEach(item => {
 
 
   calendar.appendChild(grid);
+  const modalBackdrop = document.createElement("div");
+
+modalBackdrop.style.position = "fixed";
+modalBackdrop.style.top = "0";
+modalBackdrop.style.left = "0";
+modalBackdrop.style.width = "100%";
+modalBackdrop.style.height = "100%";
+modalBackdrop.style.background = "rgba(0,0,0,0.25)";
+modalBackdrop.style.zIndex = "999";
+modalBackdrop.style.display = "none";
+
+document.body.appendChild(modalBackdrop);
 const detailArea = document.createElement("div");
 
 detailArea.style.position = "fixed";
