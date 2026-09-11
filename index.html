@@ -1782,13 +1782,13 @@ const infoText = document.createElement("div");
 infoText.style.flex = "1";
 
 infoText.appendChild(customer);
-infoText.appendChild(subject);
 const address = document.createElement("div");
 address.textContent = job.address || "";
 address.style.fontSize = "14px";
 address.style.color = "#777";
 address.style.marginTop = "4px";
 infoText.appendChild(address);
+infoText.appendChild(subject);
 const price = document.createElement("div");
 price.textContent = yen(job.total);
 price.style.marginTop = "8px";
