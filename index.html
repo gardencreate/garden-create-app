@@ -2058,12 +2058,28 @@ if (allList) {
     `;
 
     item.addEventListener("click", () => {
-      editingJobId = job.id;
-      document.getElementById("viewEstimateBtn").style.display = "block";
-      document.getElementById("viewEstimateBtn").onclick = () => {
-  document.getElementById("estimateButtons").style.display = "flex";
-  showEstimate(job);
-};
+  editingJobId = job.id;
+
+  document.getElementById("workDate").value = job.workDate || "";
+  document.getElementById("customerName").value = job.customerName || "";
+  document.getElementById("subject").value = job.subject || "";
+  document.getElementById("address").value = job.address || "";
+  document.getElementById("phone").value = job.phone || "";
+  document.getElementById("note").value = job.note || "";
+
+  document.getElementById("estimateDate").value = job.estimateDate || "";
+  document.getElementById("estimateSubmitDate").value = job.estimateSubmitDate || "";
+  document.getElementById("workDoneDate").value = job.workDoneDate || "";
+  document.getElementById("invoiceDate").value = job.invoiceCreateDate || "";
+  document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
+
+  showPage("new");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
     document.querySelector(`.job[data-job-id="${job.id}"] .editButton`)?.click();
     });
 
