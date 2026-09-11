@@ -2331,7 +2331,7 @@ document.getElementById("invoiceSubmitDate").value =
       document.getElementById("workItems");
 
     workItems.innerHTML = "";
-
+alert(JSON.stringify(job.workItems));
     const items = Array.isArray(job.workItems)
   ? job.workItems
   : [
