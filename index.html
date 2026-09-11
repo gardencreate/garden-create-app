@@ -2072,7 +2072,93 @@ if (allList) {
   document.getElementById("workDoneDate").value = job.workDoneDate || "";
   document.getElementById("invoiceDate").value = job.invoiceCreateDate || "";
   document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
+const workItems = document.getElementById("workItems");
 
+workItems.innerHTML = "";
+
+const items = Array.isArray(job.workItems)
+  ? job.workItems
+  : [
+      {
+        workName: job.workName || "",
+        spec: job.spec || "",
+        quantity: job.quantity || 1,
+        unit: job.unit || "式",
+        unitPrice: job.unitPrice || job.subtotal || 0
+      }
+    ];
+
+items.forEach((item, index) => {
+  const div = document.createElement("div");
+
+  div.className = "work-item";
+
+  if (index > 0) {
+    div.style.marginTop = "20px";
+  }
+
+  div.innerHTML = `
+    <input
+      class="workName"
+      type="text"
+      placeholder="例：松剪定"
+      value="${escapeHtml(item.workName || "")}">
+
+    <input
+      class="spec"
+      type="text"
+      placeholder="仕様（任意）"
+      value="${escapeHtml(item.spec || "")}">
+
+    <div class="grid">
+
+      <div>
+        <label>数量</label>
+        <input
+          class="quantity"
+          type="number"
+          value="${item.quantity || 1}"
+          min="1">
+      </div>
+
+      <div>
+        <label>単位</label>
+        <select class="unit">
+          <option value="式" ${item.unit === "式" ? "selected" : ""}>式</option>
+          <option value="L" ${item.unit === "L" ? "selected" : ""}>L</option>
+          <option value="人" ${item.unit === "人" ? "selected" : ""}>人</option>
+          <option value="台" ${item.unit === "台" ? "selected" : ""}>台</option>
+        </select>
+      </div>
+
+      <div>
+        <label>単価</label>
+        <input
+          class="unitPrice"
+          type="number"
+          value="${item.unitPrice || 0}">
+      </div>
+
+    </div>
+
+    ${
+      index > 0
+        ? `
+          <button
+            type="button"
+            class="danger removeWorkBtn"
+            style="width:100%; margin-top:8px;">
+            この項目を削除
+          </button>
+        `
+        : ""
+    }
+  `;
+
+  workItems.appendChild(div);
+});
+
+calculate();
   showPage("new");
 
   window.scrollTo({
