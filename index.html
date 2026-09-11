@@ -541,8 +541,6 @@
   right: 0;
   bottom: 0;
   z-index: 100;
-  -webkit-transform: translateZ(0);
-transform: translateZ(0);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   background: #ffffff;
@@ -1398,7 +1396,29 @@ const bottomNav = document.getElementById("bottomNav");
     }
 
   });
+function fixBottomNavPosition() {
+  const bottomNav = document.getElementById("bottomNav");
+  if (!bottomNav || bottomNav.style.display === "none") return;
 
+  if (window.visualViewport) {
+    const gap =
+      window.innerHeight -
+      window.visualViewport.height -
+      window.visualViewport.offsetTop;
+
+    bottomNav.style.bottom = Math.max(0, gap) + "px";
+  } else {
+    bottomNav.style.bottom = "0px";
+  }
+}
+
+window.addEventListener("scroll", fixBottomNavPosition);
+window.addEventListener("resize", fixBottomNavPosition);
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", fixBottomNavPosition);
+  window.visualViewport.addEventListener("scroll", fixBottomNavPosition);
+}
 ;
 document.getElementById("saveBtn")
   .addEventListener("click", async () => {
