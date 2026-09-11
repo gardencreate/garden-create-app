@@ -1732,7 +1732,7 @@ detailArea.appendChild(closeBtn);
 
   jobsForDay.forEach(job => {
     const card = document.createElement("div");
-
+card.style.position = "relative";
     card.style.padding = "12px";
     card.style.marginTop = "10px";
     card.style.border = "1px solid #ddd";
@@ -1762,38 +1762,91 @@ price.textContent = yen(job.total);
 price.style.marginTop = "8px";
 price.style.fontWeight = "bold";
 card.appendChild(price);
+    const arrow = document.createElement("div");
+arrow.textContent = "›";
+arrow.style.position = "absolute";
+arrow.style.right = "16px";
+arrow.style.top = "50%";
+arrow.style.transform = "translateY(-50%)";
+arrow.style.fontSize = "30px";
+arrow.style.color = "#222";
+arrow.style.fontWeight = "400";
+
+card.appendChild(arrow);
 
 const statusItems = [
   {
     label: "見積",
-    date: job.estimateDate
+    date: job.estimateDate,
+    color: "#3b9cff",
+    bg: "#eaf4ff"
   },
   {
     label: "見積書提出",
-    date: job.estimateSubmitDate
+    date: job.estimateSubmitDate,
+    color: "#ffbf2f",
+    bg: "#fff7dc"
   },
   {
     label: "施工",
-    date: job.workDoneDate
+    date: job.workDoneDate,
+    color: "#27c26a",
+    bg: "#e9f9ef"
   },
   {
     label: "請求書提出",
-    date: job.invoiceSubmitDate
+    date: job.invoiceSubmitDate,
+    color: "#ff6666",
+    bg: "#fff0f0"
   }
 ];
 
 statusItems.forEach(item => {
+  if (!item.date) return;
+
   const row = document.createElement("div");
 
+  row.style.display = "flex";
+  row.style.alignItems = "center";
+  row.style.justifyContent = "space-between";
+  row.style.gap = "10px";
+  row.style.padding = "10px 12px";
   row.style.marginTop = "6px";
+  row.style.borderRadius = "10px";
+  row.style.border = "1px solid #e5e5e5";
 
-  if (item.date) {
-    row.textContent =
-      "☑ " + item.label + "　" + item.date;
+  if (item.date === dateString) {
+    row.style.background = item.bg;
   } else {
-    row.textContent =
-      "☐ " + item.label;
+    row.style.background = "#fff";
   }
+
+  const left = document.createElement("div");
+  left.style.display = "flex";
+  left.style.alignItems = "center";
+  left.style.gap = "10px";
+
+  const dot = document.createElement("span");
+  dot.style.width = "12px";
+  dot.style.height = "12px";
+  dot.style.borderRadius = "50%";
+  dot.style.background = item.color;
+  dot.style.flexShrink = "0";
+
+  const label = document.createElement("span");
+  label.textContent = item.label;
+  label.style.fontWeight = "600";
+
+  const date = document.createElement("span");
+  date.textContent = item.date;
+  date.style.color = "#777";
+  date.style.whiteSpace = "nowrap";
+
+  left.appendChild(dot);
+  left.appendChild(label);
+
+  row.appendChild(left);
+  row.appendChild(date);
 
   card.appendChild(row);
 });
