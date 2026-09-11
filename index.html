@@ -1744,7 +1744,7 @@ card.addEventListener("click", () => {
     document.querySelectorAll(".editButton")
   ).find(button => {
     const jobCard = button.closest(".job");
-    return jobCard && jobCard.dataset.jobId === job.id;
+    return jobCard && jobCard.dataset.jobId === String(job.id);
   });
 
   if (editButton) {
