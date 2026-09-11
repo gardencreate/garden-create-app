@@ -1740,6 +1740,7 @@ card.style.position = "relative";
 card.style.cursor = "pointer";
 
 card.addEventListener("click", () => {
+  alert("カード押せた");
   const editButton = Array.from(
     document.querySelectorAll(".editButton")
   ).find(button => {
