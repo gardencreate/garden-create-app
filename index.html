@@ -1701,11 +1701,26 @@ cell.style.cursor = "pointer";
 
 cell.addEventListener("click", () => {
   detailArea.innerHTML = "";
-
+detailArea.style.display = "block";
   const title = document.createElement("h3");
   title.textContent = `${month + 1}月${day}日の予定`;
   detailArea.appendChild(title);
+const closeBtn = document.createElement("button");
+closeBtn.textContent = "×";
+closeBtn.style.position = "absolute";
+closeBtn.style.top = "10px";
+closeBtn.style.right = "12px";
+closeBtn.style.border = "none";
+closeBtn.style.background = "transparent";
+closeBtn.style.fontSize = "28px";
+closeBtn.style.cursor = "pointer";
 
+closeBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  detailArea.style.display = "none";
+});
+
+detailArea.appendChild(closeBtn);
   if (jobsForDay.length === 0) {
     const emptyMessage = document.createElement("p");
     emptyMessage.textContent = "この日の予定はありません";
@@ -1791,10 +1806,23 @@ statusItems.forEach(item => {
 
   calendar.appendChild(grid);
 const detailArea = document.createElement("div");
-detailArea.style.marginTop = "15px";
-detailArea.style.paddingTop = "10px";
 
-calendar.insertBefore(detailArea, grid);
+detailArea.style.position = "fixed";
+detailArea.style.left = "50%";
+detailArea.style.top = "50%";
+detailArea.style.transform = "translate(-50%, -50%)";
+detailArea.style.width = "calc(100% - 40px)";
+detailArea.style.maxWidth = "420px";
+detailArea.style.maxHeight = "70vh";
+detailArea.style.overflowY = "auto";
+detailArea.style.background = "#fff";
+detailArea.style.borderRadius = "16px";
+detailArea.style.boxShadow = "0 8px 30px rgba(0,0,0,0.18)";
+detailArea.style.padding = "20px";
+detailArea.style.zIndex = "1000";
+detailArea.style.display = "none";
+
+document.body.appendChild(detailArea);
 }
 
 
