@@ -1740,12 +1740,18 @@ card.style.position = "relative";
 card.style.cursor = "pointer";
 
 card.addEventListener("click", () => {
-  editingJobId = job.id;
+  const editButton = Array.from(
+    document.querySelectorAll(".editButton")
+  ).find(button => {
+    const jobCard = button.closest(".job");
+    return jobCard && jobCard.dataset.jobId === job.id;
+  });
 
-  detailArea.style.display = "none";
-  modalBackdrop.style.display = "none";
-
-  showEstimate(job);
+  if (editButton) {
+    detailArea.style.display = "none";
+    modalBackdrop.style.display = "none";
+    editButton.click();
+  }
 });
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
