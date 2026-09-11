@@ -1740,7 +1740,6 @@ card.style.position = "relative";
 card.style.cursor = "pointer";
 
 card.addEventListener("click", () => {
-  alert("カード押せた");
   const editButton = Array.from(
     document.querySelectorAll(".editButton")
   ).find(button => {
@@ -2183,15 +2182,7 @@ div.innerHTML = `
     </button>
   </div>
 `;
-
-      div.querySelector(".estimateButton")
-        .addEventListener("click", () => {
-
-          showEstimate(job);
-
-        });
-div.querySelector(".editButton")
-  .addEventListener("click", () => {
+const openEdit = () => {
 
     editingJobId = job.id;
 
@@ -2321,8 +2312,9 @@ showPage("new");
       top: 0,
       behavior: "smooth"
     });
-
-  });
+};
+  div.querySelector(".editButton")
+  .addEventListener("click", openEdit);
 div.querySelector(".deleteButton")
   .addEventListener("click", async () => {
 
