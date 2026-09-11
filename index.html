@@ -1838,6 +1838,8 @@ items.forEach((workItem, index) => {
 });
 
 calculate();
+  document.getElementById("saveBtn").textContent = "変更を保存";
+document.getElementById("saveMessage").textContent = "編集中です";
   showPage("new");
 
   window.scrollTo({
