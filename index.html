@@ -1740,13 +1740,12 @@ card.style.position = "relative";
 card.style.cursor = "pointer";
 
 card.addEventListener("click", () => {
-  const editButton = document.querySelector(
-    `.job[data-job-id="${job.id}"] .editButton`
-  );
+  editingJobId = job.id;
 
-  if (editButton) {
-    editButton.click();
-  }
+  detailArea.style.display = "none";
+  modalBackdrop.style.display = "none";
+
+  showEstimate(job);
 });
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
