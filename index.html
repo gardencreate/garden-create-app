@@ -1755,24 +1755,35 @@ card.addEventListener("click", () => {
     subject.textContent = job.subject || "件名なし";
     subject.style.marginTop = "5px";
 
-    card.appendChild(customer);
-    card.appendChild(subject);
+    const infoRow = document.createElement("div");
+infoRow.style.display = "flex";
+infoRow.style.alignItems = "center";
+infoRow.style.justifyContent = "space-between";
+infoRow.style.gap = "12px";
+
+const infoText = document.createElement("div");
+infoText.style.flex = "1";
+
+infoText.appendChild(customer);
+infoText.appendChild(subject);
+
 const price = document.createElement("div");
 price.textContent = yen(job.total);
 price.style.marginTop = "8px";
 price.style.fontWeight = "bold";
-card.appendChild(price);
-    const arrow = document.createElement("div");
+infoText.appendChild(price);
+
+const arrow = document.createElement("span");
 arrow.textContent = "›";
-arrow.style.position = "absolute";
-arrow.style.right = "16px";
-arrow.style.top = "50%";
-arrow.style.transform = "translateY(-50%)";
 arrow.style.fontSize = "30px";
 arrow.style.color = "#222";
 arrow.style.fontWeight = "400";
+arrow.style.flexShrink = "0";
 
-card.appendChild(arrow);
+infoRow.appendChild(infoText);
+infoRow.appendChild(arrow);
+
+card.appendChild(infoRow);
 
 const statusItems = [
   {
