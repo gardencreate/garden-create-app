@@ -2183,7 +2183,7 @@ div.innerHTML = `
   </div>
 `;
 const openEdit = () => {
-
+alert("1");
     editingJobId = job.id;
 
     document.getElementById("workDate").value =
@@ -2215,6 +2215,7 @@ document.getElementById("invoiceDate").value =
 
 document.getElementById("invoiceSubmitDate").value =
   job.invoiceSubmitDate || "";
+  alert("2");
     const workItems =
       document.getElementById("workItems");
 
@@ -2231,7 +2232,7 @@ document.getElementById("invoiceSubmitDate").value =
         unitPrice: job.unitPrice || job.subtotal || 0
       }
     ];
-
+alert("3");
     items.forEach((item, index) => {
 
       const div =
