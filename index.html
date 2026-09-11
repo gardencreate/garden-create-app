@@ -1740,18 +1740,30 @@ card.style.position = "relative";
 card.style.cursor = "pointer";
 
 card.addEventListener("click", () => {
-  const editButton = Array.from(
-    document.querySelectorAll(".editButton")
-  ).find(button => {
-    const jobCard = button.closest(".job");
-    return jobCard && jobCard.dataset.jobId === String(job.id);
-  });
+  detailArea.style.display = "none";
+  modalBackdrop.style.display = "none";
 
-  if (editButton) {
-    detailArea.style.display = "none";
-    modalBackdrop.style.display = "none";
-    editButton.click();
-  }
+  editingJobId = job.id;
+
+  document.getElementById("workDate").value = job.workDate || "";
+  document.getElementById("customerName").value = job.customerName || "";
+  document.getElementById("subject").value = job.subject || "";
+  document.getElementById("address").value = job.address || "";
+  document.getElementById("phone").value = job.phone || "";
+  document.getElementById("note").value = job.note || "";
+
+  document.getElementById("estimateDate").value = job.estimateDate || "";
+  document.getElementById("estimateSubmitDate").value = job.estimateSubmitDate || "";
+  document.getElementById("workDoneDate").value = job.workDoneDate || "";
+  document.getElementById("invoiceDate").value = job.invoiceCreateDate || "";
+  document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
+
+  showPage("new");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 });
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
@@ -2183,7 +2195,6 @@ div.innerHTML = `
   </div>
 `;
 const openEdit = () => {
-alert("1");
     editingJobId = job.id;
 
     document.getElementById("workDate").value =
@@ -2215,7 +2226,6 @@ document.getElementById("invoiceDate").value =
 
 document.getElementById("invoiceSubmitDate").value =
   job.invoiceSubmitDate || "";
-  alert("2");
     const workItems =
       document.getElementById("workItems");
 
@@ -2232,7 +2242,6 @@ document.getElementById("invoiceSubmitDate").value =
         unitPrice: job.unitPrice || job.subtotal || 0
       }
     ];
-alert("3");
     items.forEach((item, index) => {
 
       const div =
