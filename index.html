@@ -1584,7 +1584,7 @@ function renderCalendar() {
     document.getElementById("calendar");
 
   calendar.innerHTML = "";
-
+calendar.style.width = "100%";
 
   const week =
     document.createElement("div");
@@ -1594,7 +1594,7 @@ function renderCalendar() {
   week.style.textAlign = "center";
   week.style.fontSize = "12px";
   week.style.marginBottom = "5px";
-
+week.style.width = "100%";
   ["日", "月", "火", "水", "木", "金", "土"]
     .forEach(day => {
 
@@ -1617,7 +1617,7 @@ function renderCalendar() {
   grid.style.gridTemplateColumns = "repeat(7, minmax(0, 1fr))";
   grid.style.borderTop = "1px solid #ddd";
   grid.style.borderLeft = "1px solid #ddd";
-
+grid.style.width = "100%";
 
   const firstDay =
     new Date(year, month, 1).getDay();
@@ -1730,7 +1730,6 @@ jobDiv.innerHTML =
 }
       jobDiv.style.borderRadius = "4px";
       jobDiv.style.fontSize = "10px";
-      jobDiv.style.width = "100%";
       jobDiv.style.overflow = "hidden";
       cell.appendChild(jobDiv);
 
