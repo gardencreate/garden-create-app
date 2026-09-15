@@ -1656,7 +1656,22 @@ function renderCalendar() {
 
     number.textContent = day;
     number.style.fontWeight = "bold";
+const today = new Date();
 
+if (
+  year === today.getFullYear() &&
+  month === today.getMonth() &&
+  day === today.getDate()
+) {
+  number.style.background = "#1677ff";
+  number.style.color = "#fff";
+  number.style.width = "26px";
+  number.style.height = "26px";
+  number.style.borderRadius = "50%";
+  number.style.display = "flex";
+  number.style.alignItems = "center";
+  number.style.justifyContent = "center";
+}
     cell.appendChild(number);
 
 
