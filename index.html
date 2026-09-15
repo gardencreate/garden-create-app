@@ -1614,7 +1614,7 @@ function renderCalendar() {
     document.createElement("div");
 
   grid.style.display = "grid";
-  grid.style.gridTemplateColumns = "repeat(7, 1fr)";
+  grid.style.gridTemplateColumns = "repeat(7, minmax(0, 1fr))";
   grid.style.borderTop = "1px solid #ddd";
   grid.style.borderLeft = "1px solid #ddd";
 
@@ -1714,8 +1714,8 @@ if (job.invoiceSubmitDate === dateString) {
 }
 
 jobDiv.innerHTML =
-  jobDiv.textContent =
-  job.customerName + "様 " + eventTypes.join("・");
+  `<span style="white-space:nowrap;">${escapeHtml(job.customerName)}様</span><br>` +
+  `<span style="white-space:nowrap;">${escapeHtml(eventTypes.join("・"))}</span>`;
 
       jobDiv.style.marginTop = "4px";
       jobDiv.style.padding = "3px";
