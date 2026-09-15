@@ -1714,8 +1714,8 @@ if (job.invoiceSubmitDate === dateString) {
 }
 
 jobDiv.innerHTML =
-  `<span style="white-space:nowrap;">${escapeHtml(job.customerName)}様</span><br>` +
-  `<span style="white-space:nowrap;">${escapeHtml(eventTypes.join("・"))}</span>`;
+  jobDiv.textContent =
+  job.customerName + "様 " + eventTypes.join("・");
 
       jobDiv.style.marginTop = "4px";
       jobDiv.style.padding = "3px";
