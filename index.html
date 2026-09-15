@@ -1714,7 +1714,7 @@ if (job.invoiceSubmitDate === dateString) {
 }
 
 jobDiv.innerHTML =
-  `${escapeHtml(job.customerName)}様 ${escapeHtml(eventTypes.join("・"))}`;
+  `${escapeHtml(job.customerName)}様<br>${escapeHtml(eventTypes.join("・"))}`;
       jobDiv.style.marginTop = "4px";
       jobDiv.style.padding = "3px";
       if (eventTypes.includes("施工")) {
