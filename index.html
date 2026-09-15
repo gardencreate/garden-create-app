@@ -2334,11 +2334,11 @@ if (activeTodoFilter === "other") {
         "job";
 div.dataset.jobId = job.id;
     const steps = [
-  { label: "見積書作成", done: !!job.estimateDate },
-  { label: "見積書提出", done: !!job.estimateSubmitDate },
-  { label: "施工", done: !!job.workDoneDate },
-      { label: "請求書作成", done: !!job.invoiceCreateDate },
-  { label: "請求書提出", done: !!job.invoiceSubmitDate }
+  { label: "見積書作成", done: !!job.estimateDate, date: job.estimateDate || "", field: "estimateDate" },
+  { label: "見積書提出", done: !!job.estimateSubmitDate, date: job.estimateSubmitDate || "", field: "estimateSubmitDate" },
+  { label: "施工", done: !!job.workDoneDate, date: job.workDoneDate || "", field: "workDoneDate" },
+  { label: "請求書作成", done: !!job.invoiceDate, date: job.invoiceDate || "", field: "invoiceDate" },
+  { label: "請求書提出", done: !!job.invoiceSubmitDate, date: job.invoiceSubmitDate || "", field: "invoiceSubmitDate" }
 ];
 
 const stepHtml = steps.map((step) => {
@@ -2356,15 +2356,20 @@ const stepHtml = steps.map((step) => {
   }
 
   return `
-    <div style="
+  <div
+    class="todo-step-check"
+    data-job-id="${job.id}"
+    data-field="${step.field}"
+    style="
       color:#222;
       font-size:16px;
       font-weight:700;
       margin:6px 0;
+      cursor:pointer;
     ">
-      ○ ${step.label}
-    </div>
-  `;
+    ○ ${step.label}
+  </div>
+`;
 }).join("");
 div.innerHTML = `
   <div style="
@@ -2391,7 +2396,9 @@ div.innerHTML = `
     </div>
 
     <div>
-      ${stepHtml}
+      <div class="todo-steps">
+  ${stepHtml}
+</div>
     </div>
 
   </div>
@@ -2569,6 +2576,33 @@ div.querySelector(".deleteButton")
     }
 
   });
+      div.querySelectorAll(".todo-steps > div").forEach((stepEl, index) => {
+  stepEl.dataset.stepIndex = index;
+});
+      div.querySelectorAll(".todo-steps > div").forEach((stepEl, index) => {
+  if (steps[index].done) return;
+
+  stepEl.style.cursor = "pointer";
+
+  stepEl.addEventListener("click", async () => {
+    const date = prompt(
+      `${steps[index].label}の日付を入力してください`,
+      new Date().toISOString().slice(0, 10)
+    );
+
+    if (!date) return;
+
+    try {
+      await updateDoc(doc(db, "jobs", job.id), {
+        [steps[index].field]: date,
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error(error);
+      alert("日付を保存できませんでした。");
+    }
+  });
+});
       list.appendChild(div);
 
     });
