@@ -2584,42 +2584,24 @@ div.querySelector(".deleteButton")
 
   stepEl.style.cursor = "pointer";
 
-  stepEl.addEventListener("click", async () => {
-    const input = document.createElement("input");
-input.type = "date";
-input.value = new Date().toISOString().slice(0, 10);
-input.style.marginTop = "8px";
-input.style.fontSize = "16px";
-input.style.padding = "8px";
-input.style.width = "100%";
-input.style.boxSizing = "border-box";
+ stepEl.addEventListener("click", async () => {
+  const date = prompt(
+    `${steps[index].label}の日付を入力してください`,
+    new Date().toISOString().slice(0, 10)
+  );
 
-stepEl.appendChild(input);
-input.focus();
-
-const saveButton = document.createElement("button");
-saveButton.textContent = "保存";
-saveButton.style.marginTop = "6px";
-saveButton.style.padding = "8px 16px";
-saveButton.style.fontSize = "15px";
-
-stepEl.appendChild(saveButton);
-
-saveButton.addEventListener("click", async (e) => {
-  e.stopPropagation();
-
-  const date = input.value;
   if (!date) return;
-    try {
-      await updateDoc(doc(db, "jobs", job.id), {
-        [steps[index].field]: date,
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      console.error(error);
-      alert("日付を保存できませんでした。");
-    }
-  });
+
+  try {
+    await updateDoc(doc(db, "jobs", job.id), {
+      [steps[index].field]: date,
+      updatedAt: serverTimestamp()
+    });
+  } catch (error) {
+    console.error(error);
+    alert("日付を保存できませんでした。");
+  }
+});
 });
       list.appendChild(div);
 
