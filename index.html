@@ -789,6 +789,8 @@
   </div>
 
   <div id="calendar"></div>
+
+<div id="calendarDayDetails"></div>
 </div>
 </div>
     <div id="todoPage" class="app-page">
@@ -1758,11 +1760,25 @@ closeBtn.addEventListener("click", (e) => {
 
 detailArea.appendChild(closeBtn);
   if (jobsForDay.length === 0) {
-    const emptyMessage = document.createElement("p");
-    emptyMessage.textContent = "この日の予定はありません";
-    detailArea.appendChild(emptyMessage);
-    return;
-  }
+  const calendarDayDetails =
+    document.getElementById("calendarDayDetails");
+
+  calendarDayDetails.innerHTML = `
+    <div style="
+      text-align:center;
+      color:#999;
+      font-size:18px;
+      font-weight:600;
+      padding:28px 10px 10px;
+    ">
+      この日の予定はありません
+    </div>
+  `;
+
+  detailArea.style.display = "none";
+  modalBackdrop.style.display = "none";
+  return;
+}
 
   jobsForDay.forEach(job => {
     const card = document.createElement("div");
