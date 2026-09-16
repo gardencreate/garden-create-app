@@ -1713,21 +1713,13 @@ if (job.invoiceSubmitDate === dateString) {
   eventTypes.push("請求提出");
 }
 
-jobDiv.innerHTML =
-  `<span style="font-size:8px;">${escapeHtml(job.customerName)}様</span><br>${escapeHtml(eventTypes.join("・"))}`;
-      jobDiv.style.marginTop = "4px";
-      jobDiv.style.padding = "3px";
-      if (eventTypes.includes("施工")) {
-  jobDiv.style.background = "#dff3e4";
-} else if (eventTypes.includes("見積提出")) {
-  jobDiv.style.background = "#fff1c7";
-} else if (eventTypes.includes("請求提出")) {
-  jobDiv.style.background = "#fde2e2";
-} else if (eventTypes.includes("見積")) {
-  jobDiv.style.background = "#dfeeff";
-} else {
-  jobDiv.style.background = "#eeeeee";
-}
+jobDiv.innerHTML = "●";
+jobDiv.style.margin = "5px auto 0";
+jobDiv.style.padding = "0";
+jobDiv.style.color = "#f5b85c";
+jobDiv.style.fontSize = "12px";
+jobDiv.style.textAlign = "center";
+     
       jobDiv.style.borderRadius = "4px";
       jobDiv.style.fontSize = "10px";
       jobDiv.style.wordBreak = "keep-all";
