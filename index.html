@@ -1778,8 +1778,45 @@ detailArea.appendChild(closeBtn);
   modalBackdrop.style.display = "none";
   return;
 }
+const calendarDayDetails =
+  document.getElementById("calendarDayDetails");
 
+calendarDayDetails.innerHTML = "";
+  calendarDayDetails.innerHTML = `
+  <div style="
+    font-size:20px;
+    font-weight:700;
+    margin:22px 0 12px;
+  ">
+    ${month + 1}月${day}日の予定
+  </div>
+`;
   jobsForDay.forEach(job => {
+    const bottomCard = document.createElement("div");
+
+bottomCard.style.cssText = `
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:10px;
+`;
+
+bottomCard.innerHTML = `
+  <div style="font-size:17px;font-weight:700;">
+    ${escapeHtml(job.customerName)} 様
+  </div>
+
+  <div style="margin-top:5px;font-size:15px;">
+    ${escapeHtml(job.subject || "件名なし")}
+  </div>
+
+  <div style="margin-top:7px;font-size:17px;font-weight:700;">
+    ${yen(job.total)}
+  </div>
+`;
+
+calendarDayDetails.appendChild(bottomCard);
     const card = document.createElement("div");
 card.style.position = "relative";
     card.style.padding = "12px";
