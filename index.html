@@ -1803,10 +1803,25 @@ bottomCard.style.cssText = `
 `;
 
 bottomCard.innerHTML = `
+<div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+">
   <div style="font-size:17px;font-weight:700;">
     ${escapeHtml(job.customerName)} 様
   </div>
 
+  <button type="button" class="bottomEditBtn" style="
+    border:none;
+    background:transparent;
+    font-size:15px;
+    color:#1677ff;
+    padding:8px;
+  ">
+    編集 ＞
+  </button>
+</div>
   <div style="margin-top:5px;font-size:15px;">
     ${escapeHtml(job.subject || "件名なし")}
   </div>
@@ -1817,121 +1832,8 @@ bottomCard.innerHTML = `
 `;
 
 calendarDayDetails.appendChild(bottomCard);
-    const card = document.createElement("div");
-card.style.position = "relative";
-    card.style.padding = "12px";
-    card.style.marginTop = "10px";
-    card.style.border = "1px solid #ddd";
-    card.style.borderRadius = "8px";
-card.style.cursor = "pointer";
+    
 
-card.addEventListener("click", () => {
-  detailArea.style.display = "none";
-  modalBackdrop.style.display = "none";
-
-  editingJobId = job.id;
-
-  document.getElementById("workDate").value = job.workDate || "";
-  document.getElementById("customerName").value = job.customerName || "";
-  document.getElementById("subject").value = job.subject || "";
-  document.getElementById("address").value = job.address || "";
-  document.getElementById("phone").value = job.phone || "";
-  document.getElementById("note").value = job.note || "";
-
-  document.getElementById("estimateDate").value = job.estimateDate || "";
-  document.getElementById("estimateSubmitDate").value = job.estimateSubmitDate || "";
-  document.getElementById("workDoneDate").value = job.workDoneDate || "";
-  document.getElementById("invoiceDate").value = job.invoiceCreateDate || "";
-  document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
-const workItems =
-  document.getElementById("workItems");
-
-workItems.innerHTML = "";
-
-const items = Array.isArray(job.workItems)
-  ? job.workItems
-  : [
-      {
-        workName: job.workName || "",
-        spec: job.spec || "",
-        quantity: job.quantity || 1,
-        unit: job.unit || "式",
-        unitPrice: job.unitPrice || job.subtotal || 0
-      }
-    ];
-
-items.forEach((workItem, index) => {
-  const div = document.createElement("div");
-  div.className = "work-item";
-
-  if (index > 0) {
-    div.style.marginTop = "20px";
-  }
-
-  div.innerHTML = `
-    <input
-      class="workName"
-      type="text"
-      placeholder="例：松剪定"
-      value="${escapeHtml(workItem.workName || "")}">
-    <input
-      class="spec"
-      type="text"
-      placeholder="仕様（任意）"
-      value="${escapeHtml(workItem.spec || "")}">
-    <div class="grid">
-      <div>
-        <label>数量</label>
-        <input
-          class="quantity"
-          type="number"
-          value="${workItem.quantity || 1}"
-          min="1">
-      </div>
-      <div>
-        <label>単位</label>
-        <select class="unit">
-          <option value="式" ${workItem.unit === "式" || !workItem.unit ? "selected" : ""}>式</option>
-          <option value="L" ${workItem.unit === "L" ? "selected" : ""}>L</option>
-          <option value="人" ${workItem.unit === "人" ? "selected" : ""}>人</option>
-          <option value="台" ${workItem.unit === "台" ? "selected" : ""}>台（ごみ）</option>
-        </select>
-      </div>
-      <div>
-        <label>単価</label>
-        <input
-          class="unitPrice"
-          type="number"
-          value="${workItem.unitPrice || 0}">
-      </div>
-    </div>
-    ${
-      index > 0
-        ? `
-          <button
-            type="button"
-            class="danger removeWorkBtn"
-            style="width:100%; margin-top:8px;">
-            この項目を削除
-          </button>
-        `
-        : ""
-    }
-  `;
-
-  workItems.appendChild(div);
-});
-
-calculate();
-  document.getElementById("saveBtn").textContent = "変更を保存";
-document.getElementById("saveMessage").textContent = "編集中です";
-  showPage("new");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-});
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
 
@@ -2049,6 +1951,24 @@ statusItems.forEach(item => {
   row.appendChild(date);
 
   card.appendChild(row);
+});
+    const editBtn = document.createElement("button");
+editBtn.type = "button";
+editBtn.textContent = "編集";
+editBtn.style.cssText = `
+  margin-top:12px;
+  width:100%;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#f5f5f5;
+  font-size:15px;
+  font-weight:600;
+`;
+card.appendChild(editBtn);
+    editBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  card.click();
 });
     detailArea.appendChild(card);
   });
