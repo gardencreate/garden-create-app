@@ -1687,7 +1687,8 @@ if (
   job.invoiceSubmitDate === dateString
 );
 
-    jobsForDay.forEach(job => {
+    if (jobsForDay.length > 0) {
+  const job = jobsForDay[0];
 
       const jobDiv =
   document.createElement("div");
@@ -1728,7 +1729,7 @@ jobDiv.style.textAlign = "center";
       jobDiv.style.overflow = "hidden";
       cell.appendChild(jobDiv);
 
-    });
+    }
     
 cell.style.cursor = "pointer";
 
