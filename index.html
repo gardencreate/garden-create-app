@@ -1822,6 +1822,9 @@ bottomCard.innerHTML = `
     編集 ＞
   </button>
 </div>
+    <div style="margin-top:4px;font-size:14px;color:#777;">
+      ${escapeHtml(job.address || "")}
+    </div>
   <div style="margin-top:5px;font-size:15px;">
     ${escapeHtml(job.subject || "件名なし")}
   </div>
@@ -1829,6 +1832,12 @@ bottomCard.innerHTML = `
   <div style="margin-top:7px;font-size:17px;font-weight:700;">
     ${yen(job.total)}
   </div>
+  <div style="margin-top:12px;font-size:14px;line-height:1.9;">
+  <div>見積　${escapeHtml(job.estimateDate || "未定")}</div>
+  <div>見積書提出　${escapeHtml(job.estimateSubmitDate || "未定")}</div>
+  <div>施工　${escapeHtml(job.workDoneDate || "未定")}</div>
+  <div>請求書提出　${escapeHtml(job.invoiceSubmitDate || "未定")}</div>
+</div>
 `;
 
 calendarDayDetails.appendChild(bottomCard);
@@ -1966,9 +1975,16 @@ editBtn.style.cssText = `
   font-weight:600;
 `;
 card.appendChild(editBtn);
-    editBtn.addEventListener("click", (e) => {
+editBtn.addEventListener("click", (e) => {
   e.stopPropagation();
-  card.click();
+
+  const todoCard = document.querySelector(
+    `.job[data-job-id="${job.id}"]`
+  );
+
+  if (todoCard && typeof todoCard.openEdit === "function") {
+    todoCard.openEdit();
+  }
 });
     detailArea.appendChild(card);
   });
@@ -2539,6 +2555,7 @@ showPage("new");
       behavior: "smooth"
     });
 };
+      div.openEdit = openEdit;
   div.querySelector(".editButton")
   .addEventListener("click", openEdit);
 div.querySelector(".deleteButton")
