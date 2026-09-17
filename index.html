@@ -1841,7 +1841,11 @@ bottomCard.innerHTML = `
 `;
 
 calendarDayDetails.appendChild(bottomCard);
-    
+    const bottomEditButton = bottomCard.querySelector(".bottomEditButton");
+
+bottomEditButton.addEventListener("click", () => {
+  alert("編集ボタン押せた");
+});
 
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
@@ -1974,9 +1978,7 @@ editBtn.style.cssText = `
   font-size:15px;
   font-weight:600;
 `;
-    editBtn.onclick = function () {
-  alert("編集ボタンOK");
-};
+    
 card.appendChild(editBtn);
 
     detailArea.appendChild(card);
