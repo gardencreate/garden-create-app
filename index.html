@@ -1841,12 +1841,21 @@ bottomCard.innerHTML = `
 `;
 
 calendarDayDetails.appendChild(bottomCard);
-    const bottomEditButton = bottomCard.querySelector(".bottomEditButton");
+   const bottomEditBtn = bottomCard.querySelector(".bottomEditButton");
 
-bottomEditButton.addEventListener("click", () => {
-  alert("編集ボタン押せた");
+bottomEditBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  const jobDiv = document.querySelector(
+    `.job[data-job-id="${job.id}"]`
+  );
+
+  if (jobDiv && typeof jobDiv.openEdit === "function") {
+    detailArea.style.display = "none";
+    modalBackdrop.style.display = "none";
+    jobDiv.openEdit();
+  }
 });
-
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
 
