@@ -2583,32 +2583,10 @@ div.querySelector(".deleteButton")
     }
 
   });
-      div.querySelectorAll(".todo-steps > div").forEach((stepEl, index) => {
-  stepEl.dataset.stepIndex = index;
-});
-      div.querySelectorAll(".todo-steps > div").forEach((stepEl, index) => {
-  if (steps[index].done) return;
-
-  stepEl.style.cursor = "pointer";
-
- stepEl.addEventListener("click", async () => {
-  const date = prompt(
-    `${steps[index].label}の日付を入力してください`,
-    new Date().toISOString().slice(0, 10)
-  );
-
-  if (!date) return;
-
-  try {
-    await updateDoc(doc(db, "jobs", job.id), {
-      [steps[index].field]: date,
-      updatedAt: serverTimestamp()
-    });
-  } catch (error) {
-    console.error(error);
-    alert("日付を保存できませんでした。");
-  }
-});
+      div.querySelectorAll(".todo-step-check").forEach((stepEl) => {
+  stepEl.addEventListener("click", () => {
+    alert("押せた！");
+  });
 });
       list.appendChild(div);
 
