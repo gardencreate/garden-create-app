@@ -1975,17 +1975,7 @@ editBtn.style.cssText = `
   font-weight:600;
 `;
 card.appendChild(editBtn);
-editBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
 
-  const todoCard = document.querySelector(
-    `.job[data-job-id="${job.id}"]`
-  );
-
-  if (todoCard && typeof todoCard.openEdit === "function") {
-    todoCard.openEdit();
-  }
-});
     detailArea.appendChild(card);
   });
 });
@@ -2583,11 +2573,7 @@ div.querySelector(".deleteButton")
     }
 
   });
-      div.querySelectorAll(".todo-step-check").forEach((stepEl) => {
-  stepEl.addEventListener("click", () => {
-    alert("押せた！");
-  });
-});
+      
       list.appendChild(div);
 
     });
