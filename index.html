@@ -1975,7 +1975,10 @@ editBtn.style.cssText = `
   font-weight:600;
 `;
 card.appendChild(editBtn);
-
+editBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  alert("編集ボタンOK");
+});
     detailArea.appendChild(card);
   });
 });
@@ -2133,7 +2136,9 @@ document.querySelectorAll(".todo-filter").forEach(button => {
     renderJobs([...calendarJobs]);
   });
 });
+function openJobEdit(job) {
 
+}
   function renderJobs(jobs) {
 
     const list =
