@@ -1845,16 +1845,27 @@ calendarDayDetails.appendChild(bottomCard);
 
 bottomEditBtn.addEventListener("click", (e) => {
   e.stopPropagation();
-alert("編集ボタン押せた");
-  const jobDiv = document.querySelector(
-    `.job[data-job-id="${job.id}"]`
-  );
 
-  if (jobDiv && typeof jobDiv.openEdit === "function") {
-    detailArea.style.display = "none";
-    modalBackdrop.style.display = "none";
-    jobDiv.openEdit();
-  }
+  detailArea.style.display = "none";
+  modalBackdrop.style.display = "none";
+
+  editingJobId = job.id;
+
+  document.getElementById("workDate").value = job.workDate || "";
+  document.getElementById("customerName").value = job.customerName || "";
+  document.getElementById("subject").value = job.subject || "";
+  document.getElementById("address").value = job.address || "";
+  document.getElementById("phone").value = job.phone || "";
+  document.getElementById("note").value = job.note || "";
+
+  document.getElementById("estimateDate").value = job.estimateDate || "";
+  document.getElementById("estimateSubmitDate").value = job.estimateSubmitDate || "";
+  document.getElementById("workDoneDate").value = job.workDoneDate || "";
+
+  document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
+
+  showPage("new");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
     const customer = document.createElement("strong");
     customer.textContent = (job.customerName || "お客様名なし") + " 様";
