@@ -1736,8 +1736,8 @@ cell.style.cursor = "pointer";
 
 cell.addEventListener("click", () => {
   detailArea.innerHTML = "";
-  modalBackdrop.style.display = "block";
-detailArea.style.display = "block";
+  modalBackdrop.style.display = "none";
+  detailArea.style.display = "none";
   const title = document.createElement("h3");
   title.textContent = `${month + 1}月${day}日の予定`;
   detailArea.appendChild(title);
