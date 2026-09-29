@@ -629,7 +629,7 @@
 }
     /* カレンダー：月タイトル部分 */
 #calendarTitle {
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 700;
   text-align: left;
   margin: 0 0 18px 0 !important;
@@ -652,6 +652,11 @@
 #calendar > div > div:first-child {
   font-size: 18px;
   font-weight: 600;
+}
+    /* カレンダー内の縦線を消す */
+#calendar > div {
+  border-left: none !important;
+  border-right: none !important;
 }
     </style>
 </head>
@@ -1698,7 +1703,7 @@ if (
   month === today.getMonth() &&
   day === today.getDate()
 ) {
-  number.style.background = "#1677ff";
+  number.style.background = "#ff3b30";
   number.style.color = "#fff";
   number.style.width = "30px";
   number.style.height = "30px";
