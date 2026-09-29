@@ -1705,6 +1705,9 @@ grid.style.width = "100%";
 
     number.textContent = day;
 number.style.fontWeight = "400";
+    if (new Date(year, month, day).getDay() === 0) {
+  number.style.fontWeight = "400";
+}
     number.style.height = "26px";
 const today = new Date();
 
@@ -1759,6 +1762,7 @@ if (job.invoiceSubmitDate === dateString) {
 
 jobDiv.innerHTML = "●";
 jobDiv.style.margin = "2px auto 0";
+      jobDiv.style.width = "100%";
 jobDiv.style.padding = "0";
 jobDiv.style.color = "#f5b85c";
 jobDiv.style.fontSize = "12px";
