@@ -1682,7 +1682,7 @@ grid.style.width = "100%";
     const empty =
       document.createElement("div");
 
-    empty.style.minHeight = "75px";
+    empty.style.minHeight = "40px";
     empty.style.borderBottom = "1px solid #ddd";
 
     grid.appendChild(empty);
@@ -1704,7 +1704,7 @@ grid.style.width = "100%";
       document.createElement("div");
 
     number.textContent = day;
-number.style.fontWeight = "600";
+number.style.fontWeight = "400";
     number.style.height = "26px";
 const today = new Date();
 
@@ -1713,14 +1713,7 @@ if (
   month === today.getMonth() &&
   day === today.getDate()
 ) {
-  number.style.background = "#ff3b30";
-  number.style.color = "#fff";
-  number.style.width = "30px";
-  number.style.height = "30px";
-  number.style.borderRadius = "50%";
-  number.style.display = "flex";
-  number.style.alignItems = "center";
-  number.style.justifyContent = "center";
+  number.style.color = "#ff3b30";
 }
     cell.appendChild(number);
 
@@ -1765,7 +1758,7 @@ if (job.invoiceSubmitDate === dateString) {
 }
 
 jobDiv.innerHTML = "●";
-jobDiv.style.margin = "5px auto 0";
+jobDiv.style.margin = "2px auto 0";
 jobDiv.style.padding = "0";
 jobDiv.style.color = "#f5b85c";
 jobDiv.style.fontSize = "12px";
@@ -2061,7 +2054,7 @@ const remainingCells = (7 - (totalCells % 7)) % 7;
 
 for (let i = 0; i < remainingCells; i++) {
   const empty = document.createElement("div");
-  empty.style.minHeight = "75px";
+  empty.style.minHeight = "40px";
   empty.style.borderBottom = "1px solid #ddd";
   grid.appendChild(empty);
 }
