@@ -632,7 +632,6 @@
   font-size: 26px;
   font-weight: 700;
   text-align: left;
-  margin: 0 0 18px 0 !important;
 }
     /* カレンダー全体 */
 #calendar {
@@ -815,7 +814,7 @@
 
     <h2
       id="calendarTitle"
-      style="margin:0;">
+    style="margin:0; flex:1; text-align:left;">
     </h2>
 
     <button
@@ -1618,7 +1617,7 @@ function renderCalendar() {
     calendarDate.getMonth();
 
   document.getElementById("calendarTitle").textContent =
-    `${year}年${month + 1}月`;
+    `${month + 1}月`;
 
   const calendar =
     document.getElementById("calendar");
