@@ -619,6 +619,42 @@
 .todo-filter span {
   margin-left: 3px;
 }
+    /* カレンダー：外側カードをiPhone風に */
+#calendarPage > .card {
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+    /* カレンダー：月タイトル部分 */
+#calendarTitle {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: left;
+  margin: 0 0 18px 0 !important;
+}
+    /* カレンダー全体 */
+#calendar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #fff;
+}
+    /* カレンダー：日付マス */
+#calendar > div {
+  min-height: 58px !important;
+  padding: 8px 4px !important;
+  border-right: none !important;
+  border-bottom: 1px solid #e5e5e5 !important;
+  font-size: 16px !important;
+  box-sizing: border-box;
+}
+    /* カレンダー：日付の数字 */
+#calendar > div > div:first-child {
+  font-size: 18px;
+  font-weight: 600;
+}
     </style>
 </head>
 
