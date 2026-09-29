@@ -1654,6 +1654,7 @@ week.style.width = "100%";
         document.createElement("div");
 
       div.textContent = day;
+      div.style.fontWeight = "400";
 
       week.appendChild(div);
 
@@ -1667,7 +1668,7 @@ week.style.width = "100%";
 
   grid.style.display = "grid";
   grid.style.gridTemplateColumns = "repeat(7, minmax(0, 1fr))";
-  grid.style.borderLeft = "1px solid #ddd";
+  
 grid.style.width = "100%";
 
   const firstDay =
@@ -1695,7 +1696,7 @@ grid.style.width = "100%";
     const cell =
       document.createElement("div");
 
-    cell.style.minHeight = "40px";
+    cell.style.height = "52px";
     cell.style.padding = "4px";
     cell.style.borderRight = "none";
     cell.style.borderBottom = "1px solid #eee";
