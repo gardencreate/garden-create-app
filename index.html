@@ -1706,6 +1706,8 @@ grid.style.width = "100%";
 
     number.textContent = day;
 number.style.fontWeight = "400";
+    number.style.textAlign = "center";
+    number.style.width = "100%";
     if (new Date(year, month, day).getDay() === 0) {
   number.style.fontWeight = "400";
 }
@@ -2059,7 +2061,7 @@ const remainingCells = (7 - (totalCells % 7)) % 7;
 
 for (let i = 0; i < remainingCells; i++) {
   const empty = document.createElement("div");
-  empty.style.minHeight = "40px";
+  empty.style.height = "52px";
   empty.style.borderBottom = "1px solid #ddd";
   grid.appendChild(empty);
 }
