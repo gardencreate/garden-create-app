@@ -1776,10 +1776,10 @@ const holidayName = holidays[dateString];
 );
 if (holidayName) {
   const holidayDot = document.createElement("div");
-  holidayDot.textContent = "●";
-  holidayDot.style.color = "#f5a623";
-  holidayDot.style.fontSize = "10px";
-  holidayDot.style.textAlign = "center";
+  holidayDot.style.width = "10px";
+holidayDot.style.height = "10px";
+holidayDot.style.background = "#f5a623";
+holidayDot.style.borderRadius = "50%";
   holidayDot.style.position = "absolute";
 holidayDot.style.left = jobsForDay.length > 0 ? "calc(50% - 6px)" : "50%";
 holidayDot.style.transform = "translateX(-50%)";
@@ -1815,10 +1815,10 @@ if (job.invoiceSubmitDate === dateString) {
 }
 
 
-      jobDiv.textContent = "●";
-jobDiv.style.color = "#bf5af2";
-jobDiv.style.fontSize = "10px";
-jobDiv.style.textAlign = "center";
+jobDiv.style.width = "10px";
+jobDiv.style.height = "10px";
+jobDiv.style.background = "#bf5af2";
+jobDiv.style.borderRadius = "50%";
 jobDiv.style.position = "absolute";
 jobDiv.style.left = holidayName ? "calc(50% + 6px)" : "50%";
 jobDiv.style.transform = "translateX(-50%)";
