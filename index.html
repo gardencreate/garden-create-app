@@ -1781,7 +1781,7 @@ if (holidayName) {
   holidayDot.style.fontSize = "12px";
   holidayDot.style.textAlign = "center";
   holidayDot.style.position = "absolute";
-holidayDot.style.left = "50%";
+holidayDot.style.left = jobsForDay.length > 0 ? "calc(50% - 6px)" : "50%";
 holidayDot.style.transform = "translateX(-50%)";
 holidayDot.style.bottom = "3px";
   cell.appendChild(holidayDot);
@@ -1823,7 +1823,7 @@ jobDiv.style.fontSize = "12px";
 jobDiv.style.textAlign = "center";
      jobDiv.style.position = "absolute";
       jobDiv.style.bottom = "3px";
-      jobDiv.style.left = "50%";
+      jobDiv.style.left = holidayName ? "calc(50% + 6px)" : "50%";
       jobDiv.style.transform = "translateX(-50%)";
       jobDiv.style.borderRadius = "4px";
       jobDiv.style.fontSize = "10px";
