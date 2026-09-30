@@ -1912,7 +1912,7 @@ calendarDayDetails.innerHTML = "";
 `;
   if (holidayName) {
     const holidayRow = document.createElement("div");
-    holidayRow.innerHTML = `🟠 ${holidayName}`;
+    holidayRow.innerHTML = `<span style="color:#f5a623;font-size:14px;">●</span>&nbsp;&nbsp;${holidayName}`;
       holidayRow.style.cssText = `
     padding:14px 4px;
     font-size:17px;
