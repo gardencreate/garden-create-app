@@ -1780,7 +1780,10 @@ if (holidayName) {
   holidayDot.style.color = "#f5a623";
   holidayDot.style.fontSize = "12px";
   holidayDot.style.textAlign = "center";
-  holidayDot.style.margin = "-2px auto 0";
+  holidayDot.style.position = "absolute";
+holidayDot.style.left = "50%";
+holidayDot.style.transform = "translateX(-50%)";
+holidayDot.style.bottom = "3px";
   cell.appendChild(holidayDot);
 }
     if (jobsForDay.length > 0) {
