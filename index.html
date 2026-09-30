@@ -1877,7 +1877,7 @@ closeBtn.addEventListener("click", (e) => {
 });
 
 detailArea.appendChild(closeBtn);
-  if (jobsForDay.length === 0) {
+  if (jobsForDay.length === 0 && !holidayName) {
   const calendarDayDetails =
     document.getElementById("calendarDayDetails");
 
@@ -1910,6 +1910,16 @@ calendarDayDetails.innerHTML = "";
     ${month + 1}月${day}日の予定
   </div>
 `;
+  if (holidayName) {
+    const holidayRow = document.createElement("div");
+    holidayRow.innerHTML = `🟠 ${holidayName}`;
+      holidayRow.style.cssText = `
+    padding:14px 4px;
+    font-size:17px;
+    border-bottom:1px solid #eee;
+  `;
+  calendarDayDetails.appendChild(holidayRow);
+}
   jobsForDay.forEach(job => {
     const bottomCard = document.createElement("div");
 
