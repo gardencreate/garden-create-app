@@ -1815,13 +1815,16 @@ if (job.invoiceSubmitDate === dateString) {
 }
 
 jobDiv.innerHTML = "●";
-jobDiv.style.margin = "2px auto 0";
-      jobDiv.style.width = "100%";
+      jobDiv.style.margin = "0";
+      jobDiv.style.width = "auto";
 jobDiv.style.padding = "0";
 jobDiv.style.color = "#bf5af2";
 jobDiv.style.fontSize = "12px";
 jobDiv.style.textAlign = "center";
-     
+     jobDiv.style.position = "absolute";
+      jobDiv.style.bottom = "3px";
+      jobDiv.style.left = "50%";
+      jobDiv.style.transform = "translateX(-50%)";
       jobDiv.style.borderRadius = "4px";
       jobDiv.style.fontSize = "10px";
       jobDiv.style.wordBreak = "keep-all";
