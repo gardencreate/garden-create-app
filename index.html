@@ -1814,13 +1814,12 @@ if (job.invoiceSubmitDate === dateString) {
   eventTypes.push("請求提出");
 }
 
-
-jobDiv.style.width = "10px";
-jobDiv.style.height = "10px";
+jobDiv.style.width = "8px";
+jobDiv.style.height = "8px";
 jobDiv.style.background = "#bf5af2";
 jobDiv.style.borderRadius = "50%";
 jobDiv.style.position = "absolute";
-jobDiv.style.left = holidayName ? "calc(50% + 6px)" : "50%";
+jobDiv.style.left = holidayName ? "calc(50% + 6px)" : "calc(50% + 1px)";
 jobDiv.style.transform = "translateX(-50%)";
 jobDiv.style.bottom = "3px";
       cell.appendChild(jobDiv);
