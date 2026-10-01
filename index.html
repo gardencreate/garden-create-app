@@ -1910,9 +1910,9 @@ bottomCard.style.cssText = `
   background:transparent;
   border:none;
   border-radius:0;
-  padding:14px 8px;
+  padding:12px 8px;
 margin-bottom:0;
-  border-bottom:1px solid #e5e5e5;
+border-bottom:1px solid #e5e5e5;
 `;
 bottomCard.innerHTML = `
 <div style="
@@ -1941,38 +1941,39 @@ bottomCard.innerHTML = `
       </div>
 
       <div style="
-        margin-top:3px;
-        font-size:14px;
-        color:#777;
-      ">
-        ${escapeHtml(job.address || "")}
-      </div>
+  margin-top:2px;
+  font-size:14px;
+  color:#777;
+">
+  ${escapeHtml(job.address || "")}
+</div>
 
-      <div style="
-        margin-top:4px;
-        font-size:15px;
-      ">
-        ${escapeHtml(job.subject || "件名なし")}
-      </div>
+<div style="
+  margin-top:2px;
+  font-size:15px;
+">
+  ${escapeHtml(job.subject || "件名なし")}
+</div>
     </div>
 
-    <div style="
-      text-align:right;
-      flex-shrink:0;
-    ">
-      <div style="
-        font-size:17px;
-        font-weight:700;
-      ">
-        ${yen(job.total)}
-      </div>
+  <div style="
+  text-align:right;
+  flex-shrink:0;
+">
+  <div style="
+    font-size:17px;
+    font-weight:700;
+  ">
+    ${yen(job.total)}
+  </div>
 
-      <div style="
-        font-size:24px;
-        color:#aaa;
-        line-height:1;
-      ">›</div>
-    </div>
+  <div style="
+    margin-top:4px;
+    font-size:24px;
+    color:#aaa;
+    line-height:1;
+  ">›</div>
+</div>
   </div>
 `;
 
