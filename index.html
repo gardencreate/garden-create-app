@@ -2154,22 +2154,22 @@ modalBackdrop.style.display = "none";
 document.body.appendChild(modalBackdrop);
 const detailArea = document.createElement("div");
 
-detailArea.style.position = "fixed";
-detailArea.style.left = "50%";
-detailArea.style.top = "50%";
-detailArea.style.transform = "translate(-50%, -50%)";
-detailArea.style.width = "calc(100% - 40px)";
-detailArea.style.maxWidth = "420px";
-detailArea.style.maxHeight = "70vh";
-detailArea.style.overflowY = "auto";
-detailArea.style.background = "#fff";
-detailArea.style.borderRadius = "16px";
-detailArea.style.boxShadow = "0 8px 30px rgba(0,0,0,0.18)";
-detailArea.style.padding = "20px";
+detailArea.style.position = "relative";
+detailArea.style.left = "0";
+detailArea.style.top = "auto";
+detailArea.style.transform = "translateX(-50%)";
+detailArea.style.width = "100%";
+detailArea.style.maxWidth = "none";
+detailArea.style.maxHeight = "none";
+detailArea.style.overflowY = "visible";
+detailArea.style.background = "transparent";
+detailArea.style.borderRadius = "0";
+detailArea.style.boxShadow = "none";
+detailArea.style.padding = "0";
 detailArea.style.zIndex = "1000";
 detailArea.style.display = "none";
 
-document.body.appendChild(detailArea);
+document.getElementById("calendarPage").appendChild(detailArea);
 }
 
 
@@ -2195,7 +2195,24 @@ document.getElementById("nextMonthBtn")
     renderCalendar();
 
   });
+function showCalendarDayDetails(dateString) {
+  const [year, month, day] = dateString.split("-").map(Number);
 
+  calendarDate = new Date(year, month - 1, 1);
+  renderCalendar();
+
+  setTimeout(() => {
+    const cells = document.querySelectorAll("#calendar > div:last-child > div");
+
+    cells.forEach(cell => {
+      const number = cell.firstElementChild;
+
+      if (number && Number(number.textContent) === day) {
+        cell.click();
+      }
+    });
+  }, 0);
+}
   function listenJobs() {
 
     if (listeningStarted) return;
@@ -2257,7 +2274,13 @@ jobs.sort((a, b) => {
 calendarJobs = jobs;
 
 renderCalendar();
-        renderJobs(jobs);
+renderJobs(jobs);
+
+const today = new Date();
+const todayString =
+  `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+showCalendarDayDetails(todayString);
 
       }
     );
