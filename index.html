@@ -1893,15 +1893,7 @@ const calendarDayDetails =
   document.getElementById("calendarDayDetails");
 
 calendarDayDetails.innerHTML = "";
-  calendarDayDetails.innerHTML = `
-  <div style="
-    font-size:20px;
-    font-weight:700;
-    margin:22px 0 12px;
-  ">
-    ${month + 1}月${day}日の予定
-  </div>
-`;
+  calendarDayDetails.innerHTML = "";
   if (holidayName) {
     const holidayRow = document.createElement("div");
     holidayRow.innerHTML = `<span style="color:#f5a623;font-size:14px;">●</span>&nbsp;&nbsp;${holidayName}`;
@@ -1917,53 +1909,77 @@ calendarDayDetails.innerHTML = "";
 
 bottomCard.style.cssText = `
   background:#fff;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:14px;
-  margin-bottom:10px;
+  border:1px solid #e5e5e5;
+  border-radius:14px;
+  padding:12px 14px;
+  margin-bottom:8px;
 `;
 
 bottomCard.innerHTML = `
-<div style="
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-">
-  <div style="font-size:17px;font-weight:700;">
-    ${escapeHtml(job.customerName)} 様
-  </div>
-
-  <button type="button" class="bottomEditBtn" style="
-    border:none;
-    background:transparent;
-    font-size:15px;
-    color:#1677ff;
-    padding:8px;
+  <div style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
   ">
-    編集 ＞
-  </button>
-</div>
-    <div style="margin-top:4px;font-size:14px;color:#777;">
-      ${escapeHtml(job.address || "")}
-    </div>
-  <div style="margin-top:5px;font-size:15px;">
-    ${escapeHtml(job.subject || "件名なし")}
-  </div>
+    <div style="
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#bf5af2;
+      flex-shrink:0;
+    "></div>
 
-  <div style="margin-top:7px;font-size:17px;font-weight:700;">
-    ${yen(job.total)}
+    <div style="
+      flex:1;
+      min-width:0;
+    ">
+      <div style="
+        font-size:17px;
+        font-weight:700;
+      ">
+        ${escapeHtml(job.customerName || "名前なし")} 様
+      </div>
+
+      <div style="
+        margin-top:3px;
+        font-size:14px;
+        color:#777;
+      ">
+        ${escapeHtml(job.address || "")}
+      </div>
+
+      <div style="
+        margin-top:4px;
+        font-size:15px;
+      ">
+        ${escapeHtml(job.subject || "件名なし")}
+      </div>
+    </div>
+
+    <div style="
+      text-align:right;
+      flex-shrink:0;
+    ">
+      <div style="
+        font-size:17px;
+        font-weight:700;
+      ">
+        ${yen(job.total)}
+      </div>
+
+      <div style="
+        font-size:24px;
+        color:#aaa;
+        line-height:1;
+      ">›</div>
+    </div>
   </div>
-  <div style="margin-top:12px;font-size:14px;line-height:1.9;">
-  <div>見積　${escapeHtml(job.estimateDate || "未定")}</div>
-  <div>見積書提出　${escapeHtml(job.estimateSubmitDate || "未定")}</div>
-  <div>施工　${escapeHtml(job.workDoneDate || "未定")}</div>
-  <div>請求書提出　${escapeHtml(job.invoiceSubmitDate || "未定")}</div>
-</div>
 `;
 
 calendarDayDetails.appendChild(bottomCard);
-   const bottomEditBtn = bottomCard.querySelector(".bottomEditBtn");
-
+   const bottomEditBtn = bottomCard;
+bottomCard.style.cursor = "pointer";
 bottomEditBtn.addEventListener("click", (e) => {
   e.stopPropagation();
 
