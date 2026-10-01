@@ -1893,7 +1893,8 @@ const calendarDayDetails =
   document.getElementById("calendarDayDetails");
 
 calendarDayDetails.innerHTML = "";
-  calendarDayDetails.innerHTML = "";
+calendarDayDetails.style.marginTop = "0";
+calendarDayDetails.style.paddingTop = "0";
   if (holidayName) {
     const holidayRow = document.createElement("div");
     holidayRow.innerHTML = `<span style="color:#f5a623;font-size:14px;">●</span>&nbsp;&nbsp;${holidayName}`;
