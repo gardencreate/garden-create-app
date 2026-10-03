@@ -1786,8 +1786,7 @@ holidayDot.style.transform = "translateX(-50%)";
 holidayDot.style.bottom = "3px";
   cell.appendChild(holidayDot);
 }
-    if (jobsForDay.length > 0) {
-  const job = jobsForDay[0];
+    jobsForDay.forEach((job, jobIndex) => {
 
       const jobDiv =
   document.createElement("div");
@@ -1819,12 +1818,17 @@ jobDiv.style.height = "8px";
 jobDiv.style.background = "#bf5af2";
 jobDiv.style.borderRadius = "50%";
 jobDiv.style.position = "absolute";
-jobDiv.style.left = holidayName ? "calc(50% + 6px)" : "50%";
+const totalDots = jobsForDay.length + (holidayName ? 1 : 0);
+const dotIndex = jobIndex + (holidayName ? 1 : 0);
+const spacing = 10;
+
+jobDiv.style.left =
+  `calc(50% + ${(dotIndex - (totalDots - 1) / 2) * spacing}px)`;
 jobDiv.style.transform = "translateX(-50%)";
 jobDiv.style.bottom = "3px";
       cell.appendChild(jobDiv);
 
-    }
+    });
     
 cell.style.cursor = "pointer";
 
