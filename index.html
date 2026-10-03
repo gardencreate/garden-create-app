@@ -1774,6 +1774,7 @@ const holidayName = holidays[dateString];
   job.workDoneDate === dateString ||
   job.invoiceSubmitDate === dateString
 );
+    if (dateString === "2026-10-14") alert(jobsForDay.map(job => job.customerName).join(" / "));
 if (holidayName) {
   const holidayDot = document.createElement("div");
   holidayDot.style.width = "8px";
