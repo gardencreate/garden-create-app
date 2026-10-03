@@ -1786,8 +1786,8 @@ holidayDot.style.transform = "translateX(-50%)";
 holidayDot.style.bottom = "3px";
   cell.appendChild(holidayDot);
 }
-    jobsForDay.forEach((job, jobIndex) => {
-
+    if (jobsForDay.length > 0) {
+const job = jobsForDay[0];
       const jobDiv =
   document.createElement("div");
 
@@ -1818,17 +1818,12 @@ jobDiv.style.height = "8px";
 jobDiv.style.background = "#bf5af2";
 jobDiv.style.borderRadius = "50%";
 jobDiv.style.position = "absolute";
-const totalDots = jobsForDay.length + (holidayName ? 1 : 0);
-const dotIndex = jobIndex + (holidayName ? 1 : 0);
-const spacing = 10;
-
-jobDiv.style.left =
-  `calc(50% + ${(dotIndex - (totalDots - 1) / 2) * spacing}px)`;
+jobDiv.style.left = holidayName ? "calc(50% + 6px)" : "50%";
 jobDiv.style.transform = "translateX(-50%)";
 jobDiv.style.bottom = "3px";
       cell.appendChild(jobDiv);
 
-    });
+    }
     
 cell.style.cursor = "pointer";
 
@@ -2049,84 +2044,7 @@ arrow.style.flexShrink = "0";
 infoRow.appendChild(infoText);
 infoRow.appendChild(arrow);
 
-card.appendChild(infoRow);
 
-const statusItems = [
-  {
-    label: "見積",
-    date: job.estimateDate,
-    color: "#3b9cff",
-    bg: "#eaf4ff"
-  },
-  {
-    label: "見積書提出",
-    date: job.estimateSubmitDate,
-    color: "#ffbf2f",
-    bg: "#fff7dc"
-  },
-  {
-    label: "施工",
-    date: job.workDoneDate,
-    color: "#27c26a",
-    bg: "#e9f9ef"
-  },
-  {
-    label: "請求書提出",
-    date: job.invoiceSubmitDate,
-    color: "#ff6666",
-    bg: "#fff0f0"
-  }
-];
-
-statusItems.forEach(item => {
-  if (!item.date) return;
-
-  const row = document.createElement("div");
-
-  row.style.display = "flex";
-  row.style.alignItems = "center";
-  row.style.justifyContent = "space-between";
-  row.style.gap = "10px";
-  row.style.padding = "10px 12px";
-  row.style.marginTop = "6px";
-  row.style.borderRadius = "10px";
-  row.style.border = "1px solid #e5e5e5";
-
-  if (item.date === dateString) {
-    row.style.background = item.bg;
-  } else {
-    row.style.background = "#fff";
-  }
-
-  const left = document.createElement("div");
-  left.style.display = "flex";
-  left.style.alignItems = "center";
-  left.style.gap = "10px";
-
-  const dot = document.createElement("span");
-  dot.style.width = "12px";
-  dot.style.height = "12px";
-  dot.style.borderRadius = "50%";
-  dot.style.background = item.color;
-  dot.style.flexShrink = "0";
-
-  const label = document.createElement("span");
-  label.textContent = item.label;
-  label.style.fontWeight = "600";
-
-  const date = document.createElement("span");
-  date.textContent = item.date;
-  date.style.color = "#777";
-  date.style.whiteSpace = "nowrap";
-
-  left.appendChild(dot);
-  left.appendChild(label);
-
-  row.appendChild(left);
-  row.appendChild(date);
-
-  card.appendChild(row);
-});
     const editBtn = document.createElement("button");
 editBtn.type = "button";
 editBtn.textContent = "編集";
