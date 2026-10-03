@@ -1904,7 +1904,6 @@ calendarDayDetails.style.paddingTop = "0";
   `;
   calendarDayDetails.appendChild(holidayRow);
 }
-  alert(`14日確認：${jobsForDay.length}件 / ${jobsForDay.map(j => j.customerName).join("・")}`);
   jobsForDay.forEach(job => {
     const bottomCard = document.createElement("div");
 bottomCard.style.cssText = `
@@ -1979,7 +1978,6 @@ bottomCard.innerHTML = `
 `;
 
 calendarDayDetails.appendChild(bottomCard);
-    if (dateString === "2026-10-14") alert("追加後：" + calendarDayDetails.children.length + "件 / " + job.customerName);
    const bottomEditBtn = bottomCard;
 bottomCard.style.cursor = "pointer";
 bottomEditBtn.addEventListener("click", (e) => {
