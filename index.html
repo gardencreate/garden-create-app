@@ -1904,6 +1904,7 @@ calendarDayDetails.style.paddingTop = "0";
   `;
   calendarDayDetails.appendChild(holidayRow);
 }
+  alert(`14日確認：${jobsForDay.length}件 / ${jobsForDay.map(j => j.customerName).join("・")}`);
   jobsForDay.forEach(job => {
     const bottomCard = document.createElement("div");
 bottomCard.style.cssText = `
