@@ -845,8 +845,7 @@
 
     <h2
       id="calendarTitle"
-    style="margin:0; flex:1; text-align:left;">
-    </h2>
+    style="margin:0; flex:1; text-align:left; cursor:pointer;">
 
     <button
       id="nextMonthBtn"
@@ -858,6 +857,7 @@
   </div>
 
   <div id="calendar"></div>
+  <div id="yearCalendar" style="display:none;"></div>
 </div>
 <div id="calendarDayDetails"></div>
 </div>
@@ -1637,8 +1637,81 @@ let editingJobId = null;
 let calendarDate = new Date();
 
 let calendarJobs = [];
+function renderYearCalendar() {
+  const yearCalendar = document.getElementById("yearCalendar");
+  
+  const year = calendarDate.getFullYear();
 
+  yearCalendar.innerHTML = `
+    <div style="font-size:32px; font-weight:700; margin:10px 0 20px;">
+      ${year}年
+    </div>
 
+    <div id="yearMonths" style="
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:28px 16px;
+    "></div>
+  `;
+  const yearMonths = document.getElementById("yearMonths");
+
+for (let month = 0; month < 12; month++) {
+  const monthBox = document.createElement("div");
+
+  monthBox.innerHTML = `
+    <div style="
+      font-size:18px;
+      font-weight:700;
+      margin-bottom:8px;
+    ">
+      ${month + 1}月
+    </div>
+  `;
+const days = document.createElement("div");
+days.style.display = "grid";
+days.style.gridTemplateColumns = "repeat(7, 1fr)";
+days.style.fontSize = "11px";
+days.style.textAlign = "center";
+
+const firstDay = new Date(year, month, 1).getDay();
+const lastDate = new Date(year, month + 1, 0).getDate();
+
+for (let i = 0; i < firstDay; i++) {
+  days.appendChild(document.createElement("div"));
+}
+
+for (let day = 1; day <= lastDate; day++) {
+  const dayDiv = document.createElement("div");
+  dayDiv.textContent = day;
+  dayDiv.style.padding = "2px 0";
+  days.appendChild(dayDiv);
+}
+
+monthBox.appendChild(days);
+  monthBox.appendChild(days);
+
+monthBox.style.cursor = "pointer";
+
+monthBox.addEventListener("click", () => {
+  calendarDate.setMonth(month);
+
+  document.getElementById("yearCalendar").style.display = "none";
+  document.getElementById("calendar").style.display = "block";
+
+  renderCalendar();
+});
+
+yearMonths.appendChild(monthBox);
+  yearMonths.appendChild(monthBox);
+}
+}
+document.getElementById("calendarTitle").addEventListener("click", () => {
+  const calendar = document.getElementById("calendar");
+  const yearCalendar = document.getElementById("yearCalendar");
+renderYearCalendar();
+  calendar.style.display = "none";
+  yearCalendar.style.display = "block";
+});
 function renderCalendar() {
 
   const year =
