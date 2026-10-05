@@ -57,7 +57,7 @@
 
     label {
       display: block;
-      margin-top: 15px;
+      margin-top: 12px;
       margin-bottom: 5px;
       font-size: 14px;
       font-weight: 600;
@@ -67,7 +67,7 @@
     textarea,
     select {
       width: 100%;
-      padding: 13px;
+      padding: 11px 13px;
       border: 1px solid #ccc;
       border-radius: 10px;
       font-size: 16px;
@@ -75,7 +75,7 @@
     }
 
     textarea {
-      min-height: 90px;
+      min-height: 70px;
       resize: vertical;
     }
 
@@ -167,7 +167,19 @@
       flex: 1;
       font-size: 14px;
     }
-
+.form-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #555;
+  margin: 22px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+    .date-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
     #appArea,
     #estimateArea {
       display: none;
@@ -786,6 +798,7 @@
       <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
 <div style="margin-top:15px;">
   <div class="form-section-title">日程</div>
+  <div class="date-grid">
   <label>見積日</label>
   <input id="estimateDate" type="date">
 
@@ -800,6 +813,7 @@
 
   <label>請求提出日</label>
   <input id="invoiceSubmitDate" type="date">
+    </div>
 </div>
       <div class="money">
         <div class="money-row">
