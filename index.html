@@ -728,10 +728,8 @@
 <div id="newPage" class="app-page">
     <div class="card">
       <h2>新しい予定・見積</h2>
-
-      <label>作業予定日</label>
-      <input id="workDate" type="date">
-
+<div class="form-section-title">基本情報</div>
+      <div class="form-section">
       <label>お客様名</label>
       <input id="customerName" type="text" placeholder="例：山田 太郎">
 <label>件名</label>
@@ -744,7 +742,9 @@
 
       <label>電話番号</label>
       <input id="phone" type="tel">
-
+</div>
+      <div class="form-section">
+        <div class="form-section-title">作業内容・金額</div>
       <label>作業内容</label>
 
 <div id="workItems">
@@ -781,10 +781,11 @@
 <button id="addWorkBtn" type="button" class="secondary" style="width:100%; margin-top:12px;">
   ＋ 作業項目を追加
 </button>
-
+</div>
       <label>備考</label>
       <textarea id="note" placeholder="作業内容や現場の注意事項など"></textarea>
 <div style="margin-top:15px;">
+  <div class="form-section-title">日程</div>
   <label>見積日</label>
   <input id="estimateDate" type="date">
 
