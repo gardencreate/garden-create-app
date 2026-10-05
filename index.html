@@ -1667,6 +1667,14 @@ for (let month = 0; month < 12; month++) {
       ${month + 1}月
     </div>
   `;
+  const today = new Date();
+
+if (
+  year === today.getFullYear() &&
+  month === today.getMonth()
+) {
+  monthBox.firstElementChild.style.color = "#ff3b30";
+}
 const days = document.createElement("div");
 days.style.display = "grid";
 days.style.gridTemplateColumns = "repeat(7, 1fr)";
