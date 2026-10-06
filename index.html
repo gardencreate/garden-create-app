@@ -181,10 +181,13 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 180px);
   gap: 0 12px;
 }
-    .date-grid input[type="date"] {
+ .date-grid input[type="date"] {
   width: 100%;
   min-width: 0;
+  max-width: 100%;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
 }
     #appArea,
     #estimateArea {
@@ -705,11 +708,7 @@
   font-weight: 400 !important;
       color: #333 !important;
 }
-.date-grid {
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
+
     </style>
 </head>
 
