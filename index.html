@@ -2103,13 +2103,13 @@ bottomEditBtn.addEventListener("click", (e) => {
   document.getElementById("address").value = job.address || "";
   document.getElementById("phone").value = job.phone || "";
   document.getElementById("note").value = job.note || "";
-
+alert("ここまでOK");
   document.getElementById("estimateDate").value = job.estimateDate || "";
   document.getElementById("estimateSubmitDate").value = job.estimateSubmitDate || "";
   document.getElementById("workDoneDate").value = job.workDoneDate || "";
 
   document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
-  alert("基本情報セットOK");
+  
 const workItems = document.getElementById("workItems");
 workItems.innerHTML = "";
 
