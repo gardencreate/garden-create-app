@@ -2096,7 +2096,7 @@ bottomEditBtn.addEventListener("click", (e) => {
   modalBackdrop.style.display = "none";
 
   editingJobId = job.id;
-alert("編集IDセットOK");
+
   document.getElementById("workDate").value = job.workDate || "";
   document.getElementById("customerName").value = job.customerName || "";
   document.getElementById("subject").value = job.subject || "";
@@ -2109,6 +2109,7 @@ alert("編集IDセットOK");
   document.getElementById("workDoneDate").value = job.workDoneDate || "";
 
   document.getElementById("invoiceSubmitDate").value = job.invoiceSubmitDate || "";
+  alert("基本情報セットOK");
 const workItems = document.getElementById("workItems");
 workItems.innerHTML = "";
 
