@@ -1518,7 +1518,7 @@ if (window.visualViewport) {
 ;
 document.getElementById("saveBtn")
   .addEventListener("click", async () => {
-alert("保存ボタン反応");
+
     const customerName =
       document.getElementById("customerName").value.trim();
 const subject =
@@ -1537,7 +1537,7 @@ const invoiceCreateDate =
   document.getElementById("invoiceDate").value;
 const invoiceSubmitDate =
   document.getElementById("invoiceSubmitDate").value;
-    alert("日付取得OK");
+    
 const workItems = [];
     document.querySelectorAll(".work-item").forEach(item => {
 
@@ -1567,7 +1567,7 @@ const unit =
       }
 
     });
-alert("作業内容取得完了");
+
     const workName =
       workItems.map(item => item.workName).join("・");
 
@@ -1581,7 +1581,7 @@ alert("作業内容取得完了");
     }
 
     const money = calculate();
-alert("計算OK");
+
     const data = {
       customerName,
 subject,
@@ -1604,7 +1604,7 @@ invoiceSubmitDate,
       note:
         document.getElementById("note").value.trim()
     };
-alert("データ作成OK");
+
     try {
 
       if (editingJobId) {
@@ -1649,7 +1649,7 @@ resetForm();
     } catch (error) {
 
       console.error(error);
-alert(error.message);
+
       document.getElementById("saveMessage").textContent =
         "保存できませんでした。";
 
