@@ -2092,12 +2092,11 @@ calendarDayDetails.appendChild(bottomCard);
 bottomCard.style.cursor = "pointer";
 bottomEditBtn.addEventListener("click", (e) => {
   e.stopPropagation();
-alert("案件タップOK：" + job.id);
   detailArea.style.display = "none";
   modalBackdrop.style.display = "none";
 
   editingJobId = job.id;
-
+alert("編集IDセットOK");
   document.getElementById("workDate").value = job.workDate || "";
   document.getElementById("customerName").value = job.customerName || "";
   document.getElementById("subject").value = job.subject || "";
