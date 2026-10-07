@@ -936,13 +936,7 @@
     box-sizing:border-box;
   "
 >
-    <input
-  type="search"
-  id="jobSearch"
-  placeholder="案件を検索"
-  autocomplete="off"
-  style="margin-bottom:16px;"
->
+    
     <div id="allJobsList">
       読み込み中...
     </div>
@@ -2610,9 +2604,7 @@ jobSearch.addEventListener("input", () => {
   const filteredJobs = calendarJobs.filter(job => {
     const workItemsText = Array.isArray(job.workItems)
       ? job.workItems
-          .map(item =>
-            `${item.workName || ""} ${item.spec || ""}`
-          )
+          .map(item => `${item.workName || ""} ${item.spec || ""}`)
           .join(" ")
       : "";
 
