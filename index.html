@@ -2591,41 +2591,7 @@ document.getElementById("saveMessage").textContent = "編集中です";
     allList.appendChild(item);
   });
 }
-    const jobSearch = document.getElementById("jobSearch");
 
-jobSearch.addEventListener("input", () => {
-  const keyword = jobSearch.value.trim().toLowerCase();
-
-  if (!keyword) {
-    renderJobs([...calendarJobs]);
-    return;
-  }
-
-  const filteredJobs = calendarJobs.filter(job => {
-    const workItemsText = Array.isArray(job.workItems)
-      ? job.workItems
-          .map(item => `${item.workName || ""} ${item.spec || ""}`)
-          .join(" ")
-      : "";
-
-    const searchText = [
-      job.customerName,
-      job.subject,
-      job.address,
-      job.phone,
-      job.note,
-      job.workName,
-      workItemsText
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-    return searchText.includes(keyword);
-  });
-
-  renderJobs(filteredJobs);
-});
 jobs = jobs.filter(job =>
   !job.estimateDate ||
   !job.estimateSubmitDate ||
@@ -2924,7 +2890,41 @@ div.querySelector(".deleteButton")
     });
 
   }
+const jobSearch = document.getElementById("jobSearch");
 
+jobSearch.addEventListener("input", () => {
+  const keyword = jobSearch.value.trim().toLowerCase();
+
+  if (!keyword) {
+    renderJobs([...calendarJobs]);
+    return;
+  }
+
+  const filteredJobs = calendarJobs.filter(job => {
+    const workItemsText = Array.isArray(job.workItems)
+      ? job.workItems
+          .map(item => `${item.workName || ""} ${item.spec || ""}`)
+          .join(" ")
+      : "";
+
+    const searchText = [
+      job.customerName,
+      job.subject,
+      job.address,
+      job.phone,
+      job.note,
+      job.workName,
+      workItemsText
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return searchText.includes(keyword);
+  });
+
+  renderJobs(filteredJobs);
+});
 
   function escapeHtml(value) {
 
