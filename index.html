@@ -2761,6 +2761,9 @@ updateDoc(doc(db, "jobs", job.id), {
     );
 
     if (!ok) return;
+    updateDoc(doc(db, "jobs", job.id), {
+  [stepEl.dataset.field]: ""
+});
   });
 });
 const openEdit = () => {
