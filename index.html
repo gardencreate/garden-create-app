@@ -2739,6 +2739,9 @@ div.innerHTML = `
     );
 
     if (!ok) return;
+    updateDoc(doc(db, "jobs", job.id), {
+  [stepEl.dataset.field]: ""
+});
     const today = new Date();
 const localDate =
   today.getFullYear() + "-" +
