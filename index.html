@@ -936,7 +936,7 @@
     box-sizing:border-box;
   "
 >
-    
+    <div id="searchResultCount" style="display:none; margin:0 0 14px 2px; font-size:14px; color:#777;"></div>
     <div id="allJobsList">
       読み込み中...
     </div>
@@ -2891,14 +2891,16 @@ div.querySelector(".deleteButton")
 
   }
 const jobSearch = document.getElementById("jobSearch");
-
+const searchResultCount = document.getElementById("searchResultCount");
 jobSearch.addEventListener("input", () => {
   const keyword = jobSearch.value.trim().toLowerCase();
 
   if (!keyword) {
-    renderJobs([...calendarJobs]);
-    return;
-  }
+  searchResultCount.style.display = "none";
+  searchResultCount.textContent = "";
+  renderJobs([...calendarJobs]);
+  return;
+}
 
   const filteredJobs = calendarJobs.filter(job => {
     const workItemsText = Array.isArray(job.workItems)
@@ -2922,7 +2924,8 @@ jobSearch.addEventListener("input", () => {
 
     return searchText.includes(keyword);
   });
-
+searchResultCount.textContent = `検索結果：${filteredJobs.length}件`;
+searchResultCount.style.display = "block";
   renderJobs(filteredJobs);
 });
 
