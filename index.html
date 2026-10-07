@@ -2724,6 +2724,19 @@ div.innerHTML = `
     </button>
   </div>
 `;
+      div.querySelectorAll(".todo-step-check").forEach(stepEl => {
+  stepEl.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const stepName = stepEl.textContent.replace("○", "").trim();
+
+    const ok = confirm(
+      `${job.customerName}さんの「${stepName}」を完了にしますか？`
+    );
+
+    if (!ok) return;
+  });
+});
 const openEdit = () => {
     editingJobId = job.id;
 
