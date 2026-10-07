@@ -926,6 +926,7 @@
   id="jobSearch"
   placeholder="案件を検索"
   autocomplete="off"
+      enterkeyhint="done"
   style="
     width:100%;
     margin:0 0 16px 0;
@@ -2892,6 +2893,12 @@ div.querySelector(".deleteButton")
   }
 const jobSearch = document.getElementById("jobSearch");
 const searchResultCount = document.getElementById("searchResultCount");
+  jobSearch.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    jobSearch.blur();
+  }
+});
 jobSearch.addEventListener("input", () => {
   const keyword = jobSearch.value.trim().toLowerCase();
 
