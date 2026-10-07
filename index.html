@@ -2651,7 +2651,11 @@ div.dataset.jobId = job.id;
 const stepHtml = steps.map((step) => {
   if (step.done) {
     return `
-      <div style="
+      <div
+  class="todo-step-done"
+  data-job-id="${job.id}"
+  data-field="${step.field}"
+  style="
         color:#bbb;
         font-size:16px;
         font-weight:500;
@@ -2744,6 +2748,19 @@ const localDate =
 updateDoc(doc(db, "jobs", job.id), {
   [stepEl.dataset.field]: localDate
 });
+  });
+});
+      div.querySelectorAll(".todo-step-done").forEach(stepEl => {
+  stepEl.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const stepName = stepEl.textContent.replace("✓", "").trim();
+
+    const ok = confirm(
+      `${job.customerName}さんの「${stepName}」の完了を取り消しますか？`
+    );
+
+    if (!ok) return;
   });
 });
 const openEdit = () => {
