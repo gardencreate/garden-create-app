@@ -1894,7 +1894,8 @@ const holidayName = holidays[dateString];
   job.estimateDate === dateString ||
   job.estimateSubmitDate === dateString ||
   job.workDoneDate === dateString ||
-  job.invoiceSubmitDate === dateString
+job.invoiceSubmitDate === dateString ||
+job.invoiceCreateDate === dateString
 );
 if (holidayName) {
   const holidayDot = document.createElement("div");
