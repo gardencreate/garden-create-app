@@ -1934,7 +1934,9 @@ if (job.workDoneDate === dateString) {
 if (job.invoiceSubmitDate === dateString) {
   eventTypes.push("請求提出");
 }
-
+if (job.invoiceDate === dateString) {
+  eventTypes.push("請求書作成");
+}
 jobDiv.style.width = "8px";
 jobDiv.style.height = "8px";
 jobDiv.style.background = "#bf5af2";
