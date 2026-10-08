@@ -1909,7 +1909,7 @@ holidayDot.style.bottom = "3px";
   cell.appendChild(holidayDot);
 }
     if (jobsForDay.length > 0) {
-const job = jobsForDay[0];
+const job = jobsForDay.find(j => j.workDate === dateString) || jobsForDay[0];
       const jobDiv =
   document.createElement("div");
 
