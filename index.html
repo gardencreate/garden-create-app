@@ -969,9 +969,117 @@
   </button>
 </nav>
 <!-- 請求書 -->
+
 <section id="invoiceArea" style="display:none;">
-  <h1>御請求書</h1>
+  <div class="card estimate-paper">
+    <div class="estimate-top">
+      <div>
+        <div class="estimate-main-title">
+          御請求書
+        </div>
+      </div>
+      
+<div class="estimate-company-top">
+  <div>
+    発行日：
+    <span id="invoiceIssueDate">----</span>
+  </div>
+
+  <div class="estimate-logo-placeholder">
+    GARDEN<br>
+    CREATE
+  </div>
+</div>
+
+    </div>
+    
+<div class="estimate-info-grid">
+  <div class="estimate-customer-box">
+    <div id="invoiceCustomer" class="customer-line"></div>
+  </div>
+  
+<div class="estimate-condition">
+  件　名：
+  <span id="invoiceSubject"></span>
+</div>
+
+<div class="estimate-condition">
+  支払条件：作業完了後30日以内
+</div>
+
+<p class="estimate-message">
+  下記の通り、ご請求申し上げます。
+</p>
+
+</div>
+
+<div class="estimate-company-box">
+  <div class="estimate-company-name">
+    ガーデンクリエイト
+  </div>
+  <div>住所：後で入力</div>
+  <div>TEL：後で入力</div>
+  <div>FAX：後で入力</div>
+  <div>E-mail：後で入力</div>
+</div>
+
+  </div>
+  
+<!-- 請求金額 -->
+<div class="estimate-price-box">
+  <strong>御請求金額</strong>
+
+  <div class="estimate-price">
+    <span id="invoiceTotal"></span>
+    <small>（税込）</small>
+  </div>
+</div>
+
+<!-- 請求明細 -->
+<table class="estimate-table">
+  <thead>
+    <tr>
+      <th>名称・品名</th>
+      <th>仕様</th>
+      <th>数量</th>
+      <th>単位</th>
+      <th>単価</th>
+      <th>金額</th>
+    </tr>
+  </thead>
+
+  <tbody id="invoiceItems">
+  </tbody>
+</table>
+
+<!-- 金額集計 -->
+<div class="estimate-summary">
+
+  <div class="money-row">
+    <span>小計</span>
+    <strong id="invoiceSub2"></strong>
+  </div>
+
+  <div class="money-row">
+    <span>消費税</span>
+    <strong id="invoiceTax"></strong>
+  </div>
+
+  <div class="money-row money-total">
+    <span>税込合計</span>
+    <strong id="invoiceTotalBottom"></strong>
+  </div>
+
+</div>
+
+<!-- 備考 -->
+<div class="estimate-note-box">
+  <strong>＜備考＞</strong>
+  <p id="invoiceNote"></p>
+</div>
+</div>
 </section>
+
   <!-- 見積書 -->
   <section id="estimateArea" style="display:none;">
 
@@ -2730,6 +2838,10 @@ div.innerHTML = `
     <button class="secondary estimateButton">
       見積書を見る
     </button>
+
+<button class="secondary invoiceButton">
+  請求書を見る
+</button>
 
     <button class="secondary editButton">
       編集
