@@ -849,6 +849,11 @@
 <button id="viewEstimateBtn" class="secondary" type="button" style="display:none; margin-top:10px;">
   見積書を見る
 </button>
+      
+<button id="viewInvoiceBtn" class="secondary" type="button" style="display:none; margin-top:10px;">
+  請求書を見る
+</button>
+
       <div id="saveMessage" class="message"></div>
     </div>
 </div>
@@ -996,8 +1001,6 @@
 <div class="estimate-info-grid">
   <div class="estimate-customer-box">
     <div id="invoiceCustomer" class="customer-line"></div>
-  </div>
-  
 <div class="estimate-condition">
   件　名：
   <span id="invoiceSubject"></span>
@@ -1010,7 +1013,7 @@
 <p class="estimate-message">
   下記の通り、ご請求申し上げます。
 </p>
-
+</div>
 </div>
 
 <div class="estimate-company-box">
@@ -1078,6 +1081,18 @@
   <p id="invoiceNote"></p>
 </div>
 </div>
+  
+<div class="estimate-buttons" id="invoiceButtons">
+  <button id="invoiceBackBtn" class="secondary" type="button">
+    戻る
+  </button>
+  
+<button id="invoicePrintBtn" class="primary" type="button">
+  印刷・PDF保存
+</button>
+
+</div>
+
 </section>
 
   <!-- 見積書 -->
@@ -2700,6 +2715,11 @@ calculate();
 document.getElementById("saveMessage").textContent = "編集中です";
       document.getElementById("viewEstimateBtn").style.display = "block";
       document.getElementById("viewEstimateBtn").onclick = () => showEstimate(job);
+      
+document.getElementById("viewInvoiceBtn").style.display = "block";
+
+document.getElementById("viewInvoiceBtn").onclick = () => showInvoice(job);
+
   showPage("new");
 
   window.scrollTo({
@@ -3226,6 +3246,67 @@ document.getElementById("bottomNav").style.display = "none";
     window.scrollTo(0,0);
 
   }
+
+function showInvoice(job) {
+  appArea.style.display = "none";
+
+document.getElementById("invoiceCustomer").textContent = (job.customerName || "") + " 様";
+
+document.getElementById("invoiceSubject").textContent = job.subject || "";
+
+document.getElementById("invoiceIssueDate").textContent = job.invoiceCreateDate || "----";
+
+document.getElementById("invoiceTotal").textContent = yen(job.total);
+
+document.getElementById("invoiceSub2").textContent = yen(job.subtotal);
+
+document.getElementById("invoiceTax").textContent = yen(job.tax);
+
+document.getElementById("invoiceNote").textContent = job.note || "";
+
+const invoiceItems = document.getElementById("invoiceItems");
+
+invoiceItems.innerHTML = "";
+
+const items = job.workItems || [{
+  workName: job.workName,
+  quantity: job.quantity || 1,
+  unitPrice: job.unitPrice || job.subtotal,
+  amount: job.subtotal
+}];
+
+items.forEach(item => {
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+    <td>${escapeHtml(item.workName || "")}</td>
+    <td>${escapeHtml(item.spec || "")}</td>
+    <td>${item.quantity || 1}</td>
+    <td>${escapeHtml(item.unit || "式")}</td>
+    <td>${yen(item.unitPrice || 0)}</td>
+    <td>${yen(item.amount || 0)}</td>
+  `;
+
+  invoiceItems.appendChild(row);
+});
+
+  document.getElementById("invoiceArea").style.display = "block";
+
+  document.getElementById("bottomNav").style.display = "none";
+
+  window.scrollTo(0, 0);
+}
+
+document.getElementById("invoiceBackBtn").onclick = () => {
+  document.getElementById("invoiceArea").style.display = "none";
+  appArea.style.display = "block";
+  document.getElementById("bottomNav").style.display = "flex";
+  window.scrollTo(0, 0);
+};
+
+document.getElementById("invoicePrintBtn").onclick = () => {
+  window.print();
+};
 
 
   document.getElementById("backBtn")
