@@ -1956,7 +1956,13 @@ cell.addEventListener("click", () => {
   document.getElementById("calendarDayDetails").style.display = "block";
   document.querySelectorAll("#calendar [data-selected-day]").forEach(el => {
   el.style.background = "transparent";
-  el.style.color = "";
+  const today = new Date();
+const isToday =
+  year === today.getFullYear() &&
+  month === today.getMonth() &&
+  Number(el.textContent) === today.getDate();
+
+el.style.color = isToday ? "#ff3b30" : "";
   el.removeAttribute("data-selected-day");
 el.style.width = "100%";
 el.style.height = "26px";
