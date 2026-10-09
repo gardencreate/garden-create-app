@@ -3269,6 +3269,8 @@ document.getElementById("invoiceSub2").textContent = yen(job.subtotal);
 
 document.getElementById("invoiceTax").textContent = yen(job.tax);
 
+document.getElementById("invoiceTotalBottom").textContent = yen(job.total);
+
 document.getElementById("invoiceNote").textContent = job.note || "";
 
 const invoiceItems = document.getElementById("invoiceItems");
