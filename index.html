@@ -501,6 +501,13 @@
   display: none;
 }
 
+@media screen {
+  #invoiceArea,
+  #estimateArea {
+    display: none !important;
+  }
+}
+
 @page {
   size: A4 portrait;
   margin: 0;
@@ -1007,7 +1014,7 @@
 <div class="estimate-info-grid">
   <div class="estimate-customer-box">
     <div id="invoiceCustomer" class="customer-line"></div>
-</div>
+
 <div class="estimate-condition">
   件　名：
   <span id="invoiceSubject"></span>
