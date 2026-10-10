@@ -537,7 +537,7 @@
   }
 
   #estimateArea {
-display: none;
+display: block !important;
     width: 794px !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -3366,7 +3366,7 @@ document.getElementById("printBtn")
     }
 
     const printContent =
-      document.querySelector(".estimate-paper").outerHTML;
+document.querySelector("#estimateArea .estimate-paper").outerHTML;
 
     const styles = Array.from(document.querySelectorAll("style"))
       .map(style => style.innerHTML)
