@@ -537,12 +537,27 @@
   }
 
   #estimateArea {
-    display: block !important;
+display: none;
     width: 794px !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
   }
+body:has(#estimateArea[style*="block"]) #estimateArea {
+  display: block !important;
+}
+
+body:has(#estimateArea[style*="block"]) #invoiceArea {
+  display: none !important;
+}
+
+body:has(#invoiceArea[style*="block"]) #invoiceArea {
+  display: block !important;
+}
+
+body:has(#invoiceArea[style*="block"]) #estimateArea {
+  display: none !important;
+}
 
   .estimate-paper {
     width: 794px !important;
@@ -567,16 +582,6 @@
   display: grid !important;
   grid-template-columns: 1.1fr 0.9fr !important;
   gap: 25px !important;
-}
-#estimateArea {
-  display: none !important;
-}
-
-#invoiceArea {
-  display: block !important;
-  width: 794px !important;
-  margin: 0 !important;
-  padding: 0 !important;
 }
 
 }
