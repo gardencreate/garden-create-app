@@ -3321,6 +3321,23 @@ items.forEach(item => {
   invoiceItems.appendChild(row);
 });
 
+const fixedInvoiceRows = 12;
+
+for (let i = items.length; i < fixedInvoiceRows; i++) {
+  const emptyRow = document.createElement("tr");
+
+  emptyRow.innerHTML = `
+    <td>&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  `;
+
+  invoiceItems.appendChild(emptyRow);
+}
+
   document.getElementById("invoiceArea").style.display = "block";
 
 document.getElementById("invoiceButtons").style.display = "flex";
