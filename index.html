@@ -472,13 +472,24 @@ margin: 18px 0 12px;
 
 .estimate-summary {
 width: 48.2%;
+  position: relative;
   margin-left: auto;
   border-left: 1.5px solid #333;
 box-sizing: border-box;
   border-right: 1px solid #333;
   border-bottom: 1px solid #333;
 }
-
+.estimate-summary::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  width: 107.5%;
+  border-left: 1px solid #333;
+  border-bottom: 1px solid #333;
+  box-sizing: border-box;
+}
 .estimate-summary .money-row {
   display: flex;
   justify-content: space-between;
