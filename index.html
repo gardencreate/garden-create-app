@@ -550,7 +550,11 @@ margin-top: 0;
 }
 
 @media print {
-
+  .estimate-table th,
+  .estimate-table td {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
   html,
   body {
     margin: 0 !important;
