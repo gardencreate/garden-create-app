@@ -1285,7 +1285,7 @@ body:has(#invoiceArea[style*="block"]) #estimateArea {
 
   
 <div id="printPreviewBar">
-  <span>印刷・PDF保存は、ブラウザの共有ボタン（□に↑のマーク）→「プリント」からできます</span>
+  <span>この開き方では印刷できません。印刷するときは Safari でアプリのURLを開いてください</span>
   <button id="printPreviewBackBtn" type="button">戻る</button>
 </div>
 
@@ -3785,15 +3785,77 @@ function enterPrintPreview() {
   window.scrollTo(0, 0);
 }
 
-function printDocument() {
+function printDocument(areaId) {
   let printed = false;
   const onAfterPrint = () => { printed = true; };
   window.addEventListener("afterprint", onAfterPrint, { once: true });
   window.print();
   setTimeout(() => {
     window.removeEventListener("afterprint", onAfterPrint);
-    if (!printed) enterPrintPreview();
+    if (!printed) openPrintPage(areaId);
   }, 1200);
+}
+
+// 印刷が直接できない環境では、書類だけのページを別に開く（以前の方式）
+// 開いたページ側で自動的に印刷画面を出す
+function openPrintPage(areaId) {
+  const paper = document.querySelector("#" + areaId + " .estimate-paper");
+
+  if (!paper) {
+    enterPrintPreview();
+    return;
+  }
+
+  const styles = Array.from(document.querySelectorAll("style"))
+    .map(style => style.innerHTML)
+    .join("\n");
+
+  const printWindow = window.open("", "_blank");
+
+  if (!printWindow) {
+    enterPrintPreview();
+    return;
+  }
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport"
+        content="width=794, initial-scale=0.46, maximum-scale=0.46">
+      <title>印刷</title>
+      <style>
+        ${styles}
+
+        @media screen {
+          body {
+            margin: 0;
+            background: #f7f7f5;
+          }
+
+          .estimate-paper {
+            width: 794px !important;
+            margin: 0 auto !important;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      ${paper.outerHTML}
+
+      <script>
+        window.onload = function() {
+          setTimeout(function() {
+            window.print();
+          }, 500);
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+
+  printWindow.document.close();
 }
 
 document.getElementById("printPreviewBackBtn").addEventListener("click", () => {
@@ -3801,7 +3863,7 @@ document.getElementById("printPreviewBackBtn").addEventListener("click", () => {
 });
 
 document.getElementById("invoicePrintBtn").onclick = () => {
-  printDocument();
+  printDocument("invoiceArea");
 };
 
 
@@ -3820,7 +3882,7 @@ document.getElementById("bottomNav").style.display = "";
 
 document.getElementById("printBtn")
   .addEventListener("click", () => {
-    printDocument();
+    printDocument("estimateArea");
   });
   
 
