@@ -1039,6 +1039,7 @@ body:has(#invoiceArea[style*="block"]) #estimateArea {
 <header>
   <h1>
     Garden Create
+    <span style="font-size:10px; color:#aaa; font-weight:normal;">ver 2026.11.21-3</span>
     <button id="logoutBtn" class="logout" style="display:none;">ログアウト</button>
   </h1>
 </header>
@@ -1063,6 +1064,8 @@ body:has(#invoiceArea[style*="block"]) #estimateArea {
       </button>
 
       <div id="loginMessage" class="message"></div>
+
+      <div style="text-align:center; color:#999; font-size:11px; margin-top:14px;">ver 2026.11.21-3</div>
     </div>
   </section>
 
@@ -3786,13 +3789,18 @@ function enterPrintPreview() {
 }
 
 function printDocument(areaId) {
+  // タップ直後に別ページを開く（時間を置くとiPhoneにブロックされるため）
+  if (openPrintPage(areaId)) return;
+
+  // 別ページが開けなかった場合：そのまま印刷を試し、
+  // それもダメなら案内つきプレビューを出す
   let printed = false;
   const onAfterPrint = () => { printed = true; };
   window.addEventListener("afterprint", onAfterPrint, { once: true });
   window.print();
   setTimeout(() => {
     window.removeEventListener("afterprint", onAfterPrint);
-    if (!printed) openPrintPage(areaId);
+    if (!printed) enterPrintPreview();
   }, 1200);
 }
 
@@ -3802,8 +3810,7 @@ function openPrintPage(areaId) {
   const paper = document.querySelector("#" + areaId + " .estimate-paper");
 
   if (!paper) {
-    enterPrintPreview();
-    return;
+    return false;
   }
 
   const styles = Array.from(document.querySelectorAll("style"))
@@ -3813,8 +3820,7 @@ function openPrintPage(areaId) {
   const printWindow = window.open("", "_blank");
 
   if (!printWindow) {
-    enterPrintPreview();
-    return;
+    return false;
   }
 
   printWindow.document.write(`
@@ -3856,6 +3862,7 @@ function openPrintPage(areaId) {
   `);
 
   printWindow.document.close();
+  return true;
 }
 
 document.getElementById("printPreviewBackBtn").addEventListener("click", () => {
