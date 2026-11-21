@@ -634,7 +634,8 @@ margin-top: 0;
   line-height: 1.5;
 }
 
-#printPreviewBar button {
+#printPreviewBar button,
+#printPreviewBar a {
   flex: none;
   background: #fff;
   color: #222;
@@ -642,6 +643,7 @@ margin-top: 0;
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
+  text-decoration: none;
 }
 
 body.print-preview #printPreviewBar {
@@ -1039,7 +1041,7 @@ body:has(#invoiceArea[style*="block"]) #estimateArea {
 <header>
   <h1>
     Garden Create
-    <span style="font-size:10px; color:#aaa; font-weight:normal;">ver 2026.11.21-4</span>
+    <span style="font-size:10px; color:#aaa; font-weight:normal;">ver 2026.11.21-5</span>
     <button id="logoutBtn" class="logout" style="display:none;">ログアウト</button>
   </h1>
 </header>
@@ -1065,7 +1067,7 @@ body:has(#invoiceArea[style*="block"]) #estimateArea {
 
       <div id="loginMessage" class="message"></div>
 
-      <div style="text-align:center; color:#999; font-size:11px; margin-top:14px;">ver 2026.11.21-4</div>
+      <div style="text-align:center; color:#999; font-size:11px; margin-top:14px;">ver 2026.11.21-5</div>
     </div>
   </section>
 
@@ -1288,7 +1290,8 @@ body:has(#invoiceArea[style*="block"]) #estimateArea {
 
   
 <div id="printPreviewBar">
-  <span>この開き方では印刷できません。印刷するときは Safari でアプリのURLを開いてください</span>
+  <span>印刷はSafariで開くとできます</span>
+  <a id="openSafariBtn" href="https://gardencreate.github.io/garden-create-app/" target="_blank" rel="noopener">Safariで開く</a>
   <button id="printPreviewBackBtn" type="button">戻る</button>
 </div>
 
@@ -3689,6 +3692,7 @@ document.getElementById("estimateTotalBottom").textContent =
 
 estimateArea.style.setProperty("display", "block", "important");
     document.getElementById("estimateButtons").style.display = "flex";
+    loadPrintLibs().catch(() => {});
 const calModal = document.getElementById("calModalBackdrop");
 if (calModal) calModal.style.display = "none";
 const calDetail = document.getElementById("calDetailArea");
@@ -3764,6 +3768,7 @@ for (let i = items.length; i < fixedInvoiceRows; i++) {
   document.getElementById("invoiceArea").style.display = "block";
 
 document.getElementById("invoiceButtons").style.display = "flex";
+loadPrintLibs().catch(() => {});
 const calModal = document.getElementById("calModalBackdrop");
 if (calModal) calModal.style.display = "none";
 const calDetail = document.getElementById("calDetailArea");
@@ -3788,9 +3793,28 @@ function enterPrintPreview() {
   window.scrollTo(0, 0);
 }
 
-// 書類を画像にして共有シートを開く（共有シートには「プリント」があるため、
-// ホーム画面アイコンから開いた状態でも印刷できる）
-async function shareDocumentImage(areaId) {
+// 印刷用ライブラリ（html2canvas / jsPDF）を必要なときだけ読み込む
+let printLibsPromise = null;
+function loadPrintLibs() {
+  if (window.html2canvas && window.jspdf) return Promise.resolve();
+  if (printLibsPromise) return printLibsPromise;
+  const urls = [
+    "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+  ];
+  printLibsPromise = urls.reduce((promise, url) => promise.then(() => new Promise((resolve, reject) => {
+    const sc = document.createElement("script");
+    sc.src = url;
+    sc.onload = resolve;
+    sc.onerror = reject;
+    document.head.appendChild(sc);
+  })), Promise.resolve());
+  return printLibsPromise;
+}
+
+// 書類をPDFにして共有シートを開く（共有シートには「プリント」があるため、
+// ホーム画面アイコンから開いた状態でも印刷・PDF保存ができる）
+async function sharePdfDocument(areaId) {
   try {
     const paper = document.querySelector("#" + areaId + " .estimate-paper");
 
@@ -3799,66 +3823,48 @@ async function shareDocumentImage(areaId) {
       return;
     }
 
-    const width = paper.scrollWidth;
-    const height = paper.scrollHeight;
-    const scale = 3;
+    await loadPrintLibs();
 
-    const styles = Array.from(document.querySelectorAll("style"))
-      .map(style => style.innerHTML)
-      .join("\n");
-
-    const overrideCss = [
-      ".estimate-paper {",
-      "  position: static !important;",
-      "  left: auto !important;",
-      "  transform: none !important;",
-      "  margin: 0 !important;",
-      "}"
-    ].join("\n");
-
-    const clone = paper.cloneNode(true);
-    clone.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-    const cloneHtml = new XMLSerializer().serializeToString(clone);
-
-    const svg =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height +
-      '" viewBox="0 0 ' + width + ' ' + height + '">' +
-      '<foreignObject width="100%" height="100%">' +
-      '<div xmlns="http://www.w3.org/1999/xhtml">' +
-      '<style><![CDATA[' + styles + "\n" + overrideCss + ']]></style>' +
-      cloneHtml +
-      '</div></foreignObject></svg>';
-
-    const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
-
-    const img = new Image();
-    await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = url;
-    });
-
-    const canvas = document.createElement("canvas");
-    canvas.width = width * scale;
-    canvas.height = height * scale;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    URL.revokeObjectURL(url);
-
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
-
-    if (!blob) {
+    if (!window.html2canvas || !window.jspdf) {
       enterPrintPreview();
       return;
     }
 
+    // 画面表示用の縮小が掛かっていない複製を作って描画する
+    const holder = document.createElement("div");
+    holder.style.cssText = "position:fixed; left:-10000px; top:0; width:794px; background:#ffffff;";
+    const clone = paper.cloneNode(true);
+    clone.style.transform = "none";
+    clone.style.position = "static";
+    clone.style.left = "auto";
+    clone.style.margin = "0";
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+
+    let canvas;
+    try {
+      canvas = await html2canvas(clone, { scale: 2, backgroundColor: "#ffffff", logging: false });
+    } finally {
+      holder.remove();
+    }
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+    const pageWidth = 210;
+    const imgHeight = canvas.height * pageWidth / canvas.width;
+    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, pageWidth, imgHeight);
+
+    const blob = pdf.output("blob");
     const file = new File(
       [blob],
-      (areaId === "invoiceArea" ? "御請求書" : "御見積書") + ".png",
-      { type: "image/png" }
+      (areaId === "invoiceArea" ? "御請求書" : "御見積書") + ".pdf",
+      { type: "application/pdf" }
     );
+
+    if (navigator.canShare && !navigator.canShare({ files: [file] })) {
+      enterPrintPreview();
+      return;
+    }
 
     await navigator.share({ files: [file] });
   } catch (e) {
@@ -3868,10 +3874,10 @@ async function shareDocumentImage(areaId) {
 }
 
 function printDocument(areaId) {
-  // 共有シートが使える環境では、書類を画像にして共有シートを開く
-  const shareTestFile = new File([""], "share-test.png", { type: "image/png" });
+  // 共有シートが使える環境では、書類をPDFにして共有シートを開く
+  const shareTestFile = new File([""], "share-test.pdf", { type: "application/pdf" });
   if (navigator.canShare && navigator.canShare({ files: [shareTestFile] })) {
-    shareDocumentImage(areaId);
+    sharePdfDocument(areaId);
     return;
   }
 
